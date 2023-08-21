@@ -1,0 +1,4 @@
+.venv
+/circles/db.sqlite3
+/circles/circles/settings.py
+__pycache__

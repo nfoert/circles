@@ -1,0 +1,144 @@
+@font-face {
+	font-family: 'ArchiformSans';
+	src: local('Abc'),
+		 url('./fonts/Arciform.otf') format("opentype");
+}
+
+/* Classes */
+/*     Text */
+
+.text-medium {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 60px;
+    z-index: 5;
+    text-align: center;
+}
+
+.text-small {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 30px;
+    z-index: 5;
+    text-align: center; 
+}
+
+/*     Buttons */
+.button {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    color: white;
+    border: 2px white;
+    border-radius: 5px;
+    font-size: 30px;
+    font-family: ArchiformSans;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin: 10px;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease;
+    border: 1px solid rgba(211, 211, 211, 0.4);
+}
+
+.button:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.button:active {
+    background-color: rgba(211, 211, 211, 0.2);
+}
+
+body {
+    background-color: #35363E;
+}
+
+
+#main-header_image {
+    width: 600px;
+    margin-top: -75px;
+    
+}
+
+.blob {
+    
+    aspect-ratio: 1;
+    
+    
+    border-radius: 50%;
+
+    transform: rotate(60deg) ;
+    
+    background: linear-gradient(to right, #FF6666 40%, #669CFF 40%, #FDAE3D 80%);
+
+    z-index: -1;
+
+    
+}
+
+#blob1 {
+    height: 300px;
+    position: fixed;
+    
+    left: 10%;
+    top: 70%;
+    translate: -50% -50%;
+    filter: blur(75px);
+}
+
+#blob2 {
+    height: 400px;
+    position: fixed;
+    
+    left: 95%;
+    top: 40%;
+    translate: -50% -50%;
+    filter: blur(100px);
+}
+
+#blob3 {
+    height: 400px;
+    position: fixed;
+    
+    left: 80%;
+    top: 90%;
+
+    translate: -50% -50%;
+    filter: blur(100px);
+}
+
+#blob4 {
+    height: 400px;
+    position: fixed;
+    
+    
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    filter: blur(75px);
+}
+
+#main-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#main-header-text {
+    margin-top: 400px;
+}
+
+#main-header-subtext {
+    margin-top: -25px;
+}
+
+#main-header_line {
+    width: 600px;
+    height: 5px;
+    background-color: white;
+    border-radius: 3px;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Circles</title>
+
+        <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    </head>
+
+    <body>
+        <div class="blob" id="blob1"></div>
+        <div class="blob" id="blob2"></div>
+        <div class="blob" id="blob3"></div>
+        <div class="blob" id="blob4"></div>
+
+
+        <div id="main-main">
+            <div id="main-box">
+                <p id="main-header-text" class="text-medium">Welcome to</p>
+                <img id="main-header_image" src="{% static 'main/images/circles.png' %}">
+                <p id="main-header-subtext" class="text-small">Find your Circle</p>
+                <hr id="main-header_line">
+                <button class="button">Sign Up</button>
+                <button class="button">Log In</button>
+            </div>
+        </div>
+    </body>
+</html>
+

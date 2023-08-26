@@ -285,7 +285,7 @@ async function create_account() {
 
     var warning_box = document.getElementById("createaccount_warning_box")
 
-    const response = await fetch("http://127.0.0.1:8000/authentication/createaccount", {
+    const response = await fetch(server_ip + "/authentication/createaccount", {
         method: "GET",
         headers: {
             "X-CSRFToken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
@@ -298,7 +298,7 @@ async function create_account() {
     response.text().then(function (text) {
         console.log(text)
         if (text.includes("<html>")) {
-            window.location.href = "http://127.0.0.1:8000/main";
+            window.location.href = server_ip + "/main";
 
         } else if (text == "Not whitelisted") {
             warning_box.innerHTML = "Your email is not whitelisted."
@@ -312,7 +312,7 @@ async function log_in() {
     var username = textarea_login_username.value;
     var password = textarea_login_password.value;
 
-    const response = await fetch("http://127.0.0.1:8000/authentication/signin", {
+    const response = await fetch(server_ip + "/authentication/signin", {
         method: "GET",
         headers: {
             "X-CSRFToken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
@@ -325,7 +325,7 @@ async function log_in() {
     response.text().then(function (text) {
 
         if (text.includes("<html>")) {
-            window.location.href = "http://127.0.0.1:8000/main";
+            window.location.href = server_ip + "/main";
 
         } else if (text == "incorrect password") {
             warning_box_text.innerHTML = "Your password is incorrect."

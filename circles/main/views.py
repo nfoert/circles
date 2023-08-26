@@ -5,10 +5,11 @@ from main.models import ServerInfo
 
 def index(request):
 
-    server_info = ServerInfo.objects.all()[0].name
+    server_info = ServerInfo.objects.all()[0]
 
     context = {
-        "server_name": server_info
+        "server_name": server_info.name,
+        "server_ip": server_info.ip
     }
 
     try:

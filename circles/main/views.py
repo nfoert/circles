@@ -1,14 +1,46 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.staticfiles import finders
-
+from authentication.views import sign_in
+from main.models import ServerInfo
 
 def index(request):
-    context = {}
 
-    result = finders.find("fonts/Archiform.otf")
-    searched_locations = finders.searched_locations
+    server_info = ServerInfo.objects.all()[0].name
 
-    print(result)
-    print(searched_locations)
+    context = {
+        "server_name": server_info
+    }
 
-    return render(request, "index.html", context)
+    try:
+        username_session = request.session["username"]
+        password_session = request.session["password"]
+
+        print(username_session)
+        print(password_session)
+
+        return sign_in(request)
+
+    except KeyError:
+        context = {}
+        print("No session!")
+        return render(request, "index.html", context)
+    
+def main(request):
+
+    server_info = ServerInfo.objects.all()[0].name
+
+    try:
+        username_session = request.session["username"]
+        password_session = request.session["password"]
+
+        context = {
+            "username": username_session,
+            "server_info" : server_info
+        }
+
+        return render(request, "main.html", context)
+    
+    except KeyError:
+        context = {}
+        print("No session!")
+        return render(request, "index.html", context)

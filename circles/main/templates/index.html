@@ -3,8 +3,10 @@
 <html>
     <head>
         <title>Circles</title>
-
         <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+        <meta name="darkreader-lock">
     </head>
 
     <body>
@@ -16,13 +18,119 @@
 
         <div id="main-main">
             <div id="main-box">
-                <p id="main-header-text" class="text-medium">Welcome to</p>
-                <img id="main-header_image" src="{% static 'main/images/circles.png' %}">
-                <p id="main-header-subtext" class="text-small">Find your Circle</p>
-                <hr id="main-header_line">
-                <button class="button">Sign Up</button>
-                <button class="button">Log In</button>
+                <p id="main-header-text" class="text-medium fade_in_scale">Welcome to</p>
+                <img id="main-header_image" src="{% static 'main/images/circles.png' %}" class="fade_in_scale">
+                <p id="main-header-subtext" class="text-small fade_in_scale">Find your Circle</p>
+                <hr id="main-header_line" class="fade_in_scale">
+                <div id="main-header-buttonbox">
+                    <button class="button" id="button_signup" class="fade_in_scale">Sign Up</button>
+                    <button class="button" id="button_login" class="fade_in_scale">Log In</button>
+                </div>
             </div>
+
+            <div id="auth-box">
+                <div id="auth-box-text">
+                    <div id="auth-box-text-column">
+                        <p id="auth-box-text-label">Join Circles</p>
+                        <p id="auth-box-text-server">Creating an account at circles.media</p> <!-- Connect to django to display server name -->
+                    </div>
+                    <p id="auth-box-close">X</p>
+                </div>
+
+                <div id="auth-box-login" class="fade_in">
+                    <br>
+                    <div class="criticalbox fade_in" id="auth-box-login-warning">
+                        <p id="auth-box-login-warning-text">warning message</p>
+                    </div>
+                    <br>
+
+                    <div id="auth-box-textarea">
+                        <input class="textarea" placeholder="Username" type="text" id="auth-box-textarea-login-username"></input>
+                        <p class="auth-box-textarea-text">This is the shorter username you created your account with.</p>
+                    </div>
+
+                    <div id="auth-box-textarea">
+                        <input class="textarea" placeholder="Password" type="password" id="auth-box-textarea-login-password"></input>
+
+                    </div>
+
+                    <div id="auth-box-buttonbox-onebutton">
+                        <button class="buttonsmaller" id="auth-box-buttonbox-login">Log In</button>
+                    </div>
+
+                </div>
+
+                <div id="auth-box-username" class="fade_in">
+                    <br>
+                    <div id="auth-box-textarea">
+                        <input class="textarea" placeholder="Username" type="text" id="auth-box-textarea-username-username"></input>
+                        <p class="auth-box-textarea-text">Create a short, memorable and unique username. This is how people can find you. You can't change this later.</p>
+                    </div>
+
+                    <div id="auth-box-buttonbox-onebutton">
+                        <button class="buttonsmaller" id="auth-box-buttonbox-next-username">Next</button>
+                    </div>
+                    
+
+                </div>
+                
+                <div id="auth-box-email" class="fade_in">
+                    <br>
+                    <div class="infobox">
+                        <p>As of now, Circles is in a closed alpha, to access it you must support me on GitHub. Once I can pay for servers and a domain name, 
+                            this project will enter an open alpha, and the orignal supporters will get a badge inside of Circles.</p> <!-- TODO: GitHub Support link -->
+
+                    </div>
+
+                    <div id="auth-box-textarea">
+                        <input class="textarea" placeholder="Email" type="text" id="auth-box-textarea-email-email"></input>
+                        <p class="auth-box-textarea-text">Your email will be used to verify the account and to send security information.</p>
+                    </div>
+
+                    <div id="auth-box-buttonbox">
+                        <button class="buttonsmaller" id="auth-box-buttonbox-back-email">Back</button>
+                        <button class="buttonsmaller" id="auth-box-buttonbox-next-email">Next</button>
+                    </div>
+
+                </div>
+                <div id="auth-box-password" class="fade_in">
+
+                    <div class="criticalbox fade_in" style="display: none;" id="createaccount_warning_box">warning message</div>
+
+                    <div id="auth-box-textarea">
+                        {% csrf_token %}
+                        <input class="textarea" placeholder="Password" type="password" id="auth-box-textarea-password-password"></input>
+
+                    </div>
+
+                    <div id="auth-box-password-validate">
+                        <div class="auth-box-password-validate-segment" id="auth-box-password-validate-1"></div>
+                        <div class="auth-box-password-validate-segment" id="auth-box-password-validate-2"></div>
+                        <div class="auth-box-password-validate-segment" id="auth-box-password-validate-3"></div>
+                        <div class="auth-box-password-validate-segment" id="auth-box-password-validate-4"></div>
+                    </div>
+
+                    <p class="auth-box-textarea-text" id="auth-box-password-strength">No Password</p>
+                    <p class="auth-box-textarea-text">Strong passwords contain 8 or more characters, a symbol, a number and a capital letter.</p>
+
+                    <div id="auth-box-buttonbox">
+                        <button class="buttonsmaller" id="auth-box-buttonbox-back-password">Back</button>
+                        <button class="buttonsmaller" id="auth-box-buttonbox-createaccount-password">Create Account</button>
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div id="background-darkness">
+                
+            </div>
+
+            <script>
+                var server_name = "{{ server_name }}"
+            </script>
+
+            <script src="{% static 'main/scripts/authbox.js' %}"></script>
+
         </div>
     </body>
 </html>

@@ -311,7 +311,7 @@ async function create_account() {
 async function log_in() {
     var username = textarea_login_username.value;
     var password = textarea_login_password.value;
-
+    console.log(server_ip)
     const response = await fetch(server_ip + "/authentication/signin", {
         method: "GET",
         headers: {

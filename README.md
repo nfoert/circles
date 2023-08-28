@@ -13,3 +13,7 @@
 <br>
 
 <hr>
+
+## TO-Do
+- [ ] Confirm Password
+- [ ] Rules

@@ -2,11 +2,16 @@ from django.shortcuts import render, HttpResponse
 from authentication.models import User, WhitelistedEmails
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
+from main.models import Server
 
 def index(request):
     return HttpResponse("index")
 
 def sign_in(request):
+    server_info = Server.objects.all()[0]
+
+    
+
     if request.method == "GET" or request.method == "POST":
         if "Username" in request.headers and "Password" in request.headers:
             username = request.headers["Username"]
@@ -36,7 +41,14 @@ def sign_in(request):
                     request.session["username"] = username
                     request.session["password"] = password
                     print("signed in")
-                    return render(request, "main.html")
+
+                    context = {
+                        "server_name": server_info.name,
+                        "server_ip": server_info.ip,
+                        "username": username,
+                    }
+                    
+                    return render(request, "main.html", context)
                 
                 else:
                     print("Password wrong")

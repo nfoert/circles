@@ -5,6 +5,11 @@ class User(models.Model):
     password = models.CharField(max_length=10000)
     email = models.CharField(max_length=256)
     display_name = models.CharField(max_length=128, blank=True)
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
+    location_server = models.ForeignKey("main.Server", on_delete=models.CASCADE, blank=True, null=True)
+    location_circle = models.ForeignKey("main.Circle", on_delete=models.CASCADE, blank=True, null=True)
+    followers = models.ManyToManyField("self")
     date_created = models.DateField(blank=True)
     
     def __str__(self):

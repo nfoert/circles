@@ -36,9 +36,18 @@ class MainConsumer(AsyncWebsocketConsumer):
         print("disconnected")
         pass
 
-    async def receive(self, text_data):
-        print(text_data)
-        await self.send(text_data)
+    @database_sync_to_async
+    def receive(self, text_data):
+        text_data = json.loads(text_data)
+        if text_data["type"] == "position_update":
+            user = User.objects.filter(username=self.username)[0]
+            user.x = text_data["x"]
+            user.y = text_data["y"]
+            user.save()
+
+        else:
+            print("Not known packet")
+
 
     @database_sync_to_async
     def check_user(self):

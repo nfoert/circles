@@ -5,11 +5,7 @@ renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("main-canvas").appendChild(renderer.domElement);
 
-const gui = new dat.GUI();
-
-
 scene.background = new THREE.Color("rgb(53, 54, 62)");
-
 
 const plane_geometry = new THREE.PlaneGeometry(50000, 30000);
 const plane_material = new THREE.MeshBasicMaterial({ color: "rgb(54, 54, 62)" });
@@ -31,6 +27,7 @@ addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
 document.addEventListener('mousedown', right_click);
+document.addEventListener("mousedown", left_click);
 document.addEventListener('mouseup', right_click_up);
 
 
@@ -65,9 +62,25 @@ class User {
         this.circle.position.y = this.y;
     }
 
-    re_draw() {
+    move() {
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
+        this.server_update_position();
+    }
+
+    server_update_position() {
+        console.log(this.x)
+        const json = {
+            "type": "position_update",
+            "x": Math.round(this.x),
+            "y": Math.round(this.y),
+        }
+
+        var position_json = JSON.stringify(json)
+
+        server_socket.send(position_json)
+
+        console.log("sent")
     }
 }
 
@@ -154,6 +167,29 @@ function right_click_up(event) {
     }
 }
 
+function left_click(event) {
+    if (event.button === 0) {
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const intersects = raycaster.intersectObject(plane);
+
+        if (intersects.length > 0) {
+            const intersectionPoint = intersects[0].point;
+            console.log("Intersection point:", intersectionPoint);
+
+            me.x = Math.round(intersectionPoint.x);
+            me.y = Math.round(intersectionPoint.y);
+
+            me.move();
+        }
+    }
+}
+
 var me = new User();
 
 var main_connecting_box = document.getElementById("main-connecting-box")
@@ -170,9 +206,9 @@ function hide_box() {
     main_connecting_box.style.display = "flex";
 };
 
-const chatSocket = new WebSocket("ws://127.0.0.1:8000/main/");
+const server_socket = new WebSocket("ws://127.0.0.1:8000/main/");
 
-chatSocket.onmessage = function (e) {
+server_socket.onmessage = function (e) {
 
     const json = JSON.parse(e.data);
 
@@ -188,7 +224,7 @@ chatSocket.onmessage = function (e) {
     }
 };
 
-chatSocket.onclose = function (e) {
+server_socket.onclose = function (e) {
     main_connecting_box.classList.add("slide_from_top");
     main_connecting_box_text.innerHTML = "Failed to connect ✘"
     main_connecting_box.style.backgroundColor = "rgba(252, 56, 56, 0.2)"
@@ -198,7 +234,7 @@ chatSocket.onclose = function (e) {
     console.error('Chat socket closed unexpectedly');
 };
 
-chatSocket.onopen = async function (e) {
+server_socket.onopen = async function (e) {
 
     main_connecting_box_text.innerHTML = "Connected ✔"
     main_connecting_box.style.backgroundColor = "rgba(4, 223, 33, 0.2)"

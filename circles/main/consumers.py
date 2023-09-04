@@ -10,10 +10,8 @@ class MainConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         
         await self.accept()
-        print("Connected")
 
         if await self.check_user():
-            print("User is ok!")
 
             location = await self.get_location()
             position = await self.get_position()
@@ -84,6 +82,31 @@ class MainConsumer(AsyncWebsocketConsumer):
     def get_location(self):
         
         user = User.objects.filter(username=self.username)[0]
-        return [user.location_server, user.location_circle]
+
+        if not user.location_server:
+            server = False
+
+        else:
+            server = user.location_server.name
+
+        if not user.location_circle:
+            circle = False
+
+        else:
+            circle = str(user.location_circle)
+
+        
+        if not user.location_server and not user.location_circle:
+            print("KLAFJKAHFJKASHF AJKHFKJAHFJKHAKDJHFJKAHFJK USER IS NOT IN SERVER OR CIRCLE")
+            self.disconnect(1011)
+
+        try:
+            circles = circle.split(" / ")
+            return [server, circles]
+        except:
+            print("AHFJKHAKJHFJKAHDFJKHKJAH")
+            pass
+        
+        
         
         

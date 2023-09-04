@@ -27,7 +27,7 @@ addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
 document.addEventListener('mousedown', right_click);
-document.addEventListener("mousedown", left_click);
+document.getElementById("main-canvas").addEventListener("mousedown", left_click);
 document.addEventListener('mouseup', right_click_up);
 
 
@@ -60,16 +60,46 @@ class User {
 
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
+
+        var location_box = document.getElementById("main-location-box-location")
+
+        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
+        this.location_circle.shift();
+
+        for (const item in this.location_circle) {
+            const element = document.createElement("p")
+            element.classList.add("location-item")
+            element.innerHTML = this.location_circle[item];
+
+            const slash = document.createElement("p")
+            slash.classList.add("location-slash")
+            slash.innerHTML = "/";
+
+            location_box.appendChild(element);
+            location_box.appendChild(slash);
+        }
     }
 
     move() {
-        this.circle.position.x = this.x;
-        this.circle.position.y = this.y;
         this.server_update_position();
+
+        const move_animation = new TWEEN.Tween(this.coords_before_move, false)
+                .to({x: me.x, y:me.y}, 250)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate(() => {
+                    me.circle.position.x = this.coords_before_move.x;
+                    me.circle.position.y = this.coords_before_move.y;
+                })
+                .start()
+
+            function animate(time) {
+                move_animation.update(time)
+                requestAnimationFrame(animate)
+            }
+            requestAnimationFrame(animate)
     }
 
     server_update_position() {
-        console.log(this.x)
         const json = {
             "type": "position_update",
             "x": Math.round(this.x),
@@ -79,8 +109,6 @@ class User {
         var position_json = JSON.stringify(json)
 
         server_socket.send(position_json)
-
-        console.log("sent")
     }
 }
 
@@ -102,9 +130,6 @@ function zoom(e) {
     }
 
     camera.zoom = scale;
-    
-    console.log(scale)
-    console.log(camera.zoom)
 
     camera.updateProjectionMatrix();
     renderer.render(scene, camera);
@@ -160,7 +185,6 @@ async function right_click(event) {
 
 function right_click_up(event) {
     if (event.button === 2 && right_mouse_down) {
-        console.log("up")
         right_mouse_down = false;
 
         document.removeEventListener("mousemove", right_click_logic);
@@ -169,6 +193,9 @@ function right_click_up(event) {
 
 function left_click(event) {
     if (event.button === 0) {
+
+        me.coords_before_move = {x: me.circle.position.x, y: me.circle.position.y}
+
         const mouse = new THREE.Vector2();
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -180,12 +207,12 @@ function left_click(event) {
 
         if (intersects.length > 0) {
             const intersectionPoint = intersects[0].point;
-            console.log("Intersection point:", intersectionPoint);
 
             me.x = Math.round(intersectionPoint.x);
             me.y = Math.round(intersectionPoint.y);
 
             me.move();
+
         }
     }
 }

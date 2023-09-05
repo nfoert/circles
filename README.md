@@ -10,7 +10,7 @@
 
 <br>
 
-<p align="center"><b>You can access Circles by sponsoring me on GitHub (when I get it setup) this is because I'm going to have to pay for servers and a domain.</b></p>
+<p align="center"><b>Circles is currently under development. It'll be avaliable to access soon.</b></p>
 <br>
 
 <hr>
@@ -52,6 +52,53 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
     - Location indicator
     - Online users
     - Messages & Conversations
+
+
+# Installation
+All the self-hosting infastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infastructure are set up.
+This is a brief guide.
+
+Clone this repo by running 
+```
+git clone https://github.com/nfoert/circles
+```
+Navigate to it using and create a virtual enviroment
+```
+cd circles
+python -m venv .venv
+```
+Activate the venv and install the necessary packages
+```
+souce ./.venv/bin/activate
+pip install -r requirements.txt
+```
+You're going to need a settings.py...
+
+TODO: Provide template settings.py
+
+But put that in here -> `/circles/circles/settings.py`
+
+Next, make and migrate your migrations, then create a superuser.
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+Now, run the server so you can do some inital setup
+```
+python manage.py runserver
+```
+Navigate to `http://127.0.0.1:8000/admin` in your browser. Log in using the credentials for your new super user and find the server info section. Configure the ip to be `http://127.0.0.1:8000` and the server name to be whatever you like. I reccomend making the name what you're planning on your domain to be.
+
+Everything *should* be working. Locally at least.
+
+If you're doing this on a production server you should either follow the steps as above again, or if you're wanting to customize your own server fork this repo and repeat the steps above with your own GitHub repo url.
+
+Additional setup may be required on specific hosting providers to be able to find things like static or media files.
+
+On my production server I also have to run `python manage.py collectstatic` to get updated static files to be served to the client correctly.
+
+
   
 
 # Hacktoberfest

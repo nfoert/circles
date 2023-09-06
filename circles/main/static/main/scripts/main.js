@@ -155,6 +155,12 @@ class OtherUser {
         }
         requestAnimationFrame(animate)
     }
+
+    dispose() {
+        this.circle.geometry.dispose();
+        this.circle.material.dispose();
+        scene.remove(this.circle);
+    }
 }
 
 // Thanks to WestLangley's answer here https://stackoverflow.com/questions/20314486/how-to-perform-zoom-with-a-orthographic-projection
@@ -301,6 +307,7 @@ server_socket.onmessage = function (e) {
         me.draw()
 
     } else if (json["type"] == "users_update") {
+        var users_used = [];
         // If user in list "users" doesn't exist already, create it
         for (const user in json["users"]) { // For each user object in the server's message
             if (!user_exists_in_client(json["users"][user]["username"])) {
@@ -312,10 +319,11 @@ server_socket.onmessage = function (e) {
                 user_class.location_circle = me.location_circle;
 
                 users.push(user_class);
+                users_used.push(user_class);
 
                 user_class.draw();
             
-            } else {
+            } else if (user_exists_in_client(json["users"][user]["username"])) { // User is online
                 var user_that_exists = json["users"][user];
                 var existing_user = get_user_exists_in_client(user_that_exists["username"]);
 
@@ -323,9 +331,30 @@ server_socket.onmessage = function (e) {
                 get_user_exists_in_client(user_that_exists["username"]).x = user_that_exists["x"] // set the coords of it now
                 get_user_exists_in_client(user_that_exists["username"]).y = user_that_exists["y"]
                 get_user_exists_in_client(user_that_exists["username"]).move();
-            }
-            
 
+                users_used.push(existing_user)
+            
+            }
+
+        }
+
+        for (user in users) {
+            try {
+                console.log(users_used[user].username == users[user].username)
+                if (users_used[user].username == users[user].username) {
+                    null
+                
+                } else {
+                    console.log("User", users[user].username, "has gone offline");
+                    users[user].dispose();
+                    users.splice(users.indexOf(users[user]), 1);
+                }
+            
+            } catch {
+                console.log("User", users[user].username, "has gone offline");
+                users[user].dispose();
+                users.splice(users.indexOf(users[user]), 1);
+            }
         }
 
 

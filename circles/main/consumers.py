@@ -37,6 +37,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         print("disconnected")
+        await self.go_offline()
         pass
 
     @database_sync_to_async
@@ -66,6 +67,8 @@ class MainConsumer(AsyncWebsocketConsumer):
         if len(user) == 1:
             if check_password(password, user[0].password):
                 print("Logged in")
+                user[0].online = True
+                user[0].save()
                 return True
 
             else:
@@ -116,7 +119,7 @@ class MainConsumer(AsyncWebsocketConsumer):
     def get_users_in_circle(self):
 
         me = User.objects.filter(username=self.username)[0]
-        users = User.objects.filter(location_circle=me.location_circle)
+        users = User.objects.filter(location_circle=me.location_circle, online=True)
 
         users_json = {
             "users": []
@@ -154,6 +157,13 @@ class MainConsumer(AsyncWebsocketConsumer):
                 pass
 
             await asyncio.sleep(0.5)
+
+    @database_sync_to_async
+    def go_offline(self):
+        me = User.objects.filter(username=self.username)[0]
+        me.online = False
+        me.save()
+        print("User marked as offline.")
         
         
         

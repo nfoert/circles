@@ -7,9 +7,10 @@ class User(models.Model):
     display_name = models.CharField(max_length=128, blank=True)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
+    online = models.BooleanField(default=0)
     location_server = models.ForeignKey("main.Server", on_delete=models.CASCADE, blank=True, null=True)
     location_circle = models.ForeignKey("main.Circle", on_delete=models.CASCADE, blank=True, null=True)
-    followers = models.ManyToManyField("self")
+    followers = models.ManyToManyField("self", blank=True)
     date_created = models.DateField(blank=True)
     
     def __str__(self):

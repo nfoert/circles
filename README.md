@@ -47,7 +47,6 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
     - Color
     - Delete Account
   - Basic features LOL
-    - Moving
     - Moving between circles
     - Location indicator
     - Online users

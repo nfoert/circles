@@ -32,6 +32,7 @@ document.addEventListener('mouseup', right_click_up);
 
 
 scale = 0.5; // 0 smallest, 1 largest
+var users = [];
 
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
 window.addEventListener( 'resize', onWindowResize, false );
@@ -53,7 +54,7 @@ class User {
 
     draw() {
         const circle_geometry = new THREE.CircleGeometry(50, 50);
-        const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const circle_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
         scene.add(this.circle);
         this.circle.position.z = 1;
@@ -82,13 +83,12 @@ class User {
 
     move() {
         this.server_update_position();
-
         const move_animation = new TWEEN.Tween(this.coords_before_move, false)
-                .to({x: me.x, y:me.y}, 250)
+                .to({x: this.x, y: this.y}, 250)
                 .easing(TWEEN.Easing.Quadratic.InOut)
                 .onUpdate(() => {
-                    me.circle.position.x = this.coords_before_move.x;
-                    me.circle.position.y = this.coords_before_move.y;
+                    this.circle.position.x = this.coords_before_move.x;
+                    this.circle.position.y = this.coords_before_move.y;
                 })
                 .start()
 
@@ -109,6 +109,51 @@ class User {
         var position_json = JSON.stringify(json)
 
         server_socket.send(position_json)
+    }
+}
+
+class OtherUser {
+    constructor() {
+
+    }
+
+    draw() {
+        console.log("Drawn ", this.username)
+        const circle_geometry = new THREE.CircleGeometry(50, 50);
+        const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        this.circle = new THREE.Mesh(circle_geometry, circle_material);
+        scene.add(this.circle);
+        this.circle.position.z = 1;
+
+        this.circle.position.x = this.x;
+        this.circle.position.y = this.y;
+
+        var location_box = document.getElementById("main-location-box-location")
+
+        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
+        this.location_circle.shift();
+
+    }
+
+    move() {
+        console.log(this.coords_before_move.y)
+        console.log(this.y)
+
+        const move_animation = new TWEEN.Tween(this.coords_before_move)
+            .to({x: this.x, y: this.y}, 250)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(() => {
+                this.circle.position.x = this.coords_before_move.x;
+                this.circle.position.y = this.coords_before_move.y;
+            })
+            .start()
+            console.log("Moved")
+
+        function animate(time) {
+            TWEEN.update(time)
+            requestAnimationFrame(animate)
+        }
+        requestAnimationFrame(animate)
     }
 }
 
@@ -233,6 +278,15 @@ function hide_box() {
     main_connecting_box.style.display = "flex";
 };
 
+function user_exists_in_client(username) {
+    return users.some(user => user.username === username);
+}
+
+function get_user_exists_in_client(username) {
+    return users.find(user => user.username === username);
+}
+
+
 const server_socket = new WebSocket("ws://127.0.0.1:8000/main/");
 
 server_socket.onmessage = function (e) {
@@ -246,7 +300,34 @@ server_socket.onmessage = function (e) {
         me.location_circle = json["location_circle"]
         me.draw()
 
-    } else if (json["type"] == "update") {
+    } else if (json["type"] == "users_update") {
+        // If user in list "users" doesn't exist already, create it
+        for (const user in json["users"]) { // For each user object in the server's message
+            if (!user_exists_in_client(json["users"][user]["username"])) {
+                console.log("Created new user")
+                user_class = new OtherUser();
+                user_class.username = json["users"][user]["username"]
+                user_class.x = json["users"][user]["x"]
+                user_class.y = json["users"][user]["y"]
+                user_class.location_circle = me.location_circle;
+
+                users.push(user_class);
+
+                user_class.draw();
+            
+            } else {
+                var user_that_exists = json["users"][user];
+                var existing_user = get_user_exists_in_client(user_that_exists["username"]);
+
+                get_user_exists_in_client(user_that_exists["username"]).coords_before_move = {x: existing_user.x, y: existing_user.y} // set the last coords first
+                get_user_exists_in_client(user_that_exists["username"]).x = user_that_exists["x"] // set the coords of it now
+                get_user_exists_in_client(user_that_exists["username"]).y = user_that_exists["y"]
+                get_user_exists_in_client(user_that_exists["username"]).move();
+            }
+            
+
+        }
+
 
     }
 };

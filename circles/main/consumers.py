@@ -1,11 +1,12 @@
 import json
+import asyncio
 from time import sleep
 from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 from main.models import User, Circle, Conversation, Message, Server
 from django.contrib.auth.hashers import check_password
 from channels.db import database_sync_to_async
 
-
+# Thanks to BAZA's answer here https://stackoverflow.com/questions/66936893/django-channels-sleep-between-group-sends
 class MainConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         
@@ -26,6 +27,10 @@ class MainConsumer(AsyncWebsocketConsumer):
             }
 
             await self.send(json.dumps(initial_message))
+
+            self.update_loop_task = asyncio.create_task(self.update_loop())
+                
+
 
         else:
             self.close()
@@ -106,6 +111,49 @@ class MainConsumer(AsyncWebsocketConsumer):
         except:
             print("AHFJKHAKJHFJKAHDFJKHKJAH")
             pass
+
+    @database_sync_to_async
+    def get_users_in_circle(self):
+
+        me = User.objects.filter(username=self.username)[0]
+        users = User.objects.filter(location_circle=me.location_circle)
+
+        users_json = {
+            "users": []
+        }
+
+        for user in users:
+            if user.username == me.username:
+                pass
+
+            else:
+                user_snippet = {
+                    "username": user.username,
+                    "x": user.x,
+                    "y": user.y,
+                }
+                users_json["users"].append(user_snippet)
+
+        return users_json
+    
+    async def update_loop(self):
+        users_in_circle_before = None
+        
+        while True:
+            users_in_circle = await self.get_users_in_circle()
+
+            if users_in_circle_before != users_in_circle: # New changes
+                users_in_circle_before = users_in_circle
+
+                json_to_send =  users_in_circle.copy()
+                json_to_send["type"] = "users_update"
+
+                await self.send(json.dumps(json_to_send))
+
+            else: # No new changes
+                pass
+
+            await asyncio.sleep(0.5)
         
         
         

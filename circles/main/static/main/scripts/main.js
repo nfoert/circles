@@ -59,6 +59,33 @@ class User {
         scene.add(this.circle);
         this.circle.position.z = 1;
 
+        this.circle.scale.set(0, 0, 0);
+
+        var scale = { x: 0, y: 0, z: 0 }
+
+        let isAnimating = true;
+
+        const scale_animation = new TWEEN.Tween(scale)
+            .to({ x: 1, y: 1, z: 1 }, 1000)
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(() => {
+                this.circle.scale.set(scale.x, scale.y, scale.z)
+            })
+            .delay(0)
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+        
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate)
+
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
 
@@ -83,20 +110,28 @@ class User {
 
     move() {
         this.server_update_position();
-        const move_animation = new TWEEN.Tween(this.coords_before_move, false)
-                .to({x: this.x, y: this.y}, 250)
-                .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => {
-                    this.circle.position.x = this.coords_before_move.x;
-                    this.circle.position.y = this.coords_before_move.y;
-                })
-                .start()
 
-            function animate(time) {
-                move_animation.update(time)
-                requestAnimationFrame(animate)
+        let isAnimating = true;
+
+        const move_animation = new TWEEN.Tween(this.coords_before_move)
+            .to({x: this.x, y: this.y}, 250)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(() => {
+                this.circle.position.x = this.coords_before_move.x;
+                this.circle.position.y = this.coords_before_move.y;
+            })
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
             }
-            requestAnimationFrame(animate)
+        }
+        requestAnimationFrame(animate)
     }
 
     server_update_position() {
@@ -125,6 +160,33 @@ class OtherUser {
         scene.add(this.circle);
         this.circle.position.z = 1;
 
+        this.circle.scale.set(0, 0, 0);
+
+        var scale = { x: 0, y: 0, z: 0 }
+
+        let isAnimating = true;
+
+        const scale_animation = new TWEEN.Tween(scale)
+            .to({ x: 1, y: 1, z: 1 }, 1000)
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(() => {
+                this.circle.scale.set(scale.x, scale.y, scale.z)
+            })
+            .delay(Math.random() * 1000)
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+        
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate)
+
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
 
@@ -136,8 +198,7 @@ class OtherUser {
     }
 
     move() {
-        console.log(this.coords_before_move.y)
-        console.log(this.y)
+        let isAnimating = true;
 
         const move_animation = new TWEEN.Tween(this.coords_before_move)
             .to({x: this.x, y: this.y}, 250)
@@ -147,19 +208,53 @@ class OtherUser {
                 this.circle.position.y = this.coords_before_move.y;
             })
             .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
             console.log("Moved")
 
         function animate(time) {
-            TWEEN.update(time)
-            requestAnimationFrame(animate)
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
         }
         requestAnimationFrame(animate)
     }
 
     dispose() {
-        this.circle.geometry.dispose();
-        this.circle.material.dispose();
-        scene.remove(this.circle);
+        this.circle.scale.set(1, 1, 1);
+
+        var scale = { x: 1, y: 1, z: 1 }
+
+        let isAnimating = true;
+
+        const scale_animation = new TWEEN.Tween(scale)
+            .to({ x: 0, y: 0, z: 0 }, 1000)
+            .easing(TWEEN.Easing.Elastic.In)
+            .onUpdate(() => {
+                this.circle.scale.set(scale.x, scale.y, scale.z)
+            })
+            .delay(Math.random() * 500)
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+                this.circle.geometry.dispose();
+                this.circle.material.dispose();
+                scene.remove(this.circle);
+            })
+        
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate)
+
+
+        
     }
 }
 

@@ -1,6 +1,16 @@
+// ============ Circles ============
+// main.js
+// Where most of the important client stuff resides
+// =================================
+
+
+// Thanks to https://discoverthreejs.com/book/first-steps/responsive-design/
+
+
+
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
-const renderer = new THREE.WebGLRenderer();
+const camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("main-canvas").appendChild(renderer.domElement);
@@ -35,14 +45,16 @@ scale = 0.5; // 0 smallest, 1 largest
 var users = [];
 
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
-window.addEventListener( 'resize', onWindowResize, false );
+window.addEventListener('resize', onWindowResize, false);
 
-function onWindowResize(){
-
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.render(scene, camera);
 
 }
 
@@ -57,7 +69,7 @@ class User {
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
         scene.add(this.circle);
-        this.circle.position.z = 1;
+        this.circle.position.z = 2;
 
         this.circle.scale.set(0, 0, 0);
 
@@ -76,7 +88,7 @@ class User {
             .onComplete(() => {
                 isAnimating = false;
             })
-        
+
 
         function animate(time) {
             if (isAnimating) {
@@ -114,7 +126,7 @@ class User {
         let isAnimating = true;
 
         const move_animation = new TWEEN.Tween(this.coords_before_move)
-            .to({x: this.x, y: this.y}, 250)
+            .to({ x: this.x, y: this.y }, 250)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate(() => {
                 this.circle.position.x = this.coords_before_move.x;
@@ -177,7 +189,7 @@ class OtherUser {
             .onComplete(() => {
                 isAnimating = false;
             })
-        
+
 
         function animate(time) {
             if (isAnimating) {
@@ -201,7 +213,7 @@ class OtherUser {
         let isAnimating = true;
 
         const move_animation = new TWEEN.Tween(this.coords_before_move)
-            .to({x: this.x, y: this.y}, 250)
+            .to({ x: this.x, y: this.y }, 250)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate(() => {
                 this.circle.position.x = this.coords_before_move.x;
@@ -211,7 +223,7 @@ class OtherUser {
             .onComplete(() => {
                 isAnimating = false;
             })
-            console.log("Moved")
+        console.log("Moved")
 
         function animate(time) {
             if (isAnimating) {
@@ -243,7 +255,7 @@ class OtherUser {
                 this.circle.material.dispose();
                 scene.remove(this.circle);
             })
-        
+
 
         function animate(time) {
             if (isAnimating) {
@@ -254,7 +266,7 @@ class OtherUser {
         requestAnimationFrame(animate)
 
 
-        
+
     }
 }
 
@@ -325,8 +337,8 @@ async function right_click(event) {
         camera_start_y = camera.position.y; // Update the starting camera position
         document.addEventListener("mousemove", right_click_logic);
     }
-    
-    
+
+
 }
 
 function right_click_up(event) {
@@ -340,7 +352,7 @@ function right_click_up(event) {
 function left_click(event) {
     if (event.button === 0) {
 
-        me.coords_before_move = {x: me.circle.position.x, y: me.circle.position.y}
+        me.coords_before_move = { x: me.circle.position.x, y: me.circle.position.y }
 
         const mouse = new THREE.Vector2();
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -417,34 +429,33 @@ server_socket.onmessage = function (e) {
                 users_used.push(user_class);
 
                 user_class.draw();
-            
+
             } else if (user_exists_in_client(json["users"][user]["username"])) { // User is online
                 var user_that_exists = json["users"][user];
                 var existing_user = get_user_exists_in_client(user_that_exists["username"]);
 
-                get_user_exists_in_client(user_that_exists["username"]).coords_before_move = {x: existing_user.x, y: existing_user.y} // set the last coords first
+                get_user_exists_in_client(user_that_exists["username"]).coords_before_move = { x: existing_user.x, y: existing_user.y } // set the last coords first
                 get_user_exists_in_client(user_that_exists["username"]).x = user_that_exists["x"] // set the coords of it now
                 get_user_exists_in_client(user_that_exists["username"]).y = user_that_exists["y"]
                 get_user_exists_in_client(user_that_exists["username"]).move();
 
                 users_used.push(existing_user)
-            
+
             }
 
         }
 
         for (user in users) {
             try {
-                console.log(users_used[user].username == users[user].username)
                 if (users_used[user].username == users[user].username) {
                     null
-                
+
                 } else {
                     console.log("User", users[user].username, "has gone offline");
                     users[user].dispose();
                     users.splice(users.indexOf(users[user]), 1);
                 }
-            
+
             } catch {
                 console.log("User", users[user].username, "has gone offline");
                 users[user].dispose();
@@ -473,4 +484,4 @@ server_socket.onopen = async function (e) {
     setTimeout(() => hide_box(), 3000)
     main_connecting_box.classList.remove("slide_to_top");
 
-}
+};

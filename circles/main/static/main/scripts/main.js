@@ -58,14 +58,13 @@ function onWindowResize() {
 
 }
 
-
 class User {
     constructor() {
 
     }
 
     draw() {
-        const circle_geometry = new THREE.CircleGeometry(50, 50);
+        const circle_geometry = new THREE.CircleGeometry(55, 55);
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
         scene.add(this.circle);

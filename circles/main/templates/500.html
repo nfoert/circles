@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+    
+<html>
+    <head>
+        <title>Circles | Server Error</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'main/500.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+        <meta name="darkreader-lock">
+        
+    </head>
+
+    <body>
+        <div id="background-darkness"></div>
+        <div class="blob" id="blob1"></div>
+        <div class="blob" id="blob2"></div>
+        <div class="blob" id="blob3"></div>
+        <div class="blob" id="blob4"></div>
+
+        <div id="text-container">
+            <p id="text-1">There was a problem (500)</p>
+            <p id="text-2">The server experienced an error</p>
+            <p id="text-2">Sorry about that</p>
+            <p id="text-2">We're working on it</p>
+            <a class="buttonsmaller" id="button" href="{% url 'main:index' %}">Return to home</a>
+        </div>
+        
+    </body>
+</html>

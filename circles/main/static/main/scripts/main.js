@@ -399,7 +399,7 @@ function get_user_exists_in_client(username) {
 }
 
 
-const server_socket = new WebSocket("ws://127.0.0.1:8000/main/");
+const server_socket = new WebSocket("ws://" + server_ip + "/main/");
 
 server_socket.onmessage = function (e) {
 

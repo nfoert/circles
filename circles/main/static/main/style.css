@@ -332,3 +332,36 @@ body {
 }
 
 /* Thanks to Akhil Kumar Pappula's answer here https://stackoverflow.com/questions/28502200/align-elements-in-corners-using-flexbox */
+
+
+#commit-hash {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    color: white;
+    text-decoration: none;
+    font-family: ArchiformSans;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+#commit-hash > a {
+    color: white;
+    text-decoration: none;
+    font-family: ArchiformSans;
+    font-size: 20px;
+}
+
+#commit-hash:visited > a {
+    color: white;
+    text-decoration: none;
+    font-family: ArchiformSans;
+    font-size: 20px;
+}
+
+#commit-hash:active > a {
+    color: white;
+    text-decoration: none;
+    font-family: ArchiformSans;
+    font-size: 20px;
+}

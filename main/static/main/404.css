@@ -1,0 +1,151 @@
+@font-face {
+	font-family: 'ArchiformSans';
+	src: local('Abc'),
+		 url('./fonts/Arciform.otf') format("opentype");
+}
+
+@keyframes fade_in {
+    0% {
+        filter: blur(20px);
+        scale: 1.2;
+    }
+
+    100% {
+        filter: blur(0px);
+        scale: 1;
+        
+    }
+}
+
+body {
+    background-color: #35363E;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    animation: fade_in 10s forwards;
+    animation-delay: 5s;
+    transition: 0.3 ease;
+    overflow: hidden;
+    filter: blur(20px);
+    scale: 1.2;
+}
+
+.blob {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: rotate(60deg) ;
+    background: linear-gradient(to right, #FF6666 40%, #669CFF 40%, #FDAE3D 80%);
+    z-index: -1;
+}
+
+#blob1 {
+    height: 300px;
+    position: fixed;
+
+    left: 10%;
+    top: 70%;
+    translate: -50% -50%;
+    filter: blur(75px);
+}
+
+#blob2 {
+    height: 400px;
+    position: fixed;
+    
+    left: 95%;
+    top: 40%;
+    translate: -50% -50%;
+    filter: blur(100px);
+}
+
+#blob3 {
+    height: 400px;
+    position: fixed;
+    
+    left: 80%;
+    top: 90%;
+    translate: -50% -50%;
+    filter: blur(100px);
+}
+
+#blob4 {
+    height: 400px;
+    position: fixed;
+    
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    filter: blur(75px);
+}
+
+#text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20%;
+    margin-bottom: 10%;
+    height: fit-content;
+}
+
+#text-1 {
+    color: white;
+    text-align: center;
+    font-family: ArchiformSans;
+    font-size: 60px;
+    margin: 10px;
+}
+
+#text-2{
+    color: white;
+    text-align: center;
+    font-family: ArchiformSans;
+    font-size: 40px;
+    margin: 10px;
+}
+
+#text-3{
+    color: white;
+    text-align: center;
+    font-family: ArchiformSans;
+    font-size: 12px;
+    margin: 10px;
+}
+
+@keyframes background-darkness {
+    0% {
+        display: inline;
+        opacity: 1;
+        backdrop-filter: blur(500px);
+    }
+
+    99% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        display: none;
+    }
+}
+
+#background-darkness {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    backdrop-filter: blur(100px);
+    opacity: 1;
+    z-index: 10;
+    animation: background-darkness 10s forwards;
+    animation-delay: 3s;
+}
+
+#button {
+    text-decoration: none;
+}

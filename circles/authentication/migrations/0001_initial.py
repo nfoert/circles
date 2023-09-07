@@ -3,6 +3,7 @@
 from django.db import migrations, models
 
 
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -35,5 +36,15 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateField(blank=True)),
                 ('followers', models.ManyToManyField(blank=True, to='authentication.user')),
             ],
+        ),
+        migrations.AddField(
+            model_name='user',
+            name='location_circle',
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.deletion.CASCADE, to='main.circle'),
+        ),
+        migrations.AddField(
+            model_name='user',
+            name='location_server',
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.deletion.CASCADE, to='main.server'),
         ),
     ]

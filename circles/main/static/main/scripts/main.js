@@ -398,8 +398,9 @@ function get_user_exists_in_client(username) {
     return users.find(user => user.username === username);
 }
 
-
-const server_socket = new WebSocket("ws://" + server_ip + "/main/");
+const url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
+console.log(url)
+const server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
 

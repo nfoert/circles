@@ -102,6 +102,9 @@
 
         <div id="main-backgroundblur"></div>
 
+        <script>
+            var server_ip = "{{ server_ip }}"
+        </script>
 
         <script src="{% static 'main/scripts/three.js' %}"></script>
         <script src="{% static 'main/scripts/tween.umd.js' %}"></script>
@@ -110,9 +113,6 @@
         <script src="{% static 'main/scripts/main.js' %}"></script>
         <script src="{% static 'main/scripts/messages.js' %}"></script>
 
-        <script>
-            var server_ip = "{{ server_ip }}"
-
-        </script>
+        
     </body>
 </html>

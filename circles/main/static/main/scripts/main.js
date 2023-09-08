@@ -399,11 +399,13 @@ function get_user_exists_in_client(username) {
 }
 let url;
 
-if (production) {
+if (production == "True") {
     url = "wss://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
+    console.log("Production")
 
-} else {
+} else if (production == "False") {
     url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
+    console.log("Development")
 }
 
 const server_socket = new WebSocket(url);

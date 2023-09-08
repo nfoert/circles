@@ -11,6 +11,7 @@ def index(request):
     context = {
         "server_name": server_info.name,
         "server_ip": server_info.ip,
+        "production": server_info.production,
         "commit": commit_hash
     }
 
@@ -32,8 +33,7 @@ def index(request):
 def main(request):
     commit_hash = os.popen("git rev-parse --short HEAD").read()
 
-    server_name = Server.objects.all()[0].name
-    server_ip = Server.objects.all()[0].ip
+    server_info = Server.objects.all()[0]
 
     try:
         username_session = request.session["username"]
@@ -41,8 +41,9 @@ def main(request):
 
         context = {
             "username": username_session,
-            "server_name": server_name,
-            "server_ip": server_ip,
+            "server_name": server_info.name,
+            "server_ip": server_info.ip,
+            "production": server_info.production,
             "commit": commit_hash
         }
 
@@ -50,8 +51,9 @@ def main(request):
     
     except KeyError:
         context = {
-            "server_name" : server_name,
-            "server_ip": server_ip,
+            "server_name" : server_info.name,
+            "server_ip": server_info.ip,
+            "production": server_info.production,
             "commit": commit_hash
         }
         print("No session!")

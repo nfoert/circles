@@ -2,9 +2,10 @@ from django.db import models
 from django.utils import timezone
 from authentication.models import User
     
-class Server(models.Model): # The entire server. Should be merged with ServerInfo
+class Server(models.Model):
     name = models.CharField(max_length=256)
     ip = models.CharField(max_length=256)
+    production = models.BooleanField(default=1)
 
     def __str__(self):
          return(self.name)

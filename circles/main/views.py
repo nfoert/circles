@@ -7,7 +7,7 @@ import os
 def index(request):
     commit_hash = os.popen("git rev-parse --short HEAD").read()
     server_info = Server.objects.all()[0]
-
+    
     context = {
         "server_name": server_info.name,
         "server_ip": server_info.ip,
@@ -25,6 +25,7 @@ def index(request):
         context = {
             "server_name": server_info.name,
             "server_ip": server_info.ip,
+            "production": server_info.production,
             "commit": commit_hash
         }
         print("No session!")

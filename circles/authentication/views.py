@@ -45,6 +45,7 @@ def sign_in(request):
                     context = {
                         "server_name": server_info.name,
                         "server_ip": server_info.ip,
+                        "production": server_info.production,
                         "username": username,
                     }
                     

@@ -28,6 +28,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(initial_message))
 
+            
+
             self.update_loop_task = asyncio.create_task(self.update_loop())
                 
 
@@ -40,14 +42,23 @@ class MainConsumer(AsyncWebsocketConsumer):
         await self.go_offline()
         pass
 
-    @database_sync_to_async
-    def receive(self, text_data):
+    async def receive(self, text_data):
         text_data = json.loads(text_data)
         if text_data["type"] == "position_update":
-            user = User.objects.filter(username=self.username)[0]
-            user.x = text_data["x"]
-            user.y = text_data["y"]
-            user.save()
+            await self.set_position(text_data["x"], text_data["y"])
+
+        elif text_data["type"] == "create_conversation":
+            await self.create_conversation(text_data["name"], text_data["users"])
+
+        elif text_data["type"] == "username_search":
+            usernames = await self.search_for_usernames(text_data["string"])
+
+            packet = {
+                "type": "username_search_results",
+                "users": usernames,
+            }
+
+            await self.send(json.dumps(packet))
 
         else:
             print("Not known packet")
@@ -164,6 +175,43 @@ class MainConsumer(AsyncWebsocketConsumer):
         me.online = False
         me.save()
         print("User marked as offline.")
+
+    @database_sync_to_async
+    def get_initial_messages(self):
+
+        me = User.objects.filter(username=self.username)[0]
+
+    @database_sync_to_async
+    def search_for_usernames(self, string):
+        users = User.objects.filter(username__contains=string)
+        users_list = []
+
+        if users:
+            for user in users:
+                users_list.append(user.username)
+
+            return users_list
+        
+    @database_sync_to_async
+    def set_position(self, x, y):
+        user = User.objects.filter(username=self.username)[0]
+        user.x = x
+        user.y = y
+        user.save()
+
+    @database_sync_to_async
+    def create_conversation(self, name, users):
+        conversation = Conversation(name=name)
+        conversation.save()
+
+        for user in users:
+            selected_user = User.objects.filter(username=user)
+            print(selected_user[0])
+            conversation.users.add(selected_user[0])
+
+        conversation.save()
+
+        
         
         
         

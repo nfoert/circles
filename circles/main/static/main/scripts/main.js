@@ -33,7 +33,7 @@ function animate() {
 }
 animate();
 
-addEventListener("wheel", (event) => zoom(event))
+document.addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
 document.addEventListener('mousedown', right_click);
@@ -401,17 +401,14 @@ let url;
 
 if (production == "True") {
     url = "wss://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
-    console.log("Production")
 
 } else if (production == "False") {
     url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
-    console.log("Development")
 }
 
 const server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
-
     const json = JSON.parse(e.data);
 
     if (json["type"] == "initial_message") {
@@ -472,6 +469,11 @@ server_socket.onmessage = function (e) {
         }
 
 
+    } else if (json["type"] == "username_search_results") {
+        render_username_search(json["users"])
+
+    } else {
+        console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }
 };
 

@@ -213,54 +213,6 @@ body {
     
 }
 
-#auth-box-text-label {
-    color: white;
-    font-family: ArchiformSans;
-    font-size: 40px;
-    margin: 0;
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-#auth-box-text-server {
-    color: white;
-    font-family: ArchiformSans;
-    font-size: 20px;
-    margin: 0;
-    margin-left: 20px;
-}
-
-#auth-box-close {
-    color: white;
-    font-family: ArchiformSans;
-    font-size: 40px;
-    margin: 30px;
-    text-align: right;
-    transition: 0.3s ease;
-    cursor: pointer;
-    opacity: 0.5;
-}
-
-#auth-box-close:hover {
-    transform: scale(1.1);
-    opacity: 1;
-}
-
-#auth-box-close:active {
-    transform: scale(0.9);
-}
-
-.auth-box-textarea-text {
-    color:white;
-    margin: 0;
-    margin-left: 8%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-family: ArchiformSans;
-    font-size: 18px;
-    opacity: 0.5;
-}
-
 #auth-box-password-validate {
     display: flex;
     flex-direction: row;

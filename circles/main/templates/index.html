@@ -23,18 +23,18 @@
                 <p id="main-header-subtext" class="text-small fade_in_scale">Find your Circle</p>
                 <hr id="main-header_line" class="fade_in_scale">
                 <div id="main-header-buttonbox">
-                    <button class="button" id="button_signup" class="fade_in_scale">Sign Up</button>
-                    <button class="button" id="button_login" class="fade_in_scale">Log In</button>
+                    <button class="button fade_in_scale" id="button_signup">Sign Up</button>
+                    <button class="button fade_in_scale" id="button_login">Log In</button>
                 </div>
             </div>
 
             <div id="auth-box">
                 <div id="auth-box-text">
                     <div id="auth-box-text-column">
-                        <p id="auth-box-text-label">Join Circles</p>
-                        <p id="auth-box-text-server">Creating an account at circles.media</p> <!-- Connect to django to display server name -->
+                        <p class="dialog-header">Join Circles</p>
+                        <p id="auth-box-text-server" class="dialog-subheader">Creating an account at circles.media</p> <!-- Connect to django to display server name -->
                     </div>
-                    <p id="auth-box-close">X</p>
+                    <p id="auth-box-close" class="buttonx">X</p>
                 </div>
 
                 <div id="auth-box-login" class="fade_in">
@@ -46,7 +46,7 @@
 
                     <div id="auth-box-textarea">
                         <input class="textarea" placeholder="Username" type="text" id="auth-box-textarea-login-username"></input>
-                        <p class="auth-box-textarea-text">This is the shorter username you created your account with.</p>
+                        <p class="textedit-subtext">This is the shorter username you created your account with.</p>
                     </div>
 
                     <div id="auth-box-textarea">
@@ -64,7 +64,7 @@
                     <br>
                     <div id="auth-box-textarea">
                         <input class="textarea" placeholder="Username" type="text" id="auth-box-textarea-username-username"></input>
-                        <p class="auth-box-textarea-text">Create a short, memorable and unique username. This is how people can find you. You can't change this later.</p>
+                        <p class="textedit-subtext">Create a short, memorable and unique username. This is how people can find you. You can't change this later.</p>
                     </div>
 
                     <div id="auth-box-buttonbox-onebutton">
@@ -84,7 +84,7 @@
 
                     <div id="auth-box-textarea">
                         <input class="textarea" placeholder="Email" type="text" id="auth-box-textarea-email-email"></input>
-                        <p class="auth-box-textarea-text">Your email will be used to verify the account and to send security information.</p>
+                        <p class="textedit-subtext">Your email will be used to verify the account and to send security information.</p>
                     </div>
 
                     <div id="auth-box-buttonbox">
@@ -110,8 +110,8 @@
                         <div class="auth-box-password-validate-segment" id="auth-box-password-validate-4"></div>
                     </div>
 
-                    <p class="auth-box-textarea-text" id="auth-box-password-strength">No Password</p>
-                    <p class="auth-box-textarea-text">Strong passwords contain 8 or more characters, a symbol, a number and a capital letter.</p>
+                    <p class="textedit-subtext" id="auth-box-password-strength">No Password</p>
+                    <p class="textedit-subtext">Strong passwords contain 8 or more characters, a symbol, a number and a capital letter.</p>
 
                     <div id="auth-box-buttonbox">
                         <button class="buttonsmaller" id="auth-box-buttonbox-back-password">Back</button>

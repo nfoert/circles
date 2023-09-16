@@ -528,7 +528,13 @@ body {
 }
 
 .fade_in_bg {
+    display: inline !important;
     animation: fade_in_bg 1s forwards;
+}
+
+.fade_out_bg {
+    animation: fade_in_bg 1s reverse forwards;
+    display: none !important;
 }
 
 #main-backgroundblur {
@@ -544,4 +550,115 @@ body {
 
     transform: 1s ease;
     
+}
+
+@keyframes show-create-conversation-box {
+    0% {
+        scale: 0.8;
+        opacity: 0;
+        filter: blur(50px);
+    }
+
+    100% {
+        scale: 1;
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes hide-create-conversation-box {
+    0% {
+        scale: 1;
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    100% {
+        scale: 0.8;
+        opacity: 0;
+        filter: blur(50px);
+    }
+}
+
+.show-create-conversation-box {
+    display: flex;
+    animation: show-create-conversation-box 0.5s forwards;
+}
+
+.hide-create-conversation-box {
+    animation: hide-create-conversation-box 0.5s forwards;
+    display: none !important;
+}
+
+#create-conversation-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 10;
+    aspect-ratio: 3/4;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+
+    opacity: 0;
+    display: none;
+
+}
+
+#create-conversation-box-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#create-conversation-box-label {
+    color: white;
+
+}
+
+#conversation-box-userstoadd {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow-x: auto;
+    width: 100px;
+    width: 560px;
+    /* Thanks to Temani Afif's answer here https://stackoverflow.com/questions/73422436/how-do-i-blur-the-right-and-left-sides-of-a-scroll-container */
+    mask: linear-gradient(90deg,#0000,#000 3% 97%,#0000);
+    -webkit-mask: linear-gradient(90deg,#0000,#000 3% 97%,#0000);
+    padding-left: 10px;
+}
+
+
+#conversation-box-userstoadd::-webkit-scrollbar {
+    height: 10px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+#conversation-box-userstoadd::-webkit-scrollbar-thumb {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+#conversation-box-userstoadd::-webkit-scrollbar-thumb:hover {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+}
+
+#conversation-box-button {
+    margin-top: auto;
+    margin-bottom: 20px;
 }

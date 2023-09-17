@@ -482,7 +482,7 @@ server_socket.onmessage = function (e) {
 
 server_socket.onclose = function (e) {
     main_connecting_box.classList.add("slide_from_top");
-    main_connecting_box_text.innerHTML = "Failed to connect ✘"
+    main_connecting_box_text.innerHTML = '<i class="ph-bold ph-x-circle"></i> Failed to connect'
     main_connecting_box.style.backgroundColor = "rgba(252, 56, 56, 0.2)"
     background_blur.style.display = "inline";
     background_blur.classList.add("fade_in_bg")
@@ -492,7 +492,7 @@ server_socket.onclose = function (e) {
 
 server_socket.onopen = async function (e) {
 
-    main_connecting_box_text.innerHTML = "Connected ✔"
+    main_connecting_box_text.innerHTML = "<i class='ph-bold ph-check-circle'></i> Connected"
     main_connecting_box.style.backgroundColor = "rgba(4, 223, 33, 0.2)"
     setTimeout(() => hide_box(), 3000)
     main_connecting_box.classList.remove("slide_to_top");

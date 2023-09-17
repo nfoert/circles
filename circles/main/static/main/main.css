@@ -169,7 +169,7 @@ body {
     border: 1px solid rgba(211, 211, 211, 0.4);
     backdrop-filter: blur(20px);
     border-radius: 10px;
-    width: 90px;
+    width: 95px;
     transition: 0.3s ease;
     opacity: 0;
 }
@@ -402,8 +402,8 @@ body {
 }
 
 #main-messages-box-input-conversations-text {
-    font-size: 20px;
-    margin: 1px;
+    font-size: 15px;
+    margin: 0.5px;
     padding: 0;   
 }
 

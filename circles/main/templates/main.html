@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
         <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
         <meta name="darkreader-lock">
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
         
     </head>
 
@@ -29,11 +30,11 @@
         </div>
 
         <div id="main-copied-box">
-            <p id="main-copied-box-text">Copied ✔</p>
+            <p id="main-copied-box-text"><i class="ph-bold ph-check-circle"></i> Copied!</p>
         </div>
 
         <div id="main-location-box">
-            <p id="main-location-box-onlineusers">23 ◉ 11 ◯</p>
+            <p id="main-location-box-onlineusers">23 <i class="ph-fill ph-user"></i> 11 <i class="ph-bold ph-user"></i></p>
             <div id="main-location-box-location">
                 <p class="location-item">All Servers</p>
                 <p class="location-slash">/</p>
@@ -77,8 +78,8 @@
 
             <div id="main-messages-box-input">
                 <input id="main-messages-box-input-textarea" class="textarea" type="text" placeholder="All of circles.media"></input>
-                <button id="main-messages-box-input-send" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send</p></button>
-                <button id="main-messages-box-input-conversations" class="buttonsmaller"><p id="main-messages-box-input-conversations-text">=</p></button>
+                <button id="main-messages-box-input-send" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send <i class="ph-bold ph-paper-plane-tilt"></i></p></button>
+                <button id="main-messages-box-input-conversations" class="buttonsmaller"><p id="main-messages-box-input-conversations-text"><i class="ph-bold ph-list"></i></p></button>
             </div>
         </div>
 
@@ -104,7 +105,7 @@
         </div>
 
         <div id="main-connecting-box">
-            <p id="main-connecting-box-text">Connecting...</p>
+            <p id="main-connecting-box-text"><i class="ph-bold ph-spinner-gap"></i> Connecting...</p>
         </div>
 
         <div id="main-backgroundblur"></div>

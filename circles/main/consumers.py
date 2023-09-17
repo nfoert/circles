@@ -31,6 +31,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             
 
             self.update_loop_task = asyncio.create_task(self.update_loop())
+
                 
 
 
@@ -57,6 +58,22 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "type": "username_search_results",
                 "users": usernames,
             }
+
+            await self.send(json.dumps(packet))
+
+        elif text_data["type"] == "get_users_conversations":
+            
+            conversations = await self.get_users_conversations()
+            number_of_online_users = await self.get_total_online_users()
+            number_of_online_users_in_circle = await self.get_total_online_users_in_circle()
+
+            packet = {
+                "type": "user_conversations",
+                "conversations": conversations,
+                "total_online": number_of_online_users,
+                "total_online_in_circle": number_of_online_users_in_circle,
+            }
+
 
             await self.send(json.dumps(packet))
 
@@ -211,8 +228,32 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         conversation.save()
 
+    @database_sync_to_async
+    def get_users_conversations(self):
+        me = User.objects.filter(username=self.username)[0]
+        conversations = Conversation.objects.filter(users=me)
         
+        list = []
+
+        for conversation in conversations:
+            convo = {
+                "name": conversation.name,
+                "number_of_users": conversation.users.count()
+            }
+            list.append(convo)
+
+        return list
+    
+    @database_sync_to_async
+    def get_total_online_users(self):
+        users = User.objects.filter(online=True)
         
-        
-        
-        
+        return len(users)
+    
+    @database_sync_to_async
+    def get_total_online_users_in_circle(self):
+        me = User.objects.filter(username=self.username)
+
+        online_users_in_circle = User.objects.filter(online=True, location_circle=me[0].location_circle)
+
+        return len(online_users_in_circle)

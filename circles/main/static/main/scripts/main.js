@@ -472,6 +472,9 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "username_search_results") {
         render_username_search(json["users"])
 
+    } else if (json["type"] == "user_conversations") {
+        render_users_conversations(json)
+
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }
@@ -493,5 +496,8 @@ server_socket.onopen = async function (e) {
     main_connecting_box.style.backgroundColor = "rgba(4, 223, 33, 0.2)"
     setTimeout(() => hide_box(), 3000)
     main_connecting_box.classList.remove("slide_to_top");
+    
+
+    get_users_conversations_request();
 
 };

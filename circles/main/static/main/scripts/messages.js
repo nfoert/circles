@@ -12,13 +12,13 @@ function update() {
     if (state == 0) {
         state = 1;
         messages.style.display = "none";
-        conversations.style.display = "inline";
+        conversations.style.display = "flex";
         button_text.innerHTML = '<i class="ph-bold ph-x-circle"></i>'
     
     } else if (state == 1) {
         state = 0;
         conversations.style.display = "none";
-        messages.style.display = "inline";
+        messages.style.display = "flex";
         button_text.innerHTML = '<i class="ph-bold ph-list"></i>'
     }
 }

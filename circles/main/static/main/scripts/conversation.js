@@ -197,10 +197,10 @@ function render_users_conversations(json) {
     conversation_all_of_server.appendChild(conversation_all_of_server_name);
     conversation_all_of_server.appendChild(conversation_all_of_server_info);
 
-
     var conversation_all_of_circle_name = document.createElement("div")
     conversation_all_of_circle_name.classList.add("conversation-name")
     conversation_all_of_circle_name.innerText = "Messages from current Circle"
+    
 
     var conversation_all_of_circle_info = document.createElement("div")
     conversation_all_of_circle_info.classList.add("conversation-info")
@@ -218,13 +218,12 @@ function render_users_conversations(json) {
     conversation_all_of_circle.appendChild(conversation_all_of_circle_name);
     conversation_all_of_circle.appendChild(conversation_all_of_circle_info);
 
-
     var conversation_create_new_conversation_name = document.createElement("div");
     conversation_create_new_conversation_name.classList.add("conversation-name");
     conversation_create_new_conversation_name.innerText = "Create new Conversation";
 
     var conversation_create_new_conversation = document.createElement("div")
-    conversation_create_new_conversation.classList.add("conversation")
+    conversation_create_new_conversation.classList.add("conversation2")
     conversation_create_new_conversation.id = "create-new-conversation-button";
     conversation_create_new_conversation.appendChild(conversation_create_new_conversation_name);
     conversation_create_new_conversation.addEventListener("click", show_conversation_box)
@@ -233,6 +232,64 @@ function render_users_conversations(json) {
     conversation_list.appendChild(conversation_all_of_circle);
     conversation_list.appendChild(conversation_create_new_conversation);
 
+    conversation_all_of_server.id = "conversation-all-of-server";
+    conversation_all_of_circle.id = "conversation-current-circle";
 
+
+    var conversation_elements = document.getElementsByClassName("conversation");
+    for (conversation_element in conversation_elements) {
+        try {
+            conversation_elements[conversation_element].addEventListener("click", (event) => select_conversation(event));
+        
+        } catch {
+            null;
+        }
+    }
+
+
+}
+
+function select_conversation(event) {
+    const messages_entry = document.getElementById("main-messages-box-input-textarea")
+
+    const conversation = event.target
+
+    if (conversation.id == "conversation-all-of-server") {
+        var switch_conversation_packet = {
+            "type": "switch_conversation",
+            "conversation_type": "server",
+            "name": false,
+        }
+
+        server_socket.send(JSON.stringify(switch_conversation_packet))
+    
+    } else if (conversation.id == "conversation-current-circle") {
+        var switch_conversation_packet = {
+            "type": "switch_conversation",
+            "conversation_type": "circle",
+            "name": false,
+        }
+
+        server_socket.send(JSON.stringify(switch_conversation_packet))
+
+    } else {
+        try {
+            var name = conversation.children[0].innerText;
+        
+        } catch {
+            var name = conversation.innerText;
+
+        }
+        var switch_conversation_packet = {
+            "type": "switch_conversation",
+            "conversation_type": "normal",
+            "name": name,
+        }
+
+        server_socket.send(JSON.stringify(switch_conversation_packet))
+    }
+
+    update_messages_conversations_hide_conversations();
+    messages_entry.placeholder = name;
 }
 

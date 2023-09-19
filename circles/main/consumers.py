@@ -74,8 +74,11 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "total_online_in_circle": number_of_online_users_in_circle,
             }
 
-
             await self.send(json.dumps(packet))
+
+        elif text_data["type"] == "switch_conversation":
+            result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
+            print(result)
 
         else:
             print("Not known packet")
@@ -257,3 +260,37 @@ class MainConsumer(AsyncWebsocketConsumer):
         online_users_in_circle = User.objects.filter(online=True, location_circle=me[0].location_circle)
 
         return len(online_users_in_circle)
+    
+    @database_sync_to_async
+    def switch_conversation(self, name, conversation_type):
+        me = User.objects.filter(username=self.username)[0]
+
+        print(name, conversation_type)
+
+        if conversation_type == "server":
+            me.current_conversation_type = "server"
+            me.save()
+
+            return True
+
+
+        elif conversation_type == "circle":
+            me.current_conversation_type = "circle"
+            me.save()
+
+            return True
+
+        elif conversation_type == "normal":
+            conversation = Conversation.objects.filter(users=me,name=name)[0]
+
+            me.current_conversation = conversation
+            me.current_conversation_type = "normal"
+            me.save()
+
+            return True
+
+        else:
+            print("That conversation type is not recognized.")
+            self.disconnect()
+
+            return False

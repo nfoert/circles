@@ -412,7 +412,7 @@ body {
     padding: 0;   
 }
 
-.conversation {
+.conversation,.conversation2 { /* Second one is for the "Create New Conversation" button so It's not selected for the select conversation event listener */
     animation: fade_in 0.5s forwards;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -446,11 +446,11 @@ body {
     padding-right: 5px;
 }
 
-.conversation:hover {
+.conversation:hover,.conversation2:hover {
     background-color: rgba(170, 170, 170, 0.2);
 }
 
-.conversation:active {
+.conversation:active,.conversation2:active {
     background-color: rgba(233, 233, 233, 0.2);
 }
 

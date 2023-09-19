@@ -6,7 +6,16 @@
 
 // Thanks to https://discoverthreejs.com/book/first-steps/responsive-design/
 
+console.log(`
 
+Circles
+
+- github.com/nfoert/circles
+
+Hello to all of us hackers who likes to open the console! Hack away! (Nicely)
+
+
+`)
 
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
@@ -33,7 +42,7 @@ function animate() {
 }
 animate();
 
-document.addEventListener("wheel", (event) => zoom(event))
+document.getElementById("main-canvas").addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
 document.addEventListener('mousedown', right_click);

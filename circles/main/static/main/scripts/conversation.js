@@ -252,7 +252,14 @@ function render_users_conversations(json) {
 function select_conversation(event) {
     const messages_entry = document.getElementById("main-messages-box-input-textarea")
 
-    const conversation = event.target
+    if (event.target.children.length > 0) {
+        var conversation = event.target;
+
+    } else if (event.target.children.length == 0) {
+        var conversation = event.target.parentElement;
+
+    }
+
 
     if (conversation.id == "conversation-all-of-server") {
         var switch_conversation_packet = {

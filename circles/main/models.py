@@ -47,6 +47,7 @@ class Message(models.Model): # A message from a user. Has date, time, username a
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, blank=True, null=True)
     circle = models.ForeignKey(Circle, on_delete=models.CASCADE, blank=True, null=True)
+    current_conversation_type = models.CharField(max_length=16, default="normal")
 
     def __str__(self):
         if len(self.text) > 75:

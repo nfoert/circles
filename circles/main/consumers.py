@@ -78,7 +78,9 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         elif text_data["type"] == "switch_conversation":
             result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
-            print(result)
+
+        elif text_data["type"] == "send_message":
+            result = await self.send_message(text_data["message"])
 
         else:
             print("Not known packet")
@@ -294,3 +296,31 @@ class MainConsumer(AsyncWebsocketConsumer):
             self.disconnect()
 
             return False
+        
+    @database_sync_to_async
+    def send_message(self, message):
+        me = User.objects.filter(username=self.username)[0]
+        message = Message(text=message, user=me)
+        message.save()
+
+        if me.current_conversation_type == "normal":
+            message.conversation = me.current_conversation
+            message.current_conversation_type = "normal"
+
+        elif me.current_conversation_type == "circle":
+            message.circle = me.location_circle
+            message.current_conversation_type = "circle"
+
+        elif me.current_conversation_type == "server":
+            message.current_conversation_type = "server"
+
+        else:
+            print("That conversation type is not known!")
+            return False
+
+        message.save()
+
+        return True
+
+
+        

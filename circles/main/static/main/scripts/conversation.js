@@ -135,7 +135,6 @@ function get_users_conversations_request() {
     }
 
     const packet_json = JSON.stringify(packet);
-    console.log(packet_json)
 
     server_socket.send(packet_json);
 }
@@ -150,8 +149,6 @@ function render_users_conversations(json) {
     conversation_label.innerText = "Conversations";
 
     conversation_list.appendChild(conversation_label);
-
-    console.log(json)
 
     var conversations = json["conversations"]
 

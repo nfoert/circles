@@ -425,6 +425,7 @@ server_socket.onmessage = function (e) {
         me.y = json["y"]
         me.location_server = json["location_server"]
         me.location_circle = json["location_circle"]
+        me.username = json["username"]
         me.draw()
 
     } else if (json["type"] == "users_update") {
@@ -483,6 +484,9 @@ server_socket.onmessage = function (e) {
 
     } else if (json["type"] == "user_conversations") {
         render_users_conversations(json)
+
+    } else if (json["type"] == "recent_messages") {
+        render_recent_messages(json)
 
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])

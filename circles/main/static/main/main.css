@@ -386,7 +386,7 @@ body {
     display: flex;
     flex-direction: column-reverse;
     align-items: right;
-    width: 100%;
+    width: 500px;
     height: 90vh;
     align-items: right;
     overflow-y: auto;

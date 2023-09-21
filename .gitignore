@@ -2,3 +2,4 @@
 /circles/db.sqlite3
 /circles/circles/settings.py
 __pycache__
+settings.json

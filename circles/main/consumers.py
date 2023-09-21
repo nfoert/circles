@@ -28,12 +28,12 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(initial_message))
 
-            
+            recent_messages = await self.get_initial_messages()
+            recent_messages_packet = await self.generate_recent_messages_packet(recent_messages)
+
+            await self.send(json.dumps(recent_messages_packet))
 
             self.update_loop_task = asyncio.create_task(self.update_loop())
-
-                
-
 
         else:
             self.close()
@@ -199,11 +199,6 @@ class MainConsumer(AsyncWebsocketConsumer):
         print("User marked as offline.")
 
     @database_sync_to_async
-    def get_initial_messages(self):
-
-        me = User.objects.filter(username=self.username)[0]
-
-    @database_sync_to_async
     def search_for_usernames(self, string):
         users = User.objects.filter(username__contains=string)
         users_list = []
@@ -321,6 +316,48 @@ class MainConsumer(AsyncWebsocketConsumer):
         message.save()
 
         return True
+    
+    @database_sync_to_async
+    def get_initial_messages(self):
+        # Thanks to various people here https://stackoverflow.com/questions/6574003/django-limiting-query-results
+        me = User.objects.filter(username=self.username)[0]
+
+        if me.current_conversation_type == "normal":
+            messages = Message.objects.filter(conversation=me.current_conversation)[:100]
+            return messages
+
+        elif me.current_conversation_type == "circle":
+            messages = Message.objects.filter(circle=me.location_circle)[:100]
+            return messages
+
+
+        elif me.current_conversation_type == "server":
+            messages = Message.objects.filter(conversation__isnull=True)[:100]
+            return messages
+
+
+        else:
+            print("That conversation type is not known!")
+            return False
+
+    @database_sync_to_async
+    def generate_recent_messages_packet(self, recent_messages):
+        
+        recent_messages_packet = {
+            "type": "recent_messages",
+            "messages": [],
+        }
+
+        for message in recent_messages:
+            message_json = {
+                "text": message.text,
+                "user": message.user.username,
+                "date_time_created": message.date_time_created.strftime("%s"),
+            }
+
+            recent_messages_packet["messages"].append(message_json)
+
+        return recent_messages_packet
 
 
         

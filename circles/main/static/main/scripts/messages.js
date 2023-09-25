@@ -26,7 +26,6 @@ function check_shift_up(event) {
 function send_message() {
     // Thanks to Johnride's answer here https://stackoverflow.com/questions/23369368/how-to-get-the-current-status-of-a-javascript-websocket-connection
     if (server_socket.readyState == server_socket.OPEN) {
-        console.log("Sending")
         const send_message_json = {
             "type": "send_message",
             "message": message_box.value,
@@ -35,6 +34,7 @@ function send_message() {
         server_socket.send(JSON.stringify(send_message_json))
 
         message_box.value = "";
+
     }
 
 }
@@ -50,6 +50,7 @@ function send_message_keybind(event) {
 }
 
 function render_recent_messages(packet) {
+    console.log("Rendering new messages")
     // Thanks to user1030503's answer here https://stackoverflow.com/questions/4631928/convert-utc-epoch-to-local-date
     // Thanks to DVK's answer here https://stackoverflow.com/questions/9456138/how-can-i-get-seconds-since-epoch-in-javascript
     // Thanks to Michael Mrozek's answer here https://stackoverflow.com/questions/3367415/get-epoch-for-a-specific-date-using-javascript
@@ -88,8 +89,6 @@ function render_recent_messages(packet) {
         
         let message_div = document.createElement("div")
 
-        console.log(user, me.username)
-
         if (user == me.username) {
             message_div.classList.add("message-you")
         
@@ -111,5 +110,46 @@ function render_recent_messages(packet) {
         
         main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
 
+    }
+}
+
+function render_new_message(text, user, date) {
+    if (!date) {
+        date = new Date();
+    }
+
+    let message_div = document.createElement("div")
+
+    if (user == me.username) {
+        message_div.classList.add("message-you")
+    
+    } else {
+        message_div.classList.add("message")
+    }
+
+    let message_div_text = document.createElement("div")
+    message_div_text.classList.add("message-content")
+    message_div_text.innerText = text;
+
+    let message_div_info = document.createElement("div")
+    message_div_info.classList.add("message-info")
+    message_div_info.innerText = user + " - " + "Just now";
+
+    message_div.appendChild(message_div_text);
+    message_div.appendChild(message_div_info);
+
+    
+    main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
+}
+
+/**
+ * Adds messages to the list of messages when we recieve them from the server
+ * @param {*} json 
+ */
+function render_new_messages(json) {
+    for (message in json["messages"]) {
+        let msg = json["messages"][message];
+        
+        render_new_message(msg["text"], msg["user"])
     }
 }

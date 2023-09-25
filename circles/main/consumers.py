@@ -1,10 +1,12 @@
 import json
 import asyncio
+from asgiref.sync import sync_to_async
 from time import sleep
 from channels.generic.websocket import AsyncWebsocketConsumer, StopConsumer
 from main.models import User, Circle, Conversation, Message, Server
 from django.contrib.auth.hashers import check_password
 from channels.db import database_sync_to_async
+from django.db.models import Q
 
 # Thanks to BAZA's answer here https://stackoverflow.com/questions/66936893/django-channels-sleep-between-group-sends
 class MainConsumer(AsyncWebsocketConsumer):
@@ -33,7 +35,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(recent_messages_packet))
 
-            self.update_loop_task = asyncio.create_task(self.update_loop())
+            self.update_loop_task = asyncio.ensure_future(self.update_loop())
 
         else:
             self.close()
@@ -174,9 +176,12 @@ class MainConsumer(AsyncWebsocketConsumer):
     
     async def update_loop(self):
         users_in_circle_before = None
+        messages_before = await self.get_initial_messages_json() # Now is the list of first 100 messages
+        
         
         while True:
-            users_in_circle = await self.get_users_in_circle()
+            users_in_circle = await self.get_users_in_circle() 
+            messages = await self.get_initial_messages_json() # TODO: Make this not limited
 
             if users_in_circle_before != users_in_circle: # New changes
                 users_in_circle_before = users_in_circle
@@ -185,6 +190,30 @@ class MainConsumer(AsyncWebsocketConsumer):
                 json_to_send["type"] = "users_update"
 
                 await self.send(json.dumps(json_to_send))
+
+            else: # No new changes
+                pass
+
+            if messages != messages_before: # New changes
+                new_messages = [item for item in messages if item not in messages_before]
+
+                messages_before = messages
+
+                recent_messages_packet = {
+                    "type": "new_messages",
+                    "messages": [],
+                }
+
+                for message in new_messages:
+                    message_json = {
+                        "text": message["text"],
+                        "user": message["user"],
+                        "date_time_created": message["date_time_created"],
+                    }
+
+                    recent_messages_packet["messages"].append(message_json)
+
+                await self.send(json.dumps(recent_messages_packet))
 
             else: # No new changes
                 pass
@@ -319,6 +348,7 @@ class MainConsumer(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def get_initial_messages(self):
+        '''Returns a QuerySet of initial messages'''
         # Thanks to various people here https://stackoverflow.com/questions/6574003/django-limiting-query-results
         me = User.objects.filter(username=self.username)[0]
 
@@ -339,6 +369,42 @@ class MainConsumer(AsyncWebsocketConsumer):
         else:
             print("That conversation type is not known!")
             return False
+        
+    @database_sync_to_async
+    def get_initial_messages_json(self):
+        '''Returns json of initial messages'''
+        # Thanks to various people here https://stackoverflow.com/questions/6574003/django-limiting-query-results
+        me = User.objects.filter(username=self.username)[0]
+
+        if me.current_conversation_type == "normal":
+            messages = Message.objects.filter(conversation=me.current_conversation)[:100]
+
+        elif me.current_conversation_type == "circle":
+            messages = Message.objects.filter(circle=me.location_circle)[:100]
+
+
+        elif me.current_conversation_type == "server":
+            messages = Message.objects.filter(conversation__isnull=True)[:100]
+
+
+        else:
+            print("That conversation type is not known!")
+            return False
+        
+
+        recent_messages = []
+
+        for message in messages:
+            message_json = {
+                "text": message.text,
+                "user": message.user.username,
+                "date_time_created": message.date_time_created.strftime("%s"),
+            }
+
+            recent_messages.append(message_json)
+
+
+        return recent_messages
 
     @database_sync_to_async
     def generate_recent_messages_packet(self, recent_messages):
@@ -358,6 +424,4 @@ class MainConsumer(AsyncWebsocketConsumer):
             recent_messages_packet["messages"].append(message_json)
 
         return recent_messages_packet
-
-
         

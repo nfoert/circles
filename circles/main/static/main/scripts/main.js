@@ -488,6 +488,9 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "recent_messages") {
         render_recent_messages(json)
 
+    } else if (json["type"] == "new_messages") {
+        render_new_messages(json)
+
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }

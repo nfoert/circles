@@ -4,10 +4,13 @@ var message_box = document.getElementById("main-messages-box-input-textarea")
 var message_button = document.getElementById("main-messages-box-input-send")
 var main_messages_box = document.getElementById("main-messages-box-messages")
 
+message_button.disabled = true;
+
 message_button.addEventListener("click", send_message)
 document.addEventListener("keydown", (event) => check_shift_down(event))
 document.addEventListener("keyup", (event) => check_shift_up(event))
 document.addEventListener("keydown", (event) => send_message_keybind(event))
+message_box.addEventListener("input", check_messages_input)
 
 var shift = false;
 
@@ -26,14 +29,16 @@ function check_shift_up(event) {
 function send_message() {
     // Thanks to Johnride's answer here https://stackoverflow.com/questions/23369368/how-to-get-the-current-status-of-a-javascript-websocket-connection
     if (server_socket.readyState == server_socket.OPEN) {
-        const send_message_json = {
-            "type": "send_message",
-            "message": message_box.value,
+        if (message_box.value) {
+            const send_message_json = {
+                "type": "send_message",
+                "message": message_box.value,
+            }
+
+            server_socket.send(JSON.stringify(send_message_json))
+
+            message_box.value = "";
         }
-
-        server_socket.send(JSON.stringify(send_message_json))
-
-        message_box.value = "";
 
     }
 
@@ -151,5 +156,14 @@ function render_new_messages(json) {
         let msg = json["messages"][message];
         
         render_new_message(msg["text"], msg["user"])
+    }
+}
+
+function check_messages_input() {
+    if (message_box.value == "") {
+        message_button.disabled = true;
+    
+    } else {
+        message_button.disabled = false;
     }
 }

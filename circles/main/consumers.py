@@ -209,6 +209,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                         "text": message["text"],
                         "user": message["user"],
                         "date_time_created": message["date_time_created"],
+                        "id": message["id"]
                     }
 
                     recent_messages_packet["messages"].append(message_json)
@@ -399,6 +400,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "text": message.text,
                 "user": message.user.username,
                 "date_time_created": message.date_time_created.strftime("%s"),
+                "id": message.id
             }
 
             recent_messages.append(message_json)
@@ -419,6 +421,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "text": message.text,
                 "user": message.user.username,
                 "date_time_created": message.date_time_created.strftime("%s"),
+                "id": message.id
             }
 
             recent_messages_packet["messages"].append(message_json)

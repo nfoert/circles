@@ -68,6 +68,7 @@ function render_recent_messages(packet) {
     for (message in packet["messages"]) {
         const text = packet["messages"][message]["text"];
         const user = packet["messages"][message]["user"];
+        const id = packet["messages"][message]["id"];
         var date_string = "";
 
         var date_time_created_epoch = parseInt(packet["messages"][message]["date_time_created"]);
@@ -112,13 +113,15 @@ function render_recent_messages(packet) {
         message_div.appendChild(message_div_text);
         message_div.appendChild(message_div_info);
 
+        message_div.setAttribute("id", id)
         
         main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
 
     }
 }
 
-function render_new_message(text, user, date) {
+// Thanks to Felix Kling's answer here https://stackoverflow.com/questions/11796093/is-there-a-way-to-provide-named-parameters-in-a-function-call-in-javascript
+function render_new_message({text, user, date, id}={}) {
     if (!date) {
         date = new Date();
     }
@@ -143,7 +146,8 @@ function render_new_message(text, user, date) {
     message_div.appendChild(message_div_text);
     message_div.appendChild(message_div_info);
 
-    
+    message_div.setAttribute("id", id)
+
     main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
 }
 
@@ -155,7 +159,7 @@ function render_new_messages(json) {
     for (message in json["messages"]) {
         let msg = json["messages"][message];
         
-        render_new_message(msg["text"], msg["user"])
+        render_new_message({ text: msg["text"], user: msg["user"], id: msg["id"]})
     }
 }
 

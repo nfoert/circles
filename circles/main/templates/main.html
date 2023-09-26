@@ -78,8 +78,16 @@
             
         </div>
 
-        <div id="main-connecting-box">
-            <p id="main-connecting-box-text"><i class="ph-bold ph-spinner-gap"></i> Connecting...</p>
+        <div id="main-status-box">
+            <i class="ph-bold ph-bell"></i>
+            <i class="ph-bold ph-check-circle"></i>
+            <p>10:18 PM</p>
+            <i class="ph-bold ph-battery-full"></i>
+        </div>
+
+        <div id="main-notification-box" class="notification">
+            <p class="notification-title">So-And-So followed you!</p>
+            <p class="notification-text">Jade Software is an open source suite of productivity applications designed to help you make the most out of your day</p>
         </div>
 
         <div id="main-backgroundblur"></div>
@@ -96,8 +104,10 @@
         <script src="{% static 'main/scripts/copied.js' %}"></script>
         <script src="{% static 'main/scripts/messages_box.js' %}"></script>
         <script src="{% static 'main/scripts/conversation.js' %}"></script>
+        <script src="{% static 'main/scripts/notification.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
+        
         
     </body>
 </html>

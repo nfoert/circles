@@ -385,19 +385,10 @@ function left_click(event) {
 
 var me = new User();
 
-var main_connecting_box = document.getElementById("main-connecting-box")
-var main_connecting_box_text = document.getElementById("main-connecting-box-text")
 var background_blur = document.getElementById("main-backgroundblur")
 
-main_connecting_box.style.display = "flex";
-main_connecting_box.classList.add("slide_from_top");
-main_connecting_box.style.backgroundColor = "rgba(53, 134, 255, 0.2)"
-
-function hide_box() {
-    main_connecting_box.classList.remove("slide_from_top");
-    main_connecting_box.classList.add("slide_to_top");
-    main_connecting_box.style.display = "flex";
-};
+show_notification('<i class="ph-bold ph-spinner-gap"></i> Connecting..', "Connecting...", "status");
+set_notification_color(53, 134, 255);
 
 function user_exists_in_client(username) {
     return users.some(user => user.username === username);
@@ -497,21 +488,18 @@ server_socket.onmessage = function (e) {
 };
 
 server_socket.onclose = function (e) {
-    main_connecting_box.classList.add("slide_from_top");
-    main_connecting_box_text.innerHTML = '<i class="ph-bold ph-x-circle"></i> Failed to connect'
-    main_connecting_box.style.backgroundColor = "rgba(252, 56, 56, 0.2)"
     background_blur.style.display = "inline";
     background_blur.classList.add("fade_in_bg")
+
+    show_notification('<i class="ph-bold ph-x-circle"></i> Failed to connect', "Failed to connect.", "status");
+    set_notification_color(252, 56, 56)
 
     console.error('Chat socket closed unexpectedly');
 };
 
 server_socket.onopen = async function (e) {
-
-    main_connecting_box_text.innerHTML = "<i class='ph-bold ph-check-circle'></i> Connected"
-    main_connecting_box.style.backgroundColor = "rgba(4, 223, 33, 0.2)"
-    setTimeout(() => hide_box(), 3000)
-    main_connecting_box.classList.remove("slide_to_top");
+    set_notification_title("<i class='ph-bold ph-check-circle'></i> Connected");
+    set_notification_color(4, 223, 33);
     
 
     get_users_conversations_request();

@@ -498,36 +498,6 @@ body {
     animation: slide_to_top 1s forwards;
 }
 
-/* Thanks to Hashem Qolami's answer here https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element?page=1&tab=scoredesc#tab-top */
-#main-connecting-box {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: 0.5s ease;
-
-    background-color: rgba(211, 211, 211, 0.2);
-    border: 1px solid rgba(211, 211, 211, 0.4);
-    backdrop-filter: blur(20px);
-    border-radius: 10px;
-    width: 250px;
-    height: 60px;
-    display: none;
-    z-index: 10;
-    
-}
-
-#main-connecting-box-text {
-    color: white;
-    font-family: ArchiformSans;
-    font-size: 20px;
-    margin: 0;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
 @keyframes fade_in_bg {
     0% {
         backdrop-filter: blur(0px);
@@ -691,4 +661,144 @@ body {
 #main-messages-box-messages::-webkit-scrollbar-thumb:hover,#main-messages-box-conversations::-webkit-scrollbar-thumb:hover {
     background-color: rgba(211, 211, 211, 0.4);
     border-radius: 5px;
+}
+
+/* Thanks to Andrew's answer here https://stackoverflow.com/questions/7720730/how-to-align-absolutely-positioned-element-to-center */
+#main-status-box {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.5s ease;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    width: fit-content;
+    height: 40px;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#main-status-box > p {
+    font-family: ArchiformSans;
+    color: white;
+    font-size: 20px;
+    margin: 10px;
+}
+
+#main-status-box > i {
+    color: white;
+    font-size: 20px;
+    border-radius: 15px;
+    margin: 5px;
+    transition: 0.2s ease;
+}
+
+#main-status-box > i:hover {
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 15px;
+    padding: 3px;
+    scale: 1.1;
+}
+
+#main-status-box > i:active {
+    background-color: rgba(138, 138, 138, 0.4);
+    border-radius: 15px;
+    padding: 3px;
+    scale: 0.9;
+}
+
+@keyframes expand-notification {
+    from {
+        opacity: 0;
+        scale: 0;
+        top: 0px;
+        filter: blur(40px);
+    }
+
+    80% {
+        scale: 1;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+        top: 70px;
+        filter: blur(0px);
+    }
+}
+
+@keyframes hide-notification {
+    from {
+        opacity: 1;
+        scale: 1;
+        top: 80px;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        scale: 0;
+        top: 20px;
+        filter: blur(40px);
+    }
+}
+
+
+.expand-notification {
+    animation: expand-notification 0.5s cubic-bezier(0.25, 0.3, 0.4, 1.1) forwards;
+}
+
+.hide-notification {
+    animation: hide-notification 0.5s forwards;
+
+}
+
+.notification {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.5s ease;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+
+    max-width: 400px;
+    z-index: 8;
+    scale: 0;
+
+    overflow: hidden;
+
+}
+
+.notification-title {
+    font-family: ArchiformSans;
+    font-size: 20px;
+    color: white;
+    margin: 10px;
+}
+
+.notification-text {
+    font-family: ArchiformSans;
+    font-size: 16px;
+    color: white;
+    margin: 10px;
 }

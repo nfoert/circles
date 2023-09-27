@@ -3,16 +3,16 @@ let status_box_notifications = document.getElementById("main-status-box-notifica
 let status_box_status = document.getElementById("main-status-box-status")
 let status_box_time = document.getElementById("main-status-box-time")
 
+status_box_notifications.addEventListener("click", update_notifications_box)
+
 let spin = false;
-let spin_number = 0
+let spin_number = 0;
 
 function status_done() {
-    console.log("Done!")
     status_box_status.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-check-circle"></i>'
 }
 
 function status_loading() {
-    console.log("Loading!")
     status_box_status.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-spinner-gap"></i>'
     // TODO: Seems to be offset all strange, maybe fix later? Use ph-circle-notch
     // spin = true;
@@ -29,8 +29,39 @@ function status_spin_once() {
 }
 
 function status_error() {
-    console.log("Error!")
     status_box_status.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-warning"></i>'
+}
+
+function notification_unread() {
+    if (notifications_muted == false) {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-bell-ringing"></i>'
+    
+    } else {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-bell-slash"></i>'
+    }
+}
+
+function notification_none() {
+    if (notifications_muted == false) {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-bell"></i>'
+    
+    } else {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-bell-slash"></i>'
+    }
+}
+
+function notification_open() {
+    if (notifications_muted == false) {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-fill ph-bell"></i>'
+    
+    } else {
+        status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-fill ph-bell-slash"></i>'
+    }
+}
+
+function notification_mute() {
+    status_box_notifications.innerHTML = '<i id="main-status-box-status" class="ph-bold ph-bell-slash"></i>'
+
 }
 
 function time() {
@@ -50,4 +81,5 @@ function time() {
     }, 600)
 }
 
+// Start Looping Functions
 time();

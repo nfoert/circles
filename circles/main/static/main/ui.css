@@ -206,13 +206,38 @@
 .buttonsmaller:active {
     background-color: rgba(211, 211, 211, 0.2);
     transform: scale(0.9);
-
 }
 
 .buttonsmaller:disabled {
     background-color: rgba(104, 104, 104, 0.103);
     transform: scale(0.8);
 }
+
+.buttontiny {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px 15px;
+    transition: 0.3s ease;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 15px;
+
+    width: 100%;
+}
+
+.buttontiny:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.buttontiny:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
 
 @keyframes shake {
     0% {

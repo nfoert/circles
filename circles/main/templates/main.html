@@ -81,20 +81,33 @@
         <div id="main-status-box">
             <i id="main-status-box-status"><i class="ph-bold ph-check-circle"></i></i>
             <p id="main-status-box-time"></p>
-            <i id="main-status-box-notifications" class="ph-bold ph-bell"></i>
+            <i id="main-status-box-notifications"><i class="ph-bold ph-bell"></i></i>
         </div>
 
-        <div id="main-notification-box" class="notification">
-            <p class="notification-title">So-And-So followed you!</p>
-            <p class="notification-text">Jade Software is an open source suite of productivity applications designed to help you make the most out of your day</p>
+        <div id="main-notifications-box">
+            <div id="main-notifications-box-notifications">
+                <p class="text-small">No Notifications</p>
+            </div>
+
+            <div id="main-notifications-box-controls">
+                <button class="buttontiny" id="main-notifications-box-clear"><i class="ph-bold ph-trash"></i> Clear All</button>
+                <button class="buttontiny" id="main-notifications-box-mute"><i class="ph-bold ph-bell-slash"></i> Mute Notifications</button>
+            </div>
+        </div>
+
+        <div id="main-notification" class="notification">
+            <p class="notification-title"></p>
+            <p class="notification-text"></p>
         </div>
 
         <div id="main-backgroundblur"></div>
 
         <script>
-            var server_ip = "{{ server_ip }}"
-            var production = "{{ production }}"
+            var server_ip = "{{ server_ip }}";
+            var production = "{{ production }}";
         </script>
+
+        
 
         <script src="{% static 'main/scripts/moment.js' %}"></script>
         <script src="{% static 'main/scripts/three.js' %}"></script>

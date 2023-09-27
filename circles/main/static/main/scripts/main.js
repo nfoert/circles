@@ -387,7 +387,7 @@ var me = new User();
 
 var background_blur = document.getElementById("main-backgroundblur")
 
-show_notification('<i class="ph-bold ph-spinner-gap"></i> Connecting..', "Connecting...", "status");
+show_notification('<i class="ph-bold ph-spinner-gap"></i> Connecting..', "Connecting...", "status", false);
 set_notification_color(53, 134, 255);
 status_loading();
 
@@ -492,7 +492,7 @@ server_socket.onclose = function (e) {
     background_blur.style.display = "inline";
     background_blur.classList.add("fade_in_bg")
 
-    show_notification('<i class="ph-bold ph-x-circle"></i> Failed to connect', "Failed to connect.", "status");
+    show_notification('<i class="ph-bold ph-x-circle"></i> Failed to connect', "Failed to connect.", "status", false);
     set_notification_color(252, 56, 56);
     status_error();
 

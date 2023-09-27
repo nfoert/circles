@@ -79,10 +79,9 @@
         </div>
 
         <div id="main-status-box">
-            <i class="ph-bold ph-bell"></i>
-            <i class="ph-bold ph-check-circle"></i>
-            <p>10:18 PM</p>
-            <i class="ph-bold ph-battery-full"></i>
+            <i id="main-status-box-status"><i class="ph-bold ph-check-circle"></i></i>
+            <p id="main-status-box-time"></p>
+            <i id="main-status-box-notifications" class="ph-bold ph-bell"></i>
         </div>
 
         <div id="main-notification-box" class="notification">
@@ -105,8 +104,10 @@
         <script src="{% static 'main/scripts/messages_box.js' %}"></script>
         <script src="{% static 'main/scripts/conversation.js' %}"></script>
         <script src="{% static 'main/scripts/notification.js' %}"></script>
+        <script src="{% static 'main/scripts/status.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
+        
         
         
     </body>

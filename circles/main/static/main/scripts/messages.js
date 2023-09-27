@@ -30,6 +30,7 @@ function send_message() {
     // Thanks to Johnride's answer here https://stackoverflow.com/questions/23369368/how-to-get-the-current-status-of-a-javascript-websocket-connection
     if (server_socket.readyState == server_socket.OPEN) {
         if (message_box.value) {
+            status_loading();
             const send_message_json = {
                 "type": "send_message",
                 "message": message_box.value,
@@ -38,6 +39,8 @@ function send_message() {
             server_socket.send(JSON.stringify(send_message_json))
 
             message_box.value = "";
+
+            status_done();
         }
 
     }
@@ -55,7 +58,6 @@ function send_message_keybind(event) {
 }
 
 function render_recent_messages(packet) {
-    console.log("Rendering new messages")
     // Thanks to user1030503's answer here https://stackoverflow.com/questions/4631928/convert-utc-epoch-to-local-date
     // Thanks to DVK's answer here https://stackoverflow.com/questions/9456138/how-can-i-get-seconds-since-epoch-in-javascript
     // Thanks to Michael Mrozek's answer here https://stackoverflow.com/questions/3367415/get-epoch-for-a-specific-date-using-javascript
@@ -118,6 +120,7 @@ function render_recent_messages(packet) {
         main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
 
     }
+
 }
 
 // Thanks to Felix Kling's answer here https://stackoverflow.com/questions/11796093/is-there-a-way-to-provide-named-parameters-in-a-function-call-in-javascript

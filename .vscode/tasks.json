@@ -9,7 +9,20 @@
           "reveal": "always",
           "panel": "new"
         },
-        "runOptions": { "runOn": "folderOpen" }
+        "runOptions": {
+          "runOn": "folderOpen"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Start server (external)",
+        "type": "shell",
+        "command": "source ./circles/.venv/bin/activate && python ./circles/manage.py runserver 192.168.1.101:1111",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
       }
     ]
   }

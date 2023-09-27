@@ -389,6 +389,7 @@ var background_blur = document.getElementById("main-backgroundblur")
 
 show_notification('<i class="ph-bold ph-spinner-gap"></i> Connecting..', "Connecting...", "status");
 set_notification_color(53, 134, 255);
+status_loading();
 
 function user_exists_in_client(username) {
     return users.some(user => user.username === username);
@@ -492,7 +493,8 @@ server_socket.onclose = function (e) {
     background_blur.classList.add("fade_in_bg")
 
     show_notification('<i class="ph-bold ph-x-circle"></i> Failed to connect', "Failed to connect.", "status");
-    set_notification_color(252, 56, 56)
+    set_notification_color(252, 56, 56);
+    status_error();
 
     console.error('Chat socket closed unexpectedly');
 };
@@ -500,7 +502,7 @@ server_socket.onclose = function (e) {
 server_socket.onopen = async function (e) {
     set_notification_title("<i class='ph-bold ph-check-circle'></i> Connected");
     set_notification_color(4, 223, 33);
-    
+    status_done();
 
     get_users_conversations_request();
 

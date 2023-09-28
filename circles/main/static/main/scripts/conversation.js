@@ -155,7 +155,7 @@ function render_users_conversations(json) {
     for (conversation in conversations) {
         var conversation_name = document.createElement("div")
         conversation_name.classList.add("conversation-name")
-        conversation_name.innerText = conversations[conversation]["name"]
+        conversation_name.innerHTML = '<i class="ph-bold ph-chat-teardrop-text" style="vertical-align:middle;"></i> ' + conversations[conversation]["name"]
 
         var conversation_info = document.createElement("div")
         conversation_info.classList.add("conversation-info")
@@ -177,7 +177,7 @@ function render_users_conversations(json) {
 
     var conversation_all_of_server_name = document.createElement("div")
     conversation_all_of_server_name.classList.add("conversation-name")
-    conversation_all_of_server_name.innerText = "All of circles.media"
+    conversation_all_of_server_name.innerHTML = '<i class="ph-bold ph-hard-drives" style="vertical-align:middle;"></i> ' + "All of circles.media"
 
     var conversation_all_of_server_info = document.createElement("div")
     conversation_all_of_server_info.classList.add("conversation-info")
@@ -196,7 +196,7 @@ function render_users_conversations(json) {
 
     var conversation_all_of_circle_name = document.createElement("div")
     conversation_all_of_circle_name.classList.add("conversation-name")
-    conversation_all_of_circle_name.innerText = "Messages from current Circle"
+    conversation_all_of_circle_name.innerHTML = '<i class="ph-bold ph-circle" style="vertical-align:middle;"></i> ' + "Messages from current Circle"
     
 
     var conversation_all_of_circle_info = document.createElement("div")
@@ -217,7 +217,7 @@ function render_users_conversations(json) {
 
     var conversation_create_new_conversation_name = document.createElement("div");
     conversation_create_new_conversation_name.classList.add("conversation-name");
-    conversation_create_new_conversation_name.innerText = "Create new Conversation";
+    conversation_create_new_conversation_name.innerHTML = '<i class="ph-bold ph-plus" style="vertical-align:middle;"></i> ' + "Create new Conversation";
 
     var conversation_create_new_conversation = document.createElement("div")
     conversation_create_new_conversation.classList.add("conversation2")

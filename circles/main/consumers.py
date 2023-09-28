@@ -15,9 +15,9 @@ class MainConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         if await self.check_user():
-
             location = await self.get_location()
             position = await self.get_position()
+            conversation = await self.get_current_conversation()
 
             initial_message = {
                 "type": "initial_message",
@@ -27,6 +27,8 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "x": position[0],
                 "y": position[1],
             }
+
+            initial_message["current_conversation"] = conversation
 
             await self.send(json.dumps(initial_message))
 
@@ -427,4 +429,37 @@ class MainConsumer(AsyncWebsocketConsumer):
             recent_messages_packet["messages"].append(message_json)
 
         return recent_messages_packet
+    
+    @database_sync_to_async
+    def get_current_conversation(self):
+        me = User.objects.filter(username=self.username)[0]
+        server = Server.objects.all()[0]
+        total_users_in_server = User.objects.all().count()
+        total_users_in_circle = User.objects.filter(location_circle=me.location_circle).count()
+        
+    
+        if me.current_conversation_type == "normal":
+            response = {
+                "type": "normal",
+                "name": me.current_conversation.name,
+                "number_of_users": me.current_conversation.users.count()
+            }
+
+        elif me.current_conversation_type == "circle":
+            response = {
+                "type": "circle",
+                "name": me.location_circle.name,
+                "number_of_users": total_users_in_circle
+            }
+
+
+        elif me.current_conversation_type == "server":
+            response = {
+                "type": "server",
+                "name": server.name,
+                "number_of_users": total_users_in_server
+            }
+
+        return response
+
         

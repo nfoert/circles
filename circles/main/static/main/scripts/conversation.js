@@ -266,6 +266,8 @@ function select_conversation(event) {
         }
 
         server_socket.send(JSON.stringify(switch_conversation_packet))
+
+        messages_entry.placeholder = "All of circles.media"; // TODO: Change depending on actual server name
     
     } else if (conversation.id == "conversation-current-circle") {
         var switch_conversation_packet = {
@@ -275,6 +277,8 @@ function select_conversation(event) {
         }
 
         server_socket.send(JSON.stringify(switch_conversation_packet))
+
+        messages_entry.placeholder = "Messages from current Circle";
 
     } else {
         try {
@@ -291,9 +295,10 @@ function select_conversation(event) {
         }
 
         server_socket.send(JSON.stringify(switch_conversation_packet))
+
+        messages_entry.placeholder = name;
     }
 
-    update_messages_conversations_hide_conversations();
-    messages_entry.placeholder = name;
+    update_messages_conversations_hide_conversations();    
 }
 

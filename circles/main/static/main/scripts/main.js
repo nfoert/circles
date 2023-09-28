@@ -413,12 +413,23 @@ server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
 
     if (json["type"] == "initial_message") {
+        let messages_input_box = document.getElementById("main-messages-box-input-textarea")
         me.x = json["x"]
         me.y = json["y"]
         me.location_server = json["location_server"]
         me.location_circle = json["location_circle"]
         me.username = json["username"]
         me.draw()
+
+        if (json["current_conversation"]["type"] == "normal") {
+            messages_input_box.placeholder = json["current_conversation"]["name"]
+        
+        } else if (json["current_conversation"]["type"] == "circle") {
+            messages_input_box.placeholder = "Messages from current Circle"
+
+        } else if (json["current_conversation"]["type"] == "server") {
+            messages_input_box.placeholder = "Messages from circles.media" // TODO: Change based off of actual server name
+        }
 
     } else if (json["type"] == "users_update") {
         var users_used = [];

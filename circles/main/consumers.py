@@ -360,7 +360,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             return messages
 
         elif me.current_conversation_type == "circle":
-            messages = Message.objects.filter(circle=me.location_circle)[:100]
+            messages = Message.objects.filter(circle=me.location_circle, conversation__isnull=True)[:100]
             return messages
 
 

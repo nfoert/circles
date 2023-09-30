@@ -9,7 +9,7 @@ class Server(models.Model):
     production = models.BooleanField(default=1)
 
     def __str__(self):
-         return(self.name)
+        return(self.name)
     
     class Meta:
         verbose_name_plural = "Server"
@@ -19,6 +19,8 @@ class Circle(models.Model): # Any circle within the server. Circles can also be 
     name = models.CharField(max_length=256, default="no-name")
     parent_circle = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     parent_server = models.ForeignKey(Server, on_delete=models.CASCADE, blank=True, null=True)
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
 
     def __str__(self):
         if self.parent_circle:

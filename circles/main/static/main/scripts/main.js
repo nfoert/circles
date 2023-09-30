@@ -50,8 +50,9 @@ document.getElementById("main-canvas").addEventListener("mousedown", left_click)
 document.addEventListener('mouseup', right_click_up);
 
 
-scale = 0.5; // 0 smallest, 1 largest
+var scale = 0.5; // 0 smallest, 1 largest
 var users = [];
+var circles = [];
 
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
 window.addEventListener('resize', onWindowResize, false);
@@ -278,6 +279,121 @@ class OtherUser {
     }
 }
 
+class Circle {
+    // TODO: If two Circles are too close together, make some space between them
+    constructor() {
+
+    }
+
+    draw() {
+        const loader = new FontLoader();
+
+        const circle_geometry = new THREE.RingGeometry(150, 170, 50);
+        const circle_material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        this.circle = new THREE.Mesh(circle_geometry, circle_material);
+
+        
+        loader.load("/static/main/fonts/Arciform_Regular.json", (font) => {
+
+            const text_geometry = new TextGeometry( this.name, { 
+                font: font, 
+                size: 30,
+                curveSegments: 30,
+                bevelEnabled: false,
+            });
+
+            this.text = new THREE.Mesh(text_geometry, circle_material)
+            
+            // TODO: Center the text inside the circle!
+            this.text.position.x = this.x - 130;
+            this.text.position.y = this.y;
+
+            this.text.scale.set(0, 0, 0);
+
+            scene.add(this.text);
+
+            
+        });
+
+        
+
+        
+
+        this.circle.position.x = this.x;
+        this.circle.position.y = this.y;
+
+        scene.add(this.circle);
+        
+
+        
+        
+
+        this.circle.position.z = 1;
+
+        this.circle.scale.set(0, 0, 0);
+
+        var scale = { x: 0, y: 0, z: 0 }
+        var text_scale = { x: 0, y: 0, z: 0 }
+
+        let isAnimating = true;
+        let textIsAnimating = true;
+
+        console.log("Drawing", this.name)
+
+        const scale_animation = new TWEEN.Tween(scale)
+            .to({ x: 1, y: 1, z: 1 }, 1000)
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(() => {
+                this.circle.scale.set(scale.x, scale.y, scale.z)
+            })
+            .delay(Math.random() * 1000)
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+
+        const text_scale_animation = new TWEEN.Tween(text_scale)
+            .to({ x: 1, y: 1, z: 1 }, 1000)
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(() => {
+                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
+            })
+            .delay((Math.random() * 1000) + 1000)
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+            
+            } else if (textIsAnimating) {
+                TWEEN.update(time)
+            }
+
+            requestAnimationFrame(animate)
+        }
+        requestAnimationFrame(animate)
+    }
+}
+
+function render_circles(json) {
+    for (circle in json["circles"]) {
+        console.log(json["circles"][circle])
+
+        var new_circle = new Circle();
+        new_circle.x = json["circles"][circle]["x"]
+        new_circle.y = json["circles"][circle]["y"]
+        new_circle.name = json["circles"][circle]["name"]
+
+        new_circle.draw();
+
+        circles.push(new_circle)
+    }
+}
+
 // Thanks to WestLangley's answer here https://stackoverflow.com/questions/20314486/how-to-perform-zoom-with-a-orthographic-projection
 function zoom(e) {
     scale = Math.round(scale * 100) / 100;
@@ -407,7 +523,7 @@ if (production == "True") {
     url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
 }
 
-const server_socket = new WebSocket(url);
+var server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
@@ -430,6 +546,8 @@ server_socket.onmessage = function (e) {
         } else if (json["current_conversation"]["type"] == "server") {
             messages_input_box.placeholder = "Messages from circles.media" // TODO: Change based off of actual server name
         }
+
+        render_circles(json)
 
     } else if (json["type"] == "users_update") {
         var users_used = [];

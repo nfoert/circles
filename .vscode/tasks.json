@@ -23,6 +23,16 @@
           "panel": "new"
         },
         "problemMatcher": []
+      },
+      {
+        "label": "Migrate models",
+        "type": "shell",
+        "command": "source ./circles/.venv/bin/activate && python ./circles/manage.py makemigrations && python ./circles/manage.py migrate",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
       }
     ]
   }

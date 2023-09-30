@@ -18,6 +18,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             location = await self.get_location()
             position = await self.get_position()
             conversation = await self.get_current_conversation()
+            circles = await self.get_circles_in_users_circle()
 
             initial_message = {
                 "type": "initial_message",
@@ -27,8 +28,9 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "x": position[0],
                 "y": position[1],
             }
-
+            
             initial_message["current_conversation"] = conversation
+            initial_message["circles"] = circles
 
             await self.send(json.dumps(initial_message))
 
@@ -461,5 +463,24 @@ class MainConsumer(AsyncWebsocketConsumer):
             }
 
         return response
+    
+    @database_sync_to_async
+    def get_circles_in_users_circle(self): # TODO: User may not be in a Circle
+        me = User.objects.filter(username=self.username)[0]
+        circles = Circle.objects.filter(parent_circle=me.location_circle)
+
+        circles_list = []
+
+        for circle in circles:
+            circle_json = {
+                "name": circle.name,
+                "x": circle.x,
+                "y": circle.y
+            }
+
+            circles_list.append(circle_json)
+
+        return circles_list
+
 
         

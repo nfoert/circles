@@ -53,7 +53,7 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
 
 
 # Installation
-All the self-hosting infastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infastructure are set up.
+All the self-hosting infastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infastructure are set up. If you're having any problems with any of this please create an Issue.
 This is a brief guide.
 
 Clone this repo by running 
@@ -70,12 +70,6 @@ Activate the venv and install the necessary packages
 souce ./.venv/bin/activate
 pip install -r requirements.txt
 ```
-You're going to need a settings.py...
-
-TODO: Provide template settings.py
-
-But put that in here -> `/circles/circles/settings.py`
-
 Next, make and migrate your migrations, then create a superuser.
 ```
 python manage.py makemigrations
@@ -91,6 +85,8 @@ Navigate to `http://127.0.0.1:8000/admin` in your browser. Log in using the cred
 Everything *should* be working. Locally at least.
 
 If you're doing this on a production server you should either follow the steps as above again, or if you're wanting to customize your own server fork this repo and repeat the steps above with your own GitHub repo url.
+
+**Warning: The `SECRET_KEY` in `settings.py` is insecure! Ensure to change this and do any steps in `python manage.py check --deploy` when using this in production.**
 
 Additional setup may be required on specific hosting providers to be able to find things like static or media files.
 

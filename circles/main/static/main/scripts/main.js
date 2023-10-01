@@ -174,7 +174,6 @@ class OtherUser {
     }
 
     draw() {
-        console.log("Drawn ", this.username)
         const circle_geometry = new THREE.CircleGeometry(50, 50);
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
@@ -232,7 +231,6 @@ class OtherUser {
             .onComplete(() => {
                 isAnimating = false;
             })
-        console.log("Moved")
 
         function animate(time) {
             if (isAnimating) {
@@ -285,7 +283,29 @@ class Circle {
 
     }
 
+    check_other_circle_proximity() {
+        // If a neighboring Circle is too close, move me so they don't intersect
+        const move_distance = 300; // 250 is minimum with the curerent size of the Circle, make this larger for more space in between them
+
+        for (circle in circles) {
+                if (circles[circle].name != this.name) {
+                const difference_x = Math.abs(this.x - circles[circle].x)
+                const difference_y = Math.abs(this.y - circles[circle].y)
+
+                if (difference_x < move_distance) {
+                    this.x = this.x + (move_distance - difference_x);
+                }
+
+                if (difference_y < move_distance) {
+                    this.y = this.y + (move_distance - difference_y);
+                }
+            }
+        }
+    }
+
     draw() {
+        this.check_other_circle_proximity();
+
         const loader = new FontLoader();
 
         const circle_geometry = new THREE.RingGeometry(150, 170, 50);
@@ -338,8 +358,6 @@ class Circle {
         let isAnimating = true;
         let textIsAnimating = true;
 
-        console.log("Drawing", this.name)
-
         const scale_animation = new TWEEN.Tween(scale)
             .to({ x: 1, y: 1, z: 1 }, 1000)
             .easing(TWEEN.Easing.Elastic.Out)
@@ -381,16 +399,17 @@ class Circle {
 
 function render_circles(json) {
     for (circle in json["circles"]) {
-        console.log(json["circles"][circle])
-
         var new_circle = new Circle();
         new_circle.x = json["circles"][circle]["x"]
         new_circle.y = json["circles"][circle]["y"]
         new_circle.name = json["circles"][circle]["name"]
 
-        new_circle.draw();
-
         circles.push(new_circle)
+    }
+
+
+    for (circle in circles) {
+        circles[circle].draw();
     }
 }
 

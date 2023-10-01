@@ -51,7 +51,6 @@ function show_notification(title, text, style, save) {
     if (notifications_open == false && notifications_muted == false) {
         notification.classList.add("expand-notification");
         setTimeout(hide_notification, 5000);
-        notification_shown = false;
     } else {
         null;
     }

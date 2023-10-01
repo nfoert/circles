@@ -1,9 +1,9 @@
 <p align="center">
-    <img src="repo/images/circles.png" style="width: 400px;">
+    <img src="repo/images/hacktoberfest_banner.png" style="width: 800px; border-radius:20px;">
 </p>
 <hr>
-<p align="center"><b>▢ <a href="https://circles.pythonanywhere.com">circles.pythonanywhere.com</a> ▢</b></p>
-<p align="center">▢ <a href="https://discord.com/invite/QBDw4UrGXX">Discord</a> ▢ <a href="https://twitch.tv/nfoert">Twitch</a> ▢ <a href="https://youtube.com/@nfoert">YouTube</a> ▢</p>
+<p align="center"><b>ⵔ Official server & Open Alpha coming soon ⵔ</b></p>
+<p align="center">ⵔ <a href="https://discord.com/invite/QBDw4UrGXX">Discord</a> ⵔ <a href="https://twitch.tv/nfoert">Twitch</a> ⵔ <a href="https://youtube.com/@nfoert">YouTube</a> ⵔ</p>
 
 <hr>
 
@@ -46,10 +46,9 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
     - Display Name
     - Color
     - Delete Account
-  - Basic features LOL
+  - Basic features (lol)
     - Moving between circles
     - Online users
-    - Messages & Conversations
 
 
 # Installation

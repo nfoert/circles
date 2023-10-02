@@ -75,22 +75,16 @@ def create_account(request):
             password = request.headers["Password"]
             email = request.headers["Email"]
 
-            email_whitelisted = WhitelistedEmails.objects.filter(email=email)
-
-            if len(email_whitelisted):
-
-                hashed_password = make_password(password)
-                
-                user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now()).save()
-
-                request.session["username"] = username
-                request.session["password"] = password
-
-                print("account created!")
-                return sign_in(request)
+            hashed_password = make_password(password)
             
-            else:
-                return HttpResponse("Not whitelisted")
+            user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now()).save()
+
+            request.session["username"] = username
+            request.session["password"] = password
+
+            print("account created!")
+            return sign_in(request)
+            
         
         else:
             return HttpResponse("Missing headers")

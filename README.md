@@ -83,7 +83,7 @@ pip install -r requirements.txt
 <br>
 
 Next, make and migrate your migrations, then create a superuser.
-For doing this , First Delete all `migrations` folder from all directories (main,authentication). Then run the following commands ->
+Before doing this, delete the `migrations` folders from the `main` and `authentication` folders. Then run the following commands:
 ```
 cd circles
 python manage.py makemigrations main authentication
@@ -91,7 +91,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-**Note**: If you get this error on running on windows, Superuser creation skipped due to not ruroject to create one manually
+**Note**: If you get an error when creating your superuser (`Superuser creation skipped due to not running in a TTY`) use this command instead:
 ```
 winpty python manage.py createsuperuser
 ``` 

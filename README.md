@@ -64,13 +64,27 @@ Navigate to it using and create a virtual enviroment
 cd circles
 python -m venv .venv
 ```
-Activate the venv and install the necessary packages
+Activate the venv using the command for your system and install the necessary packages
+(for Windows):
+```
+source ./.venv/Scripts/activate
+pip install -r requirements.txt
+```
+(for Mac OS):
 ```
 source ./.venv/bin/activate
 pip install -r requirements.txt
 ```
+(for Linux):
+```
+source ./.venv/bin/activate
+pip install -r requirements.txt
+```
+<br>
+
 Next, make and migrate your migrations, then create a superuser.
 ```
+cd circles
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser

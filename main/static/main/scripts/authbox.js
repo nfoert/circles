@@ -34,6 +34,8 @@ var textarea_login_password  = document.getElementById("auth-box-textarea-login-
 var textarea_username_username  = document.getElementById("auth-box-textarea-username-username")
 var textarea_email_email  = document.getElementById("auth-box-textarea-email-email")
 var textarea_password_password  = document.getElementById("auth-box-textarea-password-password")
+var textarea_password_confirmpassword = document.getElementById("auth-box-textarea-password-confirmpassword")
+
 
 var warning_box = document.getElementById("auth-box-login-warning")
 var warning_box_text = document.getElementById("auth-box-login-warning-text")
@@ -61,6 +63,7 @@ button_authbox_login.addEventListener("click", log_in)
 textarea_username_username.addEventListener("input", check_username)
 textarea_email_email.addEventListener("input", check_email)
 textarea_password_password.addEventListener("input", check_password)
+textarea_password_confirmpassword.addEventListener("input",confirm_password)
 
 textarea_login_username.addEventListener("input", check_log_in)
 textarea_login_password.addEventListener("input", check_log_in)
@@ -68,6 +71,8 @@ textarea_login_password.addEventListener("input", check_log_in)
 // window.addEventListener("keypress", check_enter_key(e)) Add enter key to advance
 
 var screen = null; // 0 is login, 1 is username, 2 is email, 3 is password
+
+
 
 function update_value_next() {
     if (screen == 1) { // in username, so go next
@@ -171,6 +176,7 @@ function check_email() {
     }
 }
 
+
 // 8 characters (0) capital (1) number (2) symbol (3)
 function check_password() {
     var pwd = textarea_password_password.value;
@@ -255,6 +261,20 @@ function check_password() {
         segment_3.style.backgroundColor = original_color
         segment_4.style.backgroundColor = original_color
     }
+
+    confirm_password();
+}
+
+function confirm_password(){
+    var pwd = textarea_password_password.value;
+    var conf = textarea_password_confirmpassword.value;
+
+    if(conf !== pwd && pwd !== ''){
+        button_authbox_createaccount_password.disabled = true;
+    }else{
+        button_authbox_createaccount_password.disabled = false;
+    }
+
 }
 
 function check_log_in() {

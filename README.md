@@ -77,12 +77,19 @@ source ./.venv/Scripts/activate
 pip install -r requirements.txt
 ```
 Next, make and migrate your migrations, then create a superuser.
+For doing this , First Delete all `migrations` folder from all directories (main,authentication). Then run the following commands ->
 ```
 cd circles
-python manage.py makemigrations
+python manage.py makemigrations main authentication
 python manage.py migrate
 python manage.py createsuperuser
 ```
+
+**Note**: If you get this error on running on windows, Superuser creation skipped due to not ruroject to create one manually
+```
+winpty python manage.py createsuperuser
+``` 
+
 Now, run the server so you can do some inital setup
 ```
 python manage.py runserver

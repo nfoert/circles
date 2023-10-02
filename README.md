@@ -52,7 +52,7 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
 
 
 # Installation
-All the self-hosting infastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infastructure are set up. If you're having any problems with any of this please create an Issue.
+All the self-hosting infrastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infrastructure are set up. If you're having any problems with any of this please create an Issue.
 This is a brief guide.
 
 Clone this repo by running 

@@ -64,17 +64,38 @@ Navigate to it using and create a virtual enviroment
 cd circles
 python -m venv .venv
 ```
-Activate the venv and install the necessary packages
+Activate the venv using the command for your system and install the necessary packages
+(for Windows):
+```
+source ./.venv/Scripts/activate
+pip install -r requirements.txt
+```
+(for Mac OS):
 ```
 source ./.venv/bin/activate
 pip install -r requirements.txt
 ```
-Next, make and migrate your migrations, then create a superuser.
+(for Linux):
 ```
-python manage.py makemigrations
+source ./.venv/bin/activate
+pip install -r requirements.txt
+```
+<br>
+
+Next, make and migrate your migrations, then create a superuser.
+Before doing this, delete the `migrations` folders from the `main` and `authentication` folders. Then run the following commands:
+```
+cd circles
+python manage.py makemigrations main authentication
 python manage.py migrate
 python manage.py createsuperuser
 ```
+
+**Note**: If you get an error when creating your superuser (`Superuser creation skipped due to not running in a TTY`) use this command instead:
+```
+winpty python manage.py createsuperuser
+``` 
+
 Now, run the server so you can do some inital setup
 ```
 python manage.py runserver

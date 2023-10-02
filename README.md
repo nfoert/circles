@@ -64,18 +64,24 @@ Navigate to it using and create a virtual enviroment
 cd circles
 python -m venv .venv
 ```
-Activate the venv and install the necessary packages
-
-(for ubuntu)
-```
-source ./.venv/bin/activate
-pip install -r requirements.txt
-```
-(for windows)
+Activate the venv using the command for your system and install the necessary packages
+(for Windows):
 ```
 source ./.venv/Scripts/activate
 pip install -r requirements.txt
 ```
+(for Mac OS):
+```
+source ./.venv/bin/activate
+pip install -r requirements.txt
+```
+(for Linux):
+```
+source ./.venv/bin/activate
+pip install -r requirements.txt
+```
+<br>
+
 Next, make and migrate your migrations, then create a superuser.
 For doing this , First Delete all `migrations` folder from all directories (main,authentication). Then run the following commands ->
 ```

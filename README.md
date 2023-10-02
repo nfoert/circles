@@ -65,6 +65,7 @@ cd circles
 python -m venv .venv
 ```
 Activate the venv and install the necessary packages
+
 (for ubuntu)
 ```
 source ./.venv/bin/activate

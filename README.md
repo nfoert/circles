@@ -65,12 +65,19 @@ cd circles
 python -m venv .venv
 ```
 Activate the venv and install the necessary packages
+(for ubuntu)
 ```
 source ./.venv/bin/activate
 pip install -r requirements.txt
 ```
+(for windows)
+```
+source ./.venv/Scripts/activate
+pip install -r requirements.txt
+```
 Next, make and migrate your migrations, then create a superuser.
 ```
+cd circles
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser

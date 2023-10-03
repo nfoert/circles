@@ -40,7 +40,6 @@ I have lots of ideas on how to make Circles great and It's going to be a lot of 
 
 I'd love to work with other programmers, artists, designers, and even you. I'd love to see pepole collaborating and contributing to Circles. Here's a rough list of the things that needs done. This list will change and evolve as the project grows.
 
-- Confirm Password
 - Rules
 - Change Profile Details
   - Password
@@ -50,9 +49,9 @@ I'd love to work with other programmers, artists, designers, and even you. I'd l
   - Delete Account
 - Basic features (lol)
   - Moving between circles
-  - Online users
+  - Online user count
 
-# Installation
+# Installation for Development
 
 All the self-hosting infrastructure is not fully setup yet. These instructions are not final and will be adjusted as new features and infrastructure are set up. If you're having any problems with any of this please create an Issue.
 This is a brief guide.
@@ -116,7 +115,7 @@ Now, run the server so you can do some initial setup
 python manage.py runserver
 ```
 
-Navigate to `http://127.0.0.1:8000/admin` in your browser. Log in using the credentials for your new super user and find the server info section. Configure the ip to be `http://127.0.0.1:8000` and the server name to be whatever you like. I recommend making the name what you're planning on your domain to be.
+Navigate to `http://127.0.0.1:8000/admin` in your browser. Log in using the credentials for your new super user and find the server info section. Configure the ip to be `http://127.0.0.1:8000` and the server name to be whatever you like. I recommend making the name what you're planning on your domain to be. Ensure you set the checkbox for Production to `False`.
 
 Everything *should* be working. Locally at least.
 

@@ -4,6 +4,4 @@ env/
 ENV/
 /circles/db.sqlite3
 __pycache__
-/circles/main/migrations
-/circles/authentication/migrations
 .DS_STORE

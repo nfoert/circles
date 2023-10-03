@@ -51,6 +51,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data = json.loads(text_data)
+
         if text_data["type"] == "position_update":
             await self.set_position(text_data["x"], text_data["y"])
 
@@ -87,6 +88,27 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         elif text_data["type"] == "send_message":
             result = await self.send_message(text_data["message"])
+
+        elif text_data["type"] == "change_circle":
+            result = await self.change_circle(text_data["direction"], text_data["name"])
+
+            circles_in_current_circle = await self.get_circles_in_users_circle()
+
+            switch_circle_packet = {
+                "type": "circles_in_circle",
+            }
+
+            switch_circle_packet["circles"] = circles_in_current_circle
+            await self.send(json.dumps(switch_circle_packet))
+
+            location = await self.get_location()
+            current_location_packet = {
+                "type": "current_location",
+                "server": location[0],
+                "circle": location[1]
+            }
+
+            await self.send(json.dumps(current_location_packet))
 
         else:
             print("Not known packet")
@@ -144,14 +166,14 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         
         if not user.location_server and not user.location_circle:
-            print("KLAFJKAHFJKASHF AJKHFKJAHFJKHAKDJHFJKAHFJK USER IS NOT IN SERVER OR CIRCLE")
+            print("User is not in a Server or Circle!")
             self.disconnect(1011)
 
         try:
             circles = circle.split(" / ")
             return [server, circles]
         except:
-            print("AHFJKHAKJHFJKAHDFJKHKJAH")
+            print("There was a problem when splitting the user's Circle location.")
             pass
 
     @database_sync_to_async
@@ -434,6 +456,9 @@ class MainConsumer(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def get_current_conversation(self):
+        '''
+        Gets the current conversation that a user is selected on
+        '''
         me = User.objects.filter(username=self.username)[0]
         server = Server.objects.all()[0]
         total_users_in_server = User.objects.all().count()
@@ -466,6 +491,9 @@ class MainConsumer(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def get_circles_in_users_circle(self): # TODO: User may not be in a Circle
+        '''
+        Returns a list of the Circles on the floor of the user's current Circle
+        '''
         me = User.objects.filter(username=self.username)[0]
         circles = Circle.objects.filter(parent_circle=me.location_circle)
 
@@ -481,6 +509,36 @@ class MainConsumer(AsyncWebsocketConsumer):
             circles_list.append(circle_json)
 
         return circles_list
+    
+    @database_sync_to_async
+    def change_circle(self, direction, name):
+        '''
+        Switches the users current Circle
+        If direction = "forwards", expects a string of the name of the Circle you're entering
+        If direction = "backwards", moves to the parent Circle, name is not required
+        If direction = "absolute", expects the full path of the Circle to go to
+        '''
+        me = User.objects.filter(username=self.username)[0]
 
 
-        
+        if direction == "forwards":
+            circles = Circle.objects.all()
+
+            for circle in circles: # Messy but does the job
+                if str(circle) == (str(me.location_circle) + " / " + name):
+                    me.location_circle = circle # TODO: Uncomment
+                    print(circle)
+
+        elif direction == "backwards":
+            me.location_circle = me.location_circle.parent
+            # TODO: I don't know if this works, this has not been tested
+
+        elif direction == "absolute":
+            print("This has not been implemented yet") # TODO: Make this work
+
+
+        # Now, set the user's position to the center
+        me.x = 0
+        me.y = 0
+        me.save()
+

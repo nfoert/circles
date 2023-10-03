@@ -128,8 +128,11 @@ function create_new_conversation() {
 
     
 }
-
+/**
+ * Sends a request to the server asking for the list of the user's conversations
+ */
 function get_users_conversations_request() {
+    
     const packet = {
         "type": "get_users_conversations"
     }
@@ -139,6 +142,10 @@ function get_users_conversations_request() {
     server_socket.send(packet_json);
 }
 
+/**
+ * Iterates through all of the conversations recieved in the request and renders them in the user's list of conversations
+ * @param {json} json 
+ */
 function render_users_conversations(json) {
     conversation_list.replaceChildren() // Clear children
 

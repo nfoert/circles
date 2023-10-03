@@ -110,23 +110,7 @@ class User {
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
 
-        var location_box = document.getElementById("main-location-box-location")
-
-        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
-        this.location_circle.shift();
-
-        for (const item in this.location_circle) {
-            const element = document.createElement("p")
-            element.classList.add("location-item")
-            element.innerHTML = this.location_circle[item];
-
-            const slash = document.createElement("p")
-            slash.classList.add("location-slash")
-            slash.innerHTML = "/";
-
-            location_box.appendChild(element);
-            location_box.appendChild(slash);
-        }
+        this.change_position_indicator();
     }
 
     move() {
@@ -153,6 +137,33 @@ class User {
             }
         }
         requestAnimationFrame(animate)
+
+
+        for (circle in circles) {
+            const difference_x = Math.abs(this.x - circles[circle].x)
+            const difference_y = Math.abs(this.y - circles[circle].y)
+
+            if (difference_x < 150 && difference_y < 150) {
+                console.log(this.switching_circle)
+                if (this.switching_circle == false || this.switching_circle == undefined) {
+                    console.log("User is now in Circle ", circles[circle].name)
+                    console.log(me.location_circle)
+
+                    const change_circle_json = {
+                        "type": "change_circle",
+                        "direction": "forwards",
+                        "name": circles[circle].name
+                    }
+
+                    server_socket.send(JSON.stringify(change_circle_json))
+                
+                } else {
+                    this.x = this.x + 100
+                }
+
+
+            }
+        }
     }
 
     server_update_position() {
@@ -165,6 +176,26 @@ class User {
         var position_json = JSON.stringify(json)
 
         server_socket.send(position_json)
+    }
+
+    change_position_indicator() {
+        console.log("Change position indicator!")
+        var location_box = document.getElementById("main-location-box-location")
+
+        location_box.replaceChildren() // Clear children
+
+        for (const item in this.location_circle) {
+            const element = document.createElement("p")
+            element.classList.add("location-item")
+            element.innerHTML = this.location_circle[item];
+
+            const slash = document.createElement("p")
+            slash.classList.add("location-slash")
+            slash.innerHTML = "/";
+
+            location_box.appendChild(element);
+            location_box.appendChild(slash);
+        }
     }
 }
 
@@ -278,7 +309,6 @@ class OtherUser {
 }
 
 class Circle {
-    // TODO: If two Circles are too close together, make some space between them
     constructor() {
 
     }
@@ -394,10 +424,65 @@ class Circle {
             requestAnimationFrame(animate)
         }
         requestAnimationFrame(animate)
+
+    }
+
+    dispose() {
+        this.circle.scale.set(1, 1, 1);
+        this.text.scale.set(1, 1, 1)
+
+        var scale = { x: 1, y: 1, z: 1 }
+        var text_scale = { x: 0, y: 0, z: 0 }
+
+        let isAnimating = true;
+        let textIsAnimating = true;
+
+        const dispose_animation = new TWEEN.Tween(scale)
+            .to({ x: 0, y: 0, z: 0 }, 1000)
+            .easing(TWEEN.Easing.Elastic.In)
+            .onUpdate(() => {
+                this.circle.scale.set(scale.x, scale.y, scale.z)
+            })
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+                this.circle.geometry.dispose();
+                this.circle.material.dispose();
+                scene.remove(this.circle);
+            })
+
+        const dispose_text_animation = new TWEEN.Tween(text_scale)
+            .to({ x: 0, y: 0, z: 0 }, 1000)
+            .easing(TWEEN.Easing.Elastic.In)
+            .onUpdate(() => {
+                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
+            })
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+                this.text.geometry.dispose();
+                this.text.material.dispose();
+                scene.remove(this.text);
+            })
+
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+            
+            } else if (textIsAnimating) {
+                TWEEN.update(time)
+            }
+
+            requestAnimationFrame(animate)
+        }
+        requestAnimationFrame(animate)
     }
 }
 
 function render_circles(json) {
+    console.log("rendering circles!")
+    console.log(circles)
     for (circle in json["circles"]) {
         var new_circle = new Circle();
         new_circle.x = json["circles"][circle]["x"]
@@ -519,7 +604,7 @@ function left_click(event) {
 }
 
 var me = new User();
-
+var circle_to_switch_to = "";
 var background_blur = document.getElementById("main-backgroundblur")
 
 show_notification('<i class="ph-bold ph-spinner-gap"></i> Connecting..', "Connecting...", "status", false);
@@ -631,6 +716,32 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "new_messages") {
         render_new_messages(json)
 
+    } else if (json["type"] == "circles_in_circle") {
+        me.switching_circle = true;
+        for (circle in circles) {
+            circles[circle].dispose();
+        }
+
+        circles = [];
+
+        setTimeout(function () {
+            render_circles(json);
+        }, 750);
+        
+        me.x = 0;
+        me.y = 0;
+        setTimeout(function () {
+            me.move();
+        }, 500);
+
+        me.switching_circle = false;
+
+    } else if (json["type"] == "current_location") {
+        me.location_server = json["server"]
+        me.location_circle = json["circle"]
+        me.change_position_indicator();
+
+        
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }

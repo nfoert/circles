@@ -547,15 +547,26 @@ class MainConsumer(AsyncWebsocketConsumer):
             for circle in circles: # Messy but does the job
                 if str(circle) == (str(me.location_circle) + " / " + name):
                     me.location_circle = circle # TODO: Uncomment
-                    print(circle)
+                    break
 
         elif direction == "backwards":
             me.location_circle = me.location_circle.parent
             # TODO: I don't know if this works, this has not been tested
 
         elif direction == "absolute":
-            print("This has not been implemented yet") # TODO: Make this work
+            circles = Circle.objects.all()
 
+            string = ""
+            for item in name:
+                string = string + item + ' / '
+
+
+            string = string[:-3] # Remove last three characters from the string " / "
+
+            for circle in circles:
+                if str(circle) == string:
+                    me.location_circle = circle # TODO: Uncomment
+                    break
 
         # Now, set the user's position to the center
         me.x = 0

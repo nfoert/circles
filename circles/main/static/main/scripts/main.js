@@ -110,7 +110,7 @@ class User {
         this.circle.position.x = this.x;
         this.circle.position.y = this.y;
 
-        this.change_position_indicator();
+        update_position_indicator();
     }
 
     move() {
@@ -178,25 +178,6 @@ class User {
         server_socket.send(position_json)
     }
 
-    change_position_indicator() {
-        console.log("Change position indicator!")
-        var location_box = document.getElementById("main-location-box-location")
-
-        location_box.replaceChildren() // Clear children
-
-        for (const item in this.location_circle) {
-            const element = document.createElement("p")
-            element.classList.add("location-item")
-            element.innerHTML = this.location_circle[item];
-
-            const slash = document.createElement("p")
-            slash.classList.add("location-slash")
-            slash.innerHTML = "/";
-
-            location_box.appendChild(element);
-            location_box.appendChild(slash);
-        }
-    }
 }
 
 class OtherUser {
@@ -739,9 +720,12 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "current_location") {
         me.location_server = json["server"]
         me.location_circle = json["circle"]
-        me.change_position_indicator();
+        update_position_indicator();
 
         
+    } else if (json["type"] == "user_counts") {
+        console.log("Updated user count")
+        update_user_count(json);
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }

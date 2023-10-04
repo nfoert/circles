@@ -17,7 +17,7 @@ class User(models.Model):
     date_created = models.DateField(blank=True)
     
     def __str__(self):
-         return(self.username)
+        return(self.username)
 
 class WhitelistedEmails(models.Model):
     email = models.CharField(max_length=256)
@@ -26,4 +26,4 @@ class WhitelistedEmails(models.Model):
         verbose_name_plural = "Whitelisted Emails"
 
     def __str__(self):
-         return(self.email)
+        return(self.email)

@@ -34,7 +34,7 @@
         </div>
 
         <div id="main-location-box">
-            <p id="main-location-box-onlineusers">23 <i class="ph-fill ph-user"></i> 11 <i class="ph-bold ph-user"></i></p>
+            <p id="main-location-box-users">Loading...</p>
             <div id="main-location-box-location">
                 <p class="location-item">All Servers</p>
                 <p class="location-slash">/</p>
@@ -119,6 +119,7 @@
         <script src="{% static 'main/scripts/conversation.js' %}"></script>
         <script src="{% static 'main/scripts/notification.js' %}"></script>
         <script src="{% static 'main/scripts/status.js' %}"></script>
+        <script src="{% static 'main/scripts/location.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

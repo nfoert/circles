@@ -39,6 +39,15 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(recent_messages_packet))
 
+            user_counts = await self.get_user_counts()
+            user_counts_packet = {
+                "type": "user_counts",
+                "online": user_counts[0],
+                "offline": user_counts[1]
+            }
+
+            await self.send(json.dumps(user_counts_packet))
+
             self.update_loop_task = asyncio.ensure_future(self.update_loop())
 
         else:
@@ -71,13 +80,13 @@ class MainConsumer(AsyncWebsocketConsumer):
         elif text_data["type"] == "get_users_conversations":
             
             conversations = await self.get_users_conversations()
-            number_of_online_users = await self.get_total_online_users()
+            number_of_online_users = await self.get_user_counts()
             number_of_online_users_in_circle = await self.get_total_online_users_in_circle()
 
             packet = {
                 "type": "user_conversations",
                 "conversations": conversations,
-                "total_online": number_of_online_users,
+                "total_online": number_of_online_users[0],
                 "total_online_in_circle": number_of_online_users_in_circle,
             }
 
@@ -203,11 +212,13 @@ class MainConsumer(AsyncWebsocketConsumer):
     async def update_loop(self):
         users_in_circle_before = None
         messages_before = await self.get_initial_messages_json() # Now is the list of first 100 messages
+        user_counts_before = await self.get_user_counts()
         
         
         while True:
             users_in_circle = await self.get_users_in_circle() 
             messages = await self.get_initial_messages_json() # TODO: Make this not limited
+            user_counts = await self.get_user_counts()
 
             if users_in_circle_before != users_in_circle: # New changes
                 users_in_circle_before = users_in_circle
@@ -241,6 +252,21 @@ class MainConsumer(AsyncWebsocketConsumer):
                     recent_messages_packet["messages"].append(message_json)
 
                 await self.send(json.dumps(recent_messages_packet))
+
+            else: # No new changes
+                pass
+
+
+            if user_counts != user_counts_before: # New changes
+                user_counts_before = user_counts
+
+                user_counts_packet = {
+                    "type": "user_counts",
+                    "online": user_counts[0],
+                    "offline": user_counts[1]
+                }
+
+                await self.send(json.dumps(user_counts_packet))
 
             else: # No new changes
                 pass
@@ -299,12 +325,6 @@ class MainConsumer(AsyncWebsocketConsumer):
             list.append(convo)
 
         return list
-    
-    @database_sync_to_async
-    def get_total_online_users(self):
-        users = User.objects.filter(online=True)
-        
-        return len(users)
     
     @database_sync_to_async
     def get_total_online_users_in_circle(self):
@@ -541,4 +561,16 @@ class MainConsumer(AsyncWebsocketConsumer):
         me.x = 0
         me.y = 0
         me.save()
+
+    @database_sync_to_async
+    def get_user_counts(self):
+        '''
+        Returns a list. The first value is the number of users online. The second value is the number of users that are offline.
+        '''
+
+        users_online = User.objects.filter(online=True).count()
+        users_offline = User.objects.filter(online=False).count()
+
+        return [users_online, users_offline]
+
 

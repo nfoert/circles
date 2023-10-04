@@ -6,6 +6,12 @@ import os
 
 def index(request):
     commit_hash = os.popen("git rev-parse --short HEAD").read()
+    # Create a new Server object
+    test_server = Server.objects.create(
+        name='Testing',
+        ip='http://127.0.0.1:8000/',
+    )
+    test_server.save() 
     server_info = Server.objects.all()[0]
     
     context = {

@@ -119,6 +119,9 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(current_location_packet))
 
+        elif text_data["type"] == "create_circle":
+            await self.create_circle(text_data["name"], text_data["x"], text_data["y"])
+
         else:
             print("Not known packet")
 
@@ -583,5 +586,21 @@ class MainConsumer(AsyncWebsocketConsumer):
         users_offline = User.objects.filter(online=False).count()
 
         return [users_online, users_offline]
+    
+    @database_sync_to_async
+    def create_circle(self, name, x, y):
+        '''
+        Creates a current circle with name of 'name'.
+        Creator of the circle is the current user
+        '''
+        print(name)
+
+        me = User.objects.filter(username=self.username)[0]
+
+        circle = Circle(name=name, creator=me, parent_circle=me.location_circle, x=x, y=y)
+        circle.save()
+
+        print("Created circle/")
+
 
 

@@ -260,9 +260,10 @@ body {
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
     backdrop-filter: blur(20px);
-    border-radius: 10px;
     width: 500px;
     margin-top: 20px;
+
+    border-radius: 5px 10px 10px 5px;
 }
 
 #main-messages-box-input-textarea {
@@ -570,7 +571,6 @@ body {
 
 .hide-create-conversation-box {
     animation: hide-create-conversation-box 0.5s forwards;
-    display: none !important;
 }
 
 #create-conversation-box {
@@ -926,4 +926,244 @@ body {
     font-family: ArchiformSans;
     font-size: 15px;
     margin: 5px;
+}
+
+/* Add menu */
+#main-addmenubutton {
+    position: absolute;
+    bottom: 20px;
+    right: 530px;
+
+    width: 100px;
+    height: 52px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+
+    transition: 0.3s ease;
+
+    border-radius: 10px 5px 5px 10px;
+
+    z-index: 4;
+}
+
+#main-addmenubutton:hover {
+    background-color: rgba(144, 185, 125, 0.4);
+    width: 110px;
+}
+
+#main-addmenubutton:active {
+    background-color: rgba(88, 112, 76, 0.4);
+    width: 90px;
+}
+
+#main-addmenubutton-text {
+    color: white;
+    margin: 5px;
+    font-family: ArchiformSans;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    user-select: none;
+}
+
+@keyframes show-addmenu {
+    from {
+        opacity: 0;
+        filter:blur(20px);
+
+        position: absolute;
+        bottom: 0px;
+        right: 530px;
+
+        width: 100px;
+        height: 52px;
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0px);
+
+        position: absolute;
+        bottom: 85px;
+        right: 530px;
+
+        width: 300px;
+        height: fit-content;
+    }
+}
+
+@keyframes hide-addmenu {
+    from {
+        opacity: 1;
+        filter: blur(0px);
+
+        position: absolute;
+        bottom: 85px;
+        right: 530px;
+
+        width: 300px;
+        height: fit-content;
+    }
+
+    to {
+        opacity: 0;
+        filter:blur(20px);
+
+        position: absolute;
+        bottom: 0px;
+        right: 530px;
+
+        width: 100px;
+        height: 52px;
+    }
+}
+.show-addmenu {
+    animation: show-addmenu 0.5s forwards ease;
+}
+
+.hide-addmenu {
+    animation: hide-addmenu 0.5s forwards ease;
+}
+
+#main-addmenu {
+    position: absolute;
+    bottom: 0px;
+    right: 530px;
+
+    width: 100px;
+    height: 52px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px 10px 5px 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 80vh;
+
+    opacity: 0;
+    
+}
+
+.main-addmenu-item {
+    border-radius: 10px;
+    margin:7px;
+    width: 88%;
+    height: 100%;
+    padding:10px;
+    transition: 0.3s ease;
+
+    color: white;
+    user-select: none;
+    font-family: ArchiformSans;
+    font-size: 20px;
+
+}
+
+.main-addmenu-item:hover {
+    background-color: rgba(211, 211, 211, 0.2);
+}
+
+.main-addmenu-item:active {
+    background-color: rgba(143, 139, 139, 0.2);
+    scale: 0.95;
+}
+
+#main-addmenu::-webkit-scrollbar {
+    height: 10px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+#main-addmenu::-webkit-scrollbar-thumb {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+#main-addmenu::-webkit-scrollbar-thumb:hover {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+}
+
+#main-addmenu-text {
+    margin: 20px;
+    color: white;
+    user-select: none;
+    font-family: ArchiformSans;
+    font-size: 25px;
+}
+
+/* Create Circle */
+
+@keyframes show-create-circle-box {
+    0% {
+        scale: 0.8;
+        opacity: 0;
+        filter: blur(50px);
+    }
+
+    100% {
+        scale: 1;
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes hide-create-circle-box {
+    0% {
+        scale: 1;
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    100% {
+        scale: 0.8;
+        opacity: 0;
+        filter: blur(50px);
+    }
+}
+
+.show-create-circle-box {
+    display: flex;
+    animation: show-create-circle-box 0.5s forwards;
+}
+
+.hide-create-circle-box {
+    animation: hide-create-circle-box 0.5s forwards;
+}
+
+#create-circle-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 10;
+    aspect-ratio: 3/4;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+
+    opacity: 0;
+    display: none;
+}
+
+#circle-box-button {
+    margin-top: auto;
+    margin-bottom: 20px;
 }

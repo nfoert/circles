@@ -18,9 +18,10 @@ class Server(models.Model):
 class Circle(models.Model): # Any circle within the server. Circles can also be inside a Circle
     name = models.CharField(max_length=256, default="no-name")
     parent_circle = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
-    parent_server = models.ForeignKey(Server, on_delete=models.CASCADE, blank=True, null=True)
+    parent_server = models.ForeignKey(Server, on_delete=models.SET_NULL, blank=True, null=True)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         if self.parent_circle:
@@ -46,9 +47,9 @@ class Conversation(models.Model): # A private conversation between users. Has a 
 class Message(models.Model): # A message from a user. Has date, time, username and Conversation / Circle information (Message can belong to a specific Circle or a specific Conversation)
     text = models.CharField(max_length=2000, default="Empty Message")
     date_time_created = models.DateTimeField(default=timezone.now)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, blank=True, null=True)
-    circle = models.ForeignKey(Circle, on_delete=models.CASCADE, blank=True, null=True)
+    circle = models.ForeignKey(Circle, on_delete=models.SET_NULL, blank=True, null=True)
     current_conversation_type = models.CharField(max_length=16, default="normal")
 
     def __str__(self):

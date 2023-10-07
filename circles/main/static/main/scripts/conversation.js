@@ -36,7 +36,11 @@ function hide_conversation_box() {
 
     background_blur.classList.remove("fade_in_bg")
     background_blur.classList.add("fade_out_bg")
-    
+
+    setTimeout(function () {
+        conversation_box.style.display = "none";
+    }, 500);
+
 }
 
 function check_name() {

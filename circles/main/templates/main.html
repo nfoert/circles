@@ -73,6 +73,18 @@
             
         </div>
 
+        <div id="create-circle-box">
+            <div id="create-conversation-box-text"> <!-- Reuse because this whole system will be redone soon -->
+                <p class="dialog-header">Create Circle</p>
+                <p class="buttonx" id="create-circle-box-close">X</p>
+            </div>
+
+            <input class="textarea" placeholder="Name" type="text" id="circle-box-name-input"></input>
+            <p class="textedit-subtext">Pick a name for your new Circle.</p>
+
+            <button class="buttonsmaller" id="circle-box-button">Create CIrcle</button>
+        </div>
+
         <div id="main-status-box">
             <i id="main-status-box-status"><i class="ph-bold ph-check-circle"></i></i>
             <p id="main-status-box-time"></p>
@@ -95,6 +107,16 @@
             <p class="notification-text"></p>
         </div>
 
+        <div id="main-addmenubutton">
+            <p id="main-addmenubutton-text"><i class="ph-bold ph-plus-circle"></i> Add</p>
+        </div>
+
+        <div id="main-addmenu">
+            <p id="main-addmenu-text"><i class="ph-bold ph-plus-circle"></i> Add</p>
+            <p class="main-addmenu-item" id="add-circle"><i class="ph-bold ph-circle"></i> Circle</p>
+            <p class="main-addmenu-item" id="add-conversation"><i class="ph-bold ph-chat-teardrop-text"></i> Conversation</p>
+        </div>
+
         <div id="main-backgroundblur"></div>
 
         <script>
@@ -115,6 +137,7 @@
         <script src="{% static 'main/scripts/notification.js' %}"></script>
         <script src="{% static 'main/scripts/status.js' %}"></script>
         <script src="{% static 'main/scripts/location.js' %}"></script>
+        <script src="{% static 'main/scripts/add.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

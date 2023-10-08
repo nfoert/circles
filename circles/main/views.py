@@ -59,3 +59,6 @@ def main(request):
         }
         print("No session!")
         return render(request, "index.html", context)
+    
+def privacypolicy(request):
+    return render(request, "privacypolicy.html")

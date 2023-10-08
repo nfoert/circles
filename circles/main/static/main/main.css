@@ -6,7 +6,7 @@ body {
 @font-face {
 	font-family: 'ArchiformSans';
 	src: local('Abc'),
-		 url('./fonts/Arciform.otf') format("opentype");
+	url('./fonts/Arciform.otf') format("opentype");
 }
 
 @keyframes copied {

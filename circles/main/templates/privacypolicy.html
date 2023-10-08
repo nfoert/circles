@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Circles | Privacy Policy</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'main/privacypolicy.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+        <meta name="darkreader-lock">
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    </head>
+
+    <body>
+        <img id="background-image" src="{% static 'main/images/bg.png' %}">
+
+        <div id="top-box">
+            <img class="animate" src="{% static 'main/images/icon.png' %}">
+            <h1 class="animate">Privacy Policy</h1>
+        </div>
+        
+        <hr class="animate" align="left">
+
+        <div id="content" class="animate">
+            <p>Most documents like this is a mess of legal terms that the normal person doesn't have the time or patience to read. Here, I'm clearly describing what data is collected, how it's stored and what we do with it. In plain English. Nothing else.</p>
+            
+            <h2 id="what-data-is-collected"><i class="ph-bold ph-pencil-simple"></i> What data is collected?</h2>
+            <p>Below I've created categories for each kind of item in Circles. From a User account to a Message, this is what data is assigned to each item.</p>
+            
+            <h3 id="user"><i class="ph-bold ph-user"></i> User</h3>
+            <ul>
+            <li>Username</li>
+            <li>Password (Hashed)</li>
+            <li>Email</li>
+            <li>Display Name</li>
+            <li>Current x and y position</li>
+            <li>Online status</li>
+            <li><strong>Server</strong> and <strong>Circle</strong> location</li>
+            <li>Selected <strong>Conversation</strong> and <strong>Conversation</strong> type</li>
+            <li>Followers</li>
+            <li>Account Created date</li>
+            </ul>
+
+            <h3 id="circle"><i class="ph-bold ph-circle"></i> Circle</h3>
+            <ul>
+            <li>Name of <strong>Circle</strong></li>
+            <li>Parent <strong>Circle</strong> or <strong>Server</strong></li>
+            <li>x and y position</li>
+            <li>The <strong>User</strong> that created the <strong>Circle</strong></li>
+            </ul>
+
+            <h3 id="conversation"><i class="ph-bold ph-chat-teardrop-text"></i> Conversation</h3>
+            <ul>
+            <li>The name of the <strong>Conversation</strong></li>
+            <li>The date and time when the <strong>Conversation</strong> was created</li>
+            <li>The <strong>Users</strong> in the <strong>Conversation</strong></li>
+            </ul>
+
+            <h3 id="message"><i class="ph-bold ph-chat-text"></i> Message</h3>
+            <ul>
+            <li>The contents of the <strong>Message</strong></li>
+            <li>The date and time when the <strong>Message</strong> was created</li>
+            <li>The <strong>User</strong> that created the <strong>Message</strong></li>
+            <li>The <strong>Conversation</strong> or <strong>Circle</strong> that the <strong>Message</strong> is in</li>
+            <li>The current type of the <strong>Message</strong></li>
+            </ul>
+
+            <h2 id="what-data-is-shared-with-others"><i class="ph-bold ph-share-network"></i> What data is shared with others?</h2>
+            <p>Right now, there aren't any other services that use any of your data. In future, when the ability to connect your Circles account with other services and servers becomes available, this section will be updated.</p>
+            
+            <h2 id="what-data-is-sold-to-others"><i class="ph-bold ph-money"></i> What data is sold to others?</h3>
+            <p>Nothing. Ever. If you're worried you could self host once the necessary infrastructure is finished.</p>
+            
+            <p><em>Last updated 10/7/23</em></p>
+        </div>
+
+        
+        
+        <div id="footer">
+            <hr class="animate" align="left">
+
+            <p id="footer-main">Circles</p>
+
+            <a class="footer-link" href="https://github.com/nfoert/circles"><i class="ph-bold ph-github-logo"></i> Source Code</a>
+            <a class="footer-link" href="https://github.com/nfoert/circles/issues"><i class="ph-bold ph-bug-beetle"></i> Report an Issue</a>
+            <a class="footer-link" href="https://discord.com/invite/QBDw4UrGXX"><i class="ph-bold ph-discord-logo"></i> Discord</a>
+
+            <hr class="animate" align="left">
+        </div>
+
+        
+    </body>
+</html>

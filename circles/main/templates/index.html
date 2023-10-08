@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
         <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
         <meta name="darkreader-lock">
     </head>
 
@@ -93,8 +94,6 @@
                 </div>
                 <div id="auth-box-password" class="fade_in">
 
-                    <div class="criticalbox fade_in" style="display: none;" id="createaccount_warning_box">warning message</div>
-
                     <div id="auth-box-textarea">
                         {% csrf_token %}
                         <input class="textarea" placeholder="Password" type="password" id="auth-box-textarea-password-password"></input>
@@ -113,10 +112,34 @@
 
                     <div id="auth-box-buttonbox">
                         <button class="buttonsmaller" id="auth-box-buttonbox-back-password">Back</button>
-                        <button class="buttonsmaller" id="auth-box-buttonbox-createaccount-password">Create Account</button>
+                        <button class="buttonsmaller" id="auth-box-buttonbox-next-password">Next</button>
                     </div>
 
                     
+                </div>
+
+                <div id="auth-box-rules" class="fade_in">
+
+                    <div class="criticalbox fade_in" style="display: none;" id="createaccount_warning_box">warning message</div>
+
+                    <p class="text-small">Server Rules</p>
+
+                    <p class="textedit-subtext"><i class="ph-bold ph-heart-break"></i> No racism, sexism, bullying, homophobia or other hate based messages</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-hands-praying"></i> No politics or religion unless in specific Circles designed for such discussion</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-user"></i> Be kind and respect people</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-mask-sad"></i> Do not threaten or harass other members of the Server</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-credit-card"></i> Don't share personal information</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-chats-teardrop"></i> Don't spam</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-globe-hemisphere-west"></i> Please use English unless in Circles designed for other languages</p>
+                    <p class="textedit-subtext"><i class="ph-bold ph-x-circle"></i> No NSFW or illegal content</p>
+
+                    <br>
+                    <p class="textedit-subtext"><i class="ph-bold ph-gavel"></i> Violating these rules will result in a suspension or ban</p>
+
+                    <div id="auth-box-buttonbox">
+                        <button class="buttonsmaller" id="auth-box-buttonbox-back-rules">Back</button>
+                        <button class="buttonsmaller" id="auth-box-buttonbox-createaccount-rules">Create Account</button>
+                    </div>
                 </div>
             </div>
 

@@ -73,8 +73,7 @@ button_authbox_createaccount_rules.addEventListener("click", create_account)
 textarea_username_username.addEventListener("input", check_username)
 textarea_email_email.addEventListener("input", check_email)
 textarea_password_password.addEventListener("input", check_password)
-textarea_password_confirmpassword.addEventListener("input", confirm_password)
-
+textarea_password_confirmpassword.addEventListener("input", check_password)
 
 textarea_login_username.addEventListener("input", check_log_in)
 textarea_login_password.addEventListener("input", check_log_in)
@@ -253,7 +252,6 @@ function check_password() {
         segment_3.style.backgroundColor = original_color
         segment_4.style.backgroundColor = original_color
         password_strength.innerHTML = "Moderate Password"
-        button_authbox_next_password.disabled = false;
 
     } else if (strength == 3) {
         var background_color = "rgba(146, 255, 0, 0.2)"
@@ -262,7 +260,6 @@ function check_password() {
         segment_3.style.backgroundColor = background_color
         segment_4.style.backgroundColor = original_color
         password_strength.innerHTML = "Good Password"
-        button_authbox_next_password.disabled = false;
 
     } else if (strength == 4) {
         var background_color = "rgba(11, 219, 0, 0.2)"
@@ -271,7 +268,6 @@ function check_password() {
         segment_3.style.backgroundColor = background_color
         segment_4.style.backgroundColor = background_color
         password_strength.innerHTML = "Great Password"
-        button_authbox_next_password.disabled = false;
 
     }
 
@@ -283,17 +279,18 @@ function check_password() {
         segment_4.style.backgroundColor = original_color
     }
 
-    confirm_password();
+    confirm_password(strength);
 }
 
-function confirm_password(){
+function confirm_password(strength) {
     var pwd = textarea_password_password.value;
     var conf = textarea_password_confirmpassword.value;
 
-    if(conf !== pwd && pwd !== ''){
-        button_authbox_next_password.disabled = true;
-    }else{
+    if (conf == pwd && pwd != "" && strength > 1) {
         button_authbox_next_password.disabled = false;
+
+    } else {
+        button_authbox_next_password.disabled = true;
     }
 
 }

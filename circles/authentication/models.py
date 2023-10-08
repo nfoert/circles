@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 
 # Thanks to Stefan Collier's answer here https://stackoverflow.com/questions/13747886/how-do-i-stop-this-cascading-delete-from-happening-in-django
-class User(models.Model):
+class User(AbstractBaseUser):
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=10000)
     email = models.CharField(max_length=256)

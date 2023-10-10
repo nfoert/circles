@@ -36,8 +36,12 @@ camera.zoom = 0.5;
 camera.updateProjectionMatrix();
 camera.position.z = 1000;
 
+// Thanks to mrdoob's answer here https://stackoverflow.com/questions/11285065/limiting-framerate-in-three-js-to-increase-performance-requestanimationframe
 function animate() {
-    requestAnimationFrame(animate);
+    setTimeout(() => {
+        requestAnimationFrame(animate);
+
+    }, 1000 / 60); // Limit to 60 fps
     renderer.render(scene, camera);
 }
 animate();
@@ -188,15 +192,45 @@ class OtherUser {
     draw() {
         const circle_geometry = new THREE.CircleGeometry(50, 50);
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const text_material = new THREE.MeshBasicMaterial({ color:0xffffff, transparent: true, opacity: 0.7 })
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
+
+        const loader = new FontLoader();
+
+        loader.load("/static/main/fonts/Arciform_Regular.json", (font) => {
+
+            const text_geometry = new TextGeometry( this.username, { 
+                font: font, 
+                size: 20,
+                curveSegments: 30,
+                bevelEnabled: false,
+            });
+
+            this.text = new THREE.Mesh(text_geometry, text_material)
+            
+            // TODO: Center the text inside the circle!
+            this.text.position.x = this.x - 50;
+            this.text.position.y = this.y + 60;
+
+            this.text.scale.set(0, 0, 0);
+
+            scene.add(this.text);
+
+            
+        });
+
+
         scene.add(this.circle);
+
         this.circle.position.z = 1;
 
         this.circle.scale.set(0, 0, 0);
 
         var scale = { x: 0, y: 0, z: 0 }
+        var text_scale = { x: 0, y: 0, z: 0 }
 
         let isAnimating = true;
+        let textIsAnimating = true;
 
         const scale_animation = new TWEEN.Tween(scale)
             .to({ x: 1, y: 1, z: 1 }, 1000)
@@ -210,12 +244,28 @@ class OtherUser {
                 isAnimating = false;
             })
 
+        const text_scale_animation = new TWEEN.Tween(text_scale)
+            .to({ x: 1, y: 1, z: 1 }, 1000)
+            .easing(TWEEN.Easing.Elastic.Out)
+            .onUpdate(() => {
+                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
+            })
+            .delay((Math.random() * 1000) + 1000)
+            .start()
+            .onComplete(() => {
+                textIsAnimating = false;
+            })
+
 
         function animate(time) {
             if (isAnimating) {
                 TWEEN.update(time)
-                requestAnimationFrame(animate);
+            
+            } else if (textIsAnimating) {
+                TWEEN.update(time)
             }
+
+            requestAnimationFrame(animate)
         }
         requestAnimationFrame(animate)
 
@@ -231,6 +281,7 @@ class OtherUser {
 
     move() {
         let isAnimating = true;
+        let textIsAnimating = true;
 
         const move_animation = new TWEEN.Tween(this.coords_before_move)
             .to({ x: this.x, y: this.y }, 250)
@@ -244,17 +295,28 @@ class OtherUser {
                 isAnimating = false;
             })
 
+        setTimeout(() => { // TODO: Animate
+            this.text.position.x = this.x - 50;
+            this.text.position.y = this.y + 60;
+        }, 300)
+        
+
         function animate(time) {
             if (isAnimating) {
                 TWEEN.update(time)
-                requestAnimationFrame(animate);
+            
+            } else if (textIsAnimating) {
+                TWEEN.update(time)
             }
+
+            requestAnimationFrame(animate)
         }
         requestAnimationFrame(animate)
     }
 
     dispose() {
         this.circle.scale.set(1, 1, 1);
+        this.text.scale.set(1, 1, 1);
 
         var scale = { x: 1, y: 1, z: 1 }
 
@@ -273,16 +335,19 @@ class OtherUser {
                 this.circle.geometry.dispose();
                 this.circle.material.dispose();
                 scene.remove(this.circle);
+
+                this.text.geometry.dispose();
+                this.text.material.dispose();
+                scene.remove(this.text);
             })
 
-
+        
         function animate(time) {
             if (isAnimating) {
                 TWEEN.update(time)
                 requestAnimationFrame(animate);
             }
         }
-        requestAnimationFrame(animate)
 
 
 
@@ -320,7 +385,7 @@ class Circle {
         const loader = new FontLoader();
 
         const circle_geometry = new THREE.RingGeometry(150, 170, 50);
-        const circle_material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const circle_material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
 
         
@@ -355,10 +420,6 @@ class Circle {
 
         scene.add(this.circle);
         
-
-        
-        
-
         this.circle.position.z = 1;
 
         this.circle.scale.set(0, 0, 0);

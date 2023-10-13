@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 # Thanks to Stefan Collier's answer here https://stackoverflow.com/questions/13747886/how-do-i-stop-this-cascading-delete-from-happening-in-django
+# Thanks to blue-hope's answer here https://stackoverflow.com/questions/51308530/attributeerror-type-object-myuser-has-no-attribute-username-field
 class User(AbstractBaseUser):
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=10000)
@@ -16,6 +17,8 @@ class User(AbstractBaseUser):
     current_conversation_type = models.CharField(max_length=16, default="normal")
     followers = models.ManyToManyField("self", blank=True)
     date_created = models.DateField(blank=True)
+
+    USERNAME_FIELD = "username"
     
     def __str__(self):
         return(self.username)

@@ -135,6 +135,8 @@ function login() {
         box_username.style.display = "none";
         box_email.style.display = "none";
         box_password.style.display = "none";
+        box_rules.style.display = "none";
+        
         box_login.style.display = "inline";
         header_label.innerHTML = "Log in to Circles"
         header_server.innerHTML = "Logging in to " + server_name;

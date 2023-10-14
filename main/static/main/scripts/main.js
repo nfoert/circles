@@ -1,7 +1,11 @@
-// ============ Circles ============
-// main.js
-// Where most of the important client stuff resides
-// =================================
+/*
+main.js
+Handles most of the important client stuff
+- Recieving requests
+- Three.js stuff
+- Creates Users and Circles
+- User interaction (left click, right click, scroll)
+*/
 
 
 // Thanks to https://discoverthreejs.com/book/first-steps/responsive-design/
@@ -164,7 +168,6 @@ class OtherUser {
     }
 
     draw() {
-        console.log("Drawn ", this.username)
         const circle_geometry = new THREE.CircleGeometry(50, 50);
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
@@ -222,7 +225,6 @@ class OtherUser {
             .onComplete(() => {
                 isAnimating = false;
             })
-        console.log("Moved")
 
         function animate(time) {
             if (isAnimating) {
@@ -417,7 +419,6 @@ server_socket.onmessage = function (e) {
         // If user in list "users" doesn't exist already, create it
         for (const user in json["users"]) { // For each user object in the server's message
             if (!user_exists_in_client(json["users"][user]["username"])) {
-                console.log("Created new user")
                 user_class = new OtherUser();
                 user_class.username = json["users"][user]["username"]
                 user_class.x = json["users"][user]["x"]
@@ -450,13 +451,11 @@ server_socket.onmessage = function (e) {
                     null
 
                 } else {
-                    console.log("User", users[user].username, "has gone offline");
                     users[user].dispose();
                     users.splice(users.indexOf(users[user]), 1);
                 }
 
             } catch {
-                console.log("User", users[user].username, "has gone offline");
                 users[user].dispose();
                 users.splice(users.indexOf(users[user]), 1);
             }

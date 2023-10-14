@@ -1,3 +1,11 @@
+/*
+status.js
+Handles everything with the status box
+- Changing the clock
+- Showing notification status
+- Showing connection status
+*/
+
 let status_box = document.getElementById("main-status-box")
 let status_box_notifications = document.getElementById("main-status-box-notifications")
 let status_box_status = document.getElementById("main-status-box-status")

@@ -1,3 +1,11 @@
+/*
+messages.js
+Handles everything to do with Messages
+- Send
+- Render existing messages
+- Render new messages
+*/
+
 // Thanks to https://www.section.io/engineering-education/keyboard-events-in-javascript/
 
 var message_box = document.getElementById("main-messages-box-input-textarea")

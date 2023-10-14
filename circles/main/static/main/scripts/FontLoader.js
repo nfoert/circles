@@ -1,3 +1,11 @@
+/*
+FontLoader.js
+This is a modified version of three.js FontLoader
+It's no longer in module form.
+It doesn't need to use import or export, and can be used like a normal .js file
+
+Setting up these files like this made more sense for me and my project. This may change in the future but a lot of how everything is setup will need to be changed
+*/
 
 const Loader = THREE.Loader;
 const FileLoader = THREE.FileLoader;

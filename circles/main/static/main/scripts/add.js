@@ -100,8 +100,6 @@ function update_add_circle() {
 function create_circle() {
     close_add_circle();
 
-    console.log(add_circle_name.value)
-
     create_circle_packet = {
         "type": "create_circle",
         "name": add_circle_name.value,
@@ -112,7 +110,6 @@ function create_circle() {
     server_socket.send(JSON.stringify(create_circle_packet));
 
     var new_circle = new Circle();
-    console.log(me.x)
     new_circle.x = me.x;
     new_circle.y = me.y;
     new_circle.name = add_circle_name.value;

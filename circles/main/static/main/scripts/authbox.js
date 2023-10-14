@@ -1,3 +1,11 @@
+/*
+authbox.js
+Handles everything relating to logging in and signing up
+- Switches pages
+- Handles buttons
+- Creates Account or signs in
+*/
+
 var background = document.getElementById("background-darkness")
 
 var authbox = document.getElementById("auth-box")
@@ -84,7 +92,6 @@ var screen = null; // 0 is login, 1 is username, 2 is email, 3 is password, 4 is
 var rules_countdown = 30;
 
 function update_value_next() {
-    console.log(screen)
     if (screen == 1) { // in username, so go next
         box_username.style.display = "none";
         box_email.style.display = "inline";
@@ -106,7 +113,6 @@ function update_value_next() {
     }
 
     screen++;
-    console.log("incremented")
 }
 
 function update_value_back() {

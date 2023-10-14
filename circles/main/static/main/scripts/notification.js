@@ -1,3 +1,12 @@
+/*
+notification.js
+Handles everything for the notification system
+- Show & hide notifications
+- Set color, text and title
+- Show the all notifications box
+- Mute notifications
+*/
+
 var notification = document.getElementById("main-notification");
 var notifications_box = document.getElementById("main-notifications-box");
 

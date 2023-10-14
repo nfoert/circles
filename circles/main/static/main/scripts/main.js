@@ -1,7 +1,11 @@
-// ============ Circles ============
-// main.js
-// Where most of the important client stuff resides
-// =================================
+/*
+main.js
+Handles the main stuff for the client
+- Recieving packets
+- Three.js stuff
+- Creating Users and Circles
+- Handling user interaction (left click, right click, scroll)
+*/
 
 
 // Thanks to https://discoverthreejs.com/book/first-steps/responsive-design/
@@ -148,10 +152,7 @@ class User {
             const difference_y = Math.abs(this.y - circles[circle].y)
 
             if (difference_x < 150 && difference_y < 150) {
-                console.log(this.switching_circle)
                 if (this.switching_circle == false || this.switching_circle == undefined) {
-                    console.log("User is now in Circle ", circles[circle].name)
-                    console.log(me.location_circle)
 
                     const change_circle_json = {
                         "type": "change_circle",
@@ -523,8 +524,6 @@ class Circle {
 }
 
 function render_circles(json) {
-    console.log("rendering circles!")
-    console.log(circles)
     for (circle in json["circles"]) {
         var new_circle = new Circle();
         new_circle.x = json["circles"][circle]["x"]
@@ -710,7 +709,6 @@ server_socket.onmessage = function (e) {
         // If user in list "users" doesn't exist already, create it
         for (const user in json["users"]) { // For each user object in the server's message
             if (!user_exists_in_client(json["users"][user]["username"])) {
-                console.log("Created new user")
                 user_class = new OtherUser();
                 user_class.username = json["users"][user]["username"]
                 user_class.x = json["users"][user]["x"]
@@ -743,13 +741,11 @@ server_socket.onmessage = function (e) {
                     null
 
                 } else {
-                    console.log("User", users[user].username, "has gone offline");
                     users[user].dispose();
                     users.splice(users.indexOf(users[user]), 1);
                 }
 
             } catch {
-                console.log("User", users[user].username, "has gone offline");
                 users[user].dispose();
                 users.splice(users.indexOf(users[user]), 1);
             }
@@ -795,7 +791,6 @@ server_socket.onmessage = function (e) {
 
         
     } else if (json["type"] == "user_counts") {
-        console.log("Updated user count")
         update_user_count(json);
 
     } else if (json["type"] == "userdetails") {

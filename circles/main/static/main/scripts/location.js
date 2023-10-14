@@ -19,7 +19,6 @@ function set_event_listeners() {
     location_items = location_box_location.getElementsByClassName("location-item");
 
     for (var i = 0; i < location_items.length; i++) {
-        console.log(location_items[i]);
         location_items[i].addEventListener("click", event => location_change_circle(event))
     }
 }

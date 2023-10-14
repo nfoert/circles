@@ -1,3 +1,12 @@
+/*
+conversation.js
+Handles everything relating to the Converstion list
+- Gets the User's Conversations
+- Renders them
+- Handles click events
+*/
+
+
 var background_blur = document.getElementById("main-backgroundblur")
 
 const conversation_box = document.getElementById("create-conversation-box")
@@ -260,15 +269,11 @@ function render_users_conversations(json) {
 function select_conversation(event) {
     const messages_entry = document.getElementById("main-messages-box-input-textarea")
 
-    console.log(event.target.children.length)
-
     if (event.target.children.length == 2) {
         var conversation = event.target;
-        console.log(conversation)
 
     } else if (event.target.children.length == 1) {
         var conversation = event.target.parentElement;
-        console.log(conversation)
 
     }
 

@@ -1,3 +1,12 @@
+/*
+authbox.js
+Handles everything for the main signup and login boxes
+- Switches pages
+- Handles buttons
+- Makes requests for sign up and log in
+*/
+
+
 var background = document.getElementById("background-darkness")
 var authbox = document.getElementById("auth-box")
 
@@ -316,14 +325,12 @@ async function create_account() {
     })
 
     response.text().then(function (text) {
-        console.log(text)
         if (text.includes("<html>")) {
             window.location.href = server_ip + "/main";
 
         } else if (text == "Not whitelisted") {
             warning_box.innerHTML = "Your email is not whitelisted."
             warning_box.style.display = "block";
-            console.log("Done")
         }
     });
 }
@@ -331,7 +338,6 @@ async function create_account() {
 async function log_in() {
     var username = textarea_login_username.value;
     var password = textarea_login_password.value;
-    console.log(server_ip)
     const response = await fetch(server_ip + "/authentication/signin", {
         method: "GET",
         headers: {

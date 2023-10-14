@@ -44,7 +44,6 @@ var add_converation_open = false;
 
 function update_add_menu() {
     if (add_menu_open == true) {
-        console.log("Close")
         add_menu_open = false;
 
         add_menu.classList.remove("show-addmenu")
@@ -53,13 +52,11 @@ function update_add_menu() {
         add_menu_button_text.innerHTML = '<i class="ph-bold ph-plus-circle"></i> Add'
     
     } else if (add_menu_open == false) {
-        console.log("open")
         add_menu_open = true;
 
         add_menu.classList.remove("hide-addmenu")
         add_menu.classList.add("show-addmenu")
         
-
         add_menu_button_text.innerHTML = '<i class="ph-bold ph-x-circle"></i> Close'
     }
 }

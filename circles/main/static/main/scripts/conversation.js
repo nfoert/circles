@@ -114,7 +114,7 @@ function remove_user(event) {
 function create_new_conversation() {
     const packet = {
         "type": "create_conversation",
-        "name": conversation_box_name.value,
+        "name": conversation_box_name.value.trim(),
         "users": selected_users,
     }
 
@@ -260,11 +260,15 @@ function render_users_conversations(json) {
 function select_conversation(event) {
     const messages_entry = document.getElementById("main-messages-box-input-textarea")
 
-    if (event.target.children.length > 0) {
-        var conversation = event.target;
+    console.log(event.target.children.length)
 
-    } else if (event.target.children.length == 0) {
+    if (event.target.children.length == 2) {
+        var conversation = event.target;
+        console.log(conversation)
+
+    } else if (event.target.children.length == 1) {
         var conversation = event.target.parentElement;
+        console.log(conversation)
 
     }
 
@@ -302,7 +306,7 @@ function select_conversation(event) {
         var switch_conversation_packet = {
             "type": "switch_conversation",
             "conversation_type": "normal",
-            "name": name,
+            "name": name.trim(),
         }
 
         server_socket.send(JSON.stringify(switch_conversation_packet))

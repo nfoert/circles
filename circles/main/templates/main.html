@@ -8,7 +8,7 @@
         <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
         <meta name="darkreader-lock">
         <script src="https://unpkg.com/@phosphor-icons/web"></script>
-        
+    
     </head>
 
     <body>
@@ -117,6 +117,27 @@
             <p class="main-addmenu-item" id="add-conversation"><i class="ph-bold ph-chat-teardrop-text"></i> Conversation</p>
         </div>
 
+        <div id="user-details">
+            <div id="user-details-top">
+                <p id="user-details-profilepicture">?</p>
+                <div id="user-details-textdetails">
+                    <p id="user-details-textdetails-username">Loading...</p>
+                    <p id="user-details-textdetails-server">circles.media</p> <!-- TODO: Will need set once multiple servers is supported -->
+                </div>
+            </div>
+
+            <div id="user-details-bottom">
+                <div id="user-details-bottom-buttons">
+                    <div class="user-details-button" id="userdetails-message"><i class="ph-bold ph-chat-teardrop-text"></i></div>
+                    <div class="user-details-button" id="userdetails-follow"><i class="ph-bold ph-user-plus"></i></div>
+                    <div class="user-details-button" id="userdetails-report" disabled><i class="ph-bold ph-flag"></i></div>
+                    <div class="user-details-button-wide" id="userdetails-more" disabled><i class="ph-bold ph-dots-three"></i> More</div>
+                </div>
+
+                <div id="user-details-bottom-close"></div>
+            </div>
+        </div>
+
         <div id="main-backgroundblur"></div>
 
         <script>
@@ -138,6 +159,7 @@
         <script src="{% static 'main/scripts/status.js' %}"></script>
         <script src="{% static 'main/scripts/location.js' %}"></script>
         <script src="{% static 'main/scripts/add.js' %}"></script>
+        <script src="{% static 'main/scripts/userdetails.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

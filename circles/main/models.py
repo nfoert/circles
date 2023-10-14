@@ -21,7 +21,7 @@ class Circle(models.Model): # Any circle within the server. Circles can also be 
     parent_server = models.ForeignKey(Server, on_delete=models.SET_NULL, blank=True, null=True)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="circle_creator")
 
     def __str__(self):
         if self.parent_circle:
@@ -34,6 +34,7 @@ class Conversation(models.Model): # A private conversation between users. Has a 
     name = models.CharField(max_length=256, default="no-name")
     date_time_created = models.DateTimeField(default=timezone.now)
     users = models.ManyToManyField(User, blank=True)
+    creator = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name="conversation_creator")
     
 
     def __str__(self):

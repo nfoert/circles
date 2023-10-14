@@ -633,14 +633,24 @@ function left_click(event) {
 
         const intersects = raycaster.intersectObject(plane);
 
-        if (intersects.length > 0) {
+        for (user in users) {
             const intersectionPoint = intersects[0].point;
 
-            me.x = Math.round(intersectionPoint.x);
-            me.y = Math.round(intersectionPoint.y);
-
-            me.move();
-
+            if (Math.abs(users[user].x - intersectionPoint.x) < 50 && Math.abs(users[user].y - intersectionPoint.y) < 50) { // Is there a user close to the cursor position?
+                request_userdetails(users[user].username);
+                break;
+            
+            } else {
+                if (intersects.length > 0) {
+                    const intersectionPoint = intersects[0].point;
+        
+                    me.x = Math.round(intersectionPoint.x);
+                    me.y = Math.round(intersectionPoint.y);
+        
+                    me.move();
+        
+                }
+            }
         }
     }
 }
@@ -787,6 +797,24 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "user_counts") {
         console.log("Updated user count")
         update_user_count(json);
+
+    } else if (json["type"] == "userdetails") {
+        render_userdetails(json);
+
+    } else if (json["type"] == "notification") {
+        show_notification(json["title"], json["text"], json["style"])
+
+    } else if (json["type"] == "new_conversations") {
+        if (json["conversations"].length != 0) {
+            get_users_conversations_request();
+            show_notification("New Conversation", "You've been added to a new Conversation", "normal");
+        
+        } else {
+            get_users_conversations_request();
+            show_notification("Conversation Deleted", "You were removed from a Conversation", "normal");
+
+        }
+
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
     }

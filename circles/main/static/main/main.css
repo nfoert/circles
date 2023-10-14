@@ -1167,3 +1167,233 @@ body {
     margin-top: auto;
     margin-bottom: 20px;
 }
+
+/* User Details */
+
+@keyframes show-user-details {
+    from {
+        opacity: 0;
+        left: -300px;
+        filter: blur(20px);
+    }
+
+    to {
+        opacity: 1;
+        left: 20px;
+        filter: blur(0px);
+    }
+}
+
+@keyframes hide-user-details {
+    from {
+        opacity: 1;
+        left: 20px;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        left: -300px;
+        filter: blur(20px);
+    }
+}
+
+.show-user-details {
+    animation: show-user-details 1s forwards ease;
+}
+
+.hide-user-details {
+    animation: hide-user-details 1s forwards ease;
+}
+
+#user-details {
+    position: absolute;
+    bottom: 100px;
+
+    /* Hide for the animation */
+    opacity: 0;
+    left: -300px;
+    filter: blur(20px);
+
+    width: 300px;
+    height: 200px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    /* background-image: url("images/bg.png"); */
+    background-size: cover;
+    backdrop-filter: blur(20px);
+
+}
+
+#user-details-top {
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px 10px 0px 0px;
+
+    height: 70px;
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+#user-details-profilepicture {
+    width: 50px;
+    height: 50px;
+
+    margin: 10px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+
+    
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+
+}
+
+#user-details-textdetails {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#user-details-textdetails-username {
+    margin: 0;
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 25px;
+
+    opacity: 0.8;
+
+    user-select: none;
+}
+
+#user-details-textdetails-server {
+    margin: 0;
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 15px;
+
+    opacity: 0.7;
+
+    user-select: none;
+}
+
+#user-details-bottom {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#user-details-bottom-buttons {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-evenly;
+
+    margin-top: auto;
+
+    align-self: flex-end;
+
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.user-details-button {
+    padding: 10px 10px 7px 10px;
+    margin: 5px;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+    text-align: center;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
+
+.user-details-button > i {
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.user-details-button-wide {
+    padding: 10px 10px 7px 10px;
+    margin: 5px;
+
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 18px;
+    text-align: center;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 20px;
+    transition: 0.3s ease;
+
+    user-select: none;
+}
+
+.user-details-button:hover, .user-details-button-wide:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    scale: 1.1;
+}
+
+.user-details-button:active, .user-details-button-wide:active {
+    background-color: rgba(126, 126, 126, 0.4);
+    scale: 0.9;
+}
+
+#user-details-bottom-close {
+    width: 5px;
+    height: 30px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 2px solid rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+    transition: 0.3s ease;
+
+
+    margin-top: 10px;
+    margin-bottom: 85px;
+    margin-right: 5px;
+
+}
+
+#user-details-bottom-close:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(138, 138, 138, 0.4);
+
+    scale: 1.1;
+}
+
+#user-details-bottom-close:active {
+    background-color: rgba(126, 126, 126, 0.4);
+    border: 2px solid rgba(88, 88, 88, 0.4);
+
+    scale: 0.9;
+}
+

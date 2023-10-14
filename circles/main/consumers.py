@@ -66,6 +66,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         elif text_data["type"] == "create_conversation":
             await self.create_conversation(text_data["name"], text_data["users"])
+            await self.send_notification("Created Conversation", f"Created new Conversation {text_data['name']}", "normal")
 
         elif text_data["type"] == "username_search":
             usernames = await self.search_for_usernames(text_data["string"])
@@ -93,6 +94,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             await self.send(json.dumps(packet))
 
         elif text_data["type"] == "switch_conversation":
+            print("SWITCH CONVERSATION", text_data["name"], text_data["conversation_type"])
             result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
 
         elif text_data["type"] == "send_message":
@@ -121,6 +123,48 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         elif text_data["type"] == "create_circle":
             await self.create_circle(text_data["name"], text_data["x"], text_data["y"])
+            await self.send_notification("Circle Created", f"Created new Circle {text_data['name']}", "normal")
+
+        elif text_data["type"] == "get_userdetails":
+            userdetails = await self.get_userdetails(text_data["username"])
+
+            userdetails["type"] = "userdetails"
+
+            await self.send(json.dumps(userdetails))
+
+        elif text_data["type"] == "dm_user": # TODO: Detect if DM already exists
+            # Create conversation
+            create_dm = await self.dm_user(text_data["username"])
+
+            # Fetch all conversations
+            conversations = await self.get_users_conversations()
+            number_of_online_users = await self.get_user_counts()
+            number_of_online_users_in_circle = await self.get_total_online_users_in_circle()
+
+            packet = {
+                "type": "user_conversations",
+                "conversations": conversations,
+                "total_online": number_of_online_users[0],
+                "total_online_in_circle": number_of_online_users_in_circle,
+            }
+
+            await self.send(json.dumps(packet))
+
+            # Switch to new conversation
+            result = await self.switch_conversation(create_dm[1], "normal")
+
+            # Send recent messages in Conversation
+            recent_messages = await self.get_initial_messages()
+            recent_messages_packet = await self.generate_recent_messages_packet(recent_messages)
+
+            await self.send(json.dumps(recent_messages_packet))
+
+            if create_dm[0] == True:
+                await self.send_notification("DM Created", f"Created a conversation with {create_dm[1]}", "normal")
+
+            else:
+                await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
+
 
         else:
             print("Not known packet")
@@ -216,12 +260,14 @@ class MainConsumer(AsyncWebsocketConsumer):
         users_in_circle_before = None
         messages_before = await self.get_initial_messages_json() # Now is the list of first 100 messages
         user_counts_before = await self.get_user_counts()
+        conversations_before = await self.get_users_conversations()
         
         
         while True:
             users_in_circle = await self.get_users_in_circle() 
             messages = await self.get_initial_messages_json() # TODO: Make this not limited
             user_counts = await self.get_user_counts()
+            conversations = await self.get_users_conversations()
 
             if users_in_circle_before != users_in_circle: # New changes
                 users_in_circle_before = users_in_circle
@@ -273,6 +319,19 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             else: # No new changes
                 pass
+
+            if conversations_before != conversations: # New changes
+                new_conversations = [item for item in conversations if item not in conversations_before]
+                print("New conversation!", new_conversations)
+
+                conversations_before = conversations
+
+                new_conversations_packet = {
+                    "type": "new_conversations",
+                    "conversations": new_conversations
+                }
+
+                await self.send(json.dumps(new_conversations_packet))
 
             await asyncio.sleep(0.5)
 
@@ -341,8 +400,6 @@ class MainConsumer(AsyncWebsocketConsumer):
     def switch_conversation(self, name, conversation_type):
         me = User.objects.filter(username=self.username)[0]
 
-        print(name, conversation_type)
-
         if conversation_type == "server":
             me.current_conversation_type = "server"
             me.save()
@@ -356,8 +413,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             return True
 
-        elif conversation_type == "normal":
-            conversation = Conversation.objects.filter(users=me,name=name)[0]
+        elif conversation_type == "normal": # TODO: Detect if conversation does not exist
+            conversation = Conversation.objects.filter(name=name, users=me)[0]
 
             me.current_conversation = conversation
             me.current_conversation_type = "normal"
@@ -489,11 +546,19 @@ class MainConsumer(AsyncWebsocketConsumer):
         
     
         if me.current_conversation_type == "normal":
-            response = {
-                "type": "normal",
-                "name": me.current_conversation.name,
-                "number_of_users": me.current_conversation.users.count()
-            }
+            if me.current_conversation:
+                response = {
+                    "type": "normal",
+                    "name": me.current_conversation.name,
+                    "number_of_users": me.current_conversation.users.count()
+                }
+
+            else: # User is not in a Conversation, so put them in the global server chat
+                response = {
+                    "type": "server",
+                    "name": server.name,
+                    "number_of_users": total_users_in_server
+                }
 
         elif me.current_conversation_type == "circle":
             response = {
@@ -601,6 +666,66 @@ class MainConsumer(AsyncWebsocketConsumer):
         circle.save()
 
         print("Created circle/")
+
+    @database_sync_to_async
+    def get_userdetails(self, username):
+        user = User.objects.filter(username=username)
+
+        if len(user) == 1:
+            userdetails = { # TODO: Include color and other information soon
+                "username": user[0].username,
+            }
+
+            return userdetails
+
+        elif len(user) == 0:
+            print("Couldn't find that user!") # TODO: Create send_notification packet so that the client knows
+
+        else:
+            print("There is more than one user with that username!")
+
+    async def send_notification(self, title, text, style="normal"):
+        send_notification_json = {
+            "type": "notification",
+            "title": title,
+            "text": text,
+            "style": style
+        }
+
+        await self.send(json.dumps(send_notification_json))
+
+    @database_sync_to_async
+    def dm_user(self, username):
+        '''
+        When you DM a user, creates a conversation with you as the owner.
+        TODO: Check if that user does not exist
+
+        Returns False if the Conversation already exists
+        Returns True if a new Conversation was created
+        '''
+        me = User.objects.filter(username=self.username)[0]
+        them = User.objects.filter(username=username)[0]
+
+        name = f"{me.username}, {username}"
+        other_name = f"{username}, {me.username}"
+
+        conversation_exists = Conversation.objects.filter(name=name) | Conversation.objects.filter(name=other_name)
+        conversation_exists = conversation_exists.filter(creator=me) | conversation_exists.filter(creator=them)
+
+        if len(conversation_exists) >= 1:
+            return [False, conversation_exists[0].name] # Conversation already exists
+
+        elif len(conversation_exists) == 0:
+        
+            conversation = Conversation(name=name, creator=me)
+            conversation.save()
+
+            conversation.users.add(me)
+            conversation.users.add(them)
+
+            conversation.save()
+
+            return [True, name] # Return the name of the Conversation
 
 
 

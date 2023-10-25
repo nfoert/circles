@@ -83,7 +83,7 @@ class User {
 
     draw() {
         const circle_geometry = new THREE.CircleGeometry(55, 55);
-        const circle_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const circle_material = new THREE.MeshBasicMaterial({ color: this.primary_color });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
         scene.add(this.circle);
         this.circle.position.z = 2;
@@ -192,7 +192,7 @@ class OtherUser {
 
     draw() {
         const circle_geometry = new THREE.CircleGeometry(50, 50);
-        const circle_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const circle_material = new THREE.MeshBasicMaterial({ color: this.primary_color });
         const text_material = new THREE.MeshBasicMaterial({ color:0xffffff, transparent: true, opacity: 0.7 })
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
 
@@ -632,6 +632,20 @@ function left_click(event) {
 
         const intersects = raycaster.intersectObject(plane);
 
+        if (users.length == 0) {
+            const intersectionPoint = intersects[0].point;
+
+            if (intersects.length > 0) {
+                const intersectionPoint = intersects[0].point;
+    
+                me.x = Math.round(intersectionPoint.x);
+                me.y = Math.round(intersectionPoint.y);
+    
+                me.move();
+    
+            }
+        }
+
         for (user in users) {
             const intersectionPoint = intersects[0].point;
 
@@ -652,6 +666,14 @@ function left_click(event) {
             }
         }
     }
+}
+
+function set_user_box_colors(primary, secondary) {
+    let profile_circle = document.getElementById("main-user-box-profile-circle")
+    let profile_background = document.getElementById("main-user-box")
+
+    profile_circle.style.backgroundColor = primary + "40";
+    // profile_background.style.backgroundColor = secondary + "20"; // Don't change the background color. Change this eventually?
 }
 
 var me = new User();
@@ -684,25 +706,31 @@ server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
 
     if (json["type"] == "initial_message") {
-        let messages_input_box = document.getElementById("main-messages-box-input-textarea")
-        me.x = json["x"]
-        me.y = json["y"]
-        me.location_server = json["location_server"]
-        me.location_circle = json["location_circle"]
-        me.username = json["username"]
-        me.draw()
+        let messages_input_box = document.getElementById("main-messages-box-input-textarea");
+        me.x = json["x"];
+        me.y = json["y"];
+        me.location_server = json["location_server"];
+        me.location_circle = json["location_circle"];
+        me.username = json["username"];
+        me.display_name = json["display_name"];
+        me.bio = json["bio"];
+        me.primary_color = json["primary_color"];
+        me.secondary_color = json["secondary_color"];
+        me.draw();
+
+        set_user_box_colors(json["primary_color"], json["secondary_color"]);
 
         if (json["current_conversation"]["type"] == "normal") {
-            messages_input_box.placeholder = json["current_conversation"]["name"]
+            messages_input_box.placeholder = json["current_conversation"]["name"];
         
         } else if (json["current_conversation"]["type"] == "circle") {
-            messages_input_box.placeholder = "Messages from current Circle"
+            messages_input_box.placeholder = "Messages from current Circle";
 
         } else if (json["current_conversation"]["type"] == "server") {
-            messages_input_box.placeholder = "Messages from circles.media" // TODO: Change based off of actual server name
+            messages_input_box.placeholder = "Messages from circles.media"; // TODO: Change based off of actual server name
         }
 
-        render_circles(json)
+        render_circles(json);
 
     } else if (json["type"] == "users_update") {
         var users_used = [];
@@ -710,9 +738,12 @@ server_socket.onmessage = function (e) {
         for (const user in json["users"]) { // For each user object in the server's message
             if (!user_exists_in_client(json["users"][user]["username"])) {
                 user_class = new OtherUser();
-                user_class.username = json["users"][user]["username"]
-                user_class.x = json["users"][user]["x"]
-                user_class.y = json["users"][user]["y"]
+                user_class.username = json["users"][user]["username"];
+                user_class.display_name = json["users"][user]["display_name"]
+                user_class.primary_color = json["users"][user]["primary_color"]
+                user_class.secondary_color = json["users"][user]["secondary_color"]
+                user_class.x = json["users"][user]["x"];
+                user_class.y = json["users"][user]["y"];
                 user_class.location_circle = me.location_circle;
 
                 users.push(user_class);
@@ -809,6 +840,9 @@ server_socket.onmessage = function (e) {
             show_notification("Conversation Deleted", "You were removed from a Conversation", "normal");
 
         }
+
+    } else if (json["type"] == "profile_details") {
+        render_profile_details(json);
 
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
-    "authentication.apps.AuthenticationConfig"
+    "authentication.apps.AuthenticationConfig",
+    "colorfield"
 ]
 
 MIDDLEWARE = [

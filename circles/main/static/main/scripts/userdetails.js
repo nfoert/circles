@@ -9,6 +9,9 @@ Manages things relating to user details, including
 var userdetails_box = document.getElementById("user-details")
 var userdetails_close = document.getElementById("user-details-bottom-close")
 
+var userdetails_profilepicture = document.getElementById("user-details-profilepicture")
+var userdetails_top = document.getElementById("user-details-top")
+
 var userdetails_message = document.getElementById("userdetails-message")
 var userdetails_follow = document.getElementById("userdetails-follow")
 var userdetails_report = document.getElementById("userdetails-report")
@@ -18,6 +21,7 @@ userdetails_message.addEventListener("click", dm_user)
 
 var userdetails_username = document.getElementById("user-details-textdetails-username")
 var userdetails_server = document.getElementById("user-details-textdetails-server")
+var userdetails_bio = document.getElementById("userdetails-bio")
 
 userdetails_close.addEventListener("click", close_userdetails)
 
@@ -49,7 +53,11 @@ function request_userdetails(username) {
 function render_userdetails(json) {
     close_userdetails();
     
-    userdetails_username.innerText = json["username"]
+    userdetails_username.innerText = json["display_name"];
+    userdetails_server.innerText = json["username"] + "@" + "circles.media"; // TODO: Change server name based off of actual server name
+    userdetails_bio.innerText = json["bio"];
+    userdetails_profilepicture.style.backgroundColor = json["primary_color"] + "20";
+    userdetails_top.style.backgroundColor = json["secondary_color"] + "20";
     open_userdetails();
 }
 

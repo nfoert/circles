@@ -4,7 +4,7 @@ body {
 }
 
 @font-face {
-	font-family: 'ArchiformSans';
+	font-family: "ArchiformSans";
 	src: local('Abc'),
 	url('./fonts/Arciform.otf') format("opentype");
 }
@@ -73,6 +73,8 @@ body {
     backdrop-filter: blur(20px);
     border-radius: 10px;
     width: 300px;
+
+    transition: 1s ease;
 }
 
 #main-user-box > img {
@@ -101,7 +103,7 @@ body {
 
 #main-user-box-profile-circle-text {
     font-size: 25px;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     margin: 0;
     user-select: none;
     opacity: 0.6;
@@ -120,7 +122,7 @@ body {
 
 #main-user-box-profile-text-username {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 30px;
     margin-left: 10px;
@@ -131,7 +133,7 @@ body {
 
 #main-user-box-profile-text-ip {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 15px;
     margin-left: 10px;
@@ -176,7 +178,7 @@ body {
 
 #main-copied-box-text {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: rgb(168, 255, 117);
     margin: 10px;
     opacity: 0.6;
@@ -207,7 +209,7 @@ body {
 
 #main-location-box-users {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 15px;;
     margin-top: 10px;
@@ -218,7 +220,7 @@ body {
 
 .location-item {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 20px;
     opacity: 0.5;
@@ -238,7 +240,7 @@ body {
 
 .location-slash {
     margin: 0;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 20px;
     opacity: 0.5;
@@ -325,13 +327,13 @@ body {
 
 .message-content {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 18px;
 }
 
 .message-info {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 14px;
     opacity: 0.8;
     margin-left: 5px;
@@ -371,13 +373,13 @@ body {
 
 .message-you-content {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 18px;
 }
 
 .message-you-info {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 14px;
     opacity: 0.8;
     margin-left: 5px;
@@ -433,14 +435,14 @@ body {
 
 .conversation-name {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 18px;
     padding-left: 5px;
 }
 
 .conversation-info {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 14px;
     opacity: 0.8;
     margin-left: 5px;
@@ -510,6 +512,7 @@ body {
         background-color: rgba(36, 36, 36, 0.4);
     }
 }
+
 
 .fade_in_bg {
     display: inline !important;
@@ -679,7 +682,7 @@ body {
     border-radius: 10px;
     width: fit-content;
     height: 40px;
-    z-index: 10;
+    z-index: 100;
 
     display: flex;
     flex-direction: row;
@@ -691,7 +694,7 @@ body {
 }
 
 #main-status-box-time {
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 20px;
     margin: 10px;
@@ -796,7 +799,7 @@ body {
     height: fit-content;
 
     max-width: 400px;
-    z-index: 8;
+    z-index: 99;
     scale: 0;
 
     overflow: hidden;
@@ -804,14 +807,14 @@ body {
 }
 
 .notification-title {
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 20px;
     color: white;
     margin: 10px;
 }
 
 .notification-text {
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 16px;
     color: white;
     margin: 10px;
@@ -847,7 +850,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    z-index: 9;
+    z-index: 99;
 
     width: fit-content;
     height: fit-content;
@@ -916,14 +919,14 @@ body {
 
 .notification-list-title {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 20px;
     margin: 5px;
 }
 
 .notification-list-text {
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 15px;
     margin: 5px;
 }
@@ -963,7 +966,7 @@ body {
 #main-addmenubutton-text {
     color: white;
     margin: 5px;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     text-align: center;
     margin-top: auto;
     margin-bottom: auto;
@@ -1062,7 +1065,7 @@ body {
 
     color: white;
     user-select: none;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 20px;
 
 }
@@ -1099,7 +1102,7 @@ body {
     margin: 20px;
     color: white;
     user-select: none;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 25px;
 }
 
@@ -1214,7 +1217,9 @@ body {
     opacity: 0;
     left: -300px;
     filter: blur(20px);
+}
 
+.user-details {
     width: 300px;
     height: 200px;
 
@@ -1232,7 +1237,7 @@ body {
 
 }
 
-#user-details-top {
+.user-details-top {
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
     backdrop-filter: blur(20px);
@@ -1242,10 +1247,11 @@ body {
 
     display: flex;
     flex-direction: row;
+    transition: 0.3s ease;
 
 }
 
-#user-details-profilepicture {
+.user-details-profilepicture {
     width: 50px;
     height: 50px;
 
@@ -1253,58 +1259,55 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
-
-    
+    transition: 0.3s ease;
     border-radius: 30px;
 
     display: flex;
     flex-direction: column;
 
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 20px;
     text-align: center;
     justify-content: center;
 
+    user-select: none;
+
 }
 
-#user-details-textdetails {
+.user-details-textdetails {
     display: flex;
     flex-direction: column;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-#user-details-textdetails-username {
+.user-details-username {
     margin: 0;
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 25px;
 
     opacity: 0.8;
-
-    user-select: none;
 }
 
-#user-details-textdetails-server {
+.user-details-server {
     margin: 0;
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 15px;
 
     opacity: 0.7;
-
-    user-select: none;
 }
 
-#user-details-bottom {
+.user-details-bottom {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
     width: 100%;
 }
 
-#user-details-bottom-buttons {
+.user-details-bottom-buttons {
     display: flex;
     flex-direction: row;
 
@@ -1323,7 +1326,7 @@ body {
     margin: 5px;
 
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 20px;
     text-align: center;
 
@@ -1345,7 +1348,7 @@ body {
 
 
     color: white;
-    font-family: ArchiformSans;
+    font-family: ArchiformSans, Calibri;
     font-size: 18px;
     text-align: center;
 
@@ -1368,6 +1371,10 @@ body {
 }
 
 #user-details-bottom-close {
+    position: absolute;
+    right: 5px;
+    top: 35%;
+
     width: 5px;
     height: 30px;
 
@@ -1379,7 +1386,6 @@ body {
 
     margin-top: 10px;
     margin-bottom: 85px;
-    margin-right: 5px;
 
 }
 
@@ -1396,4 +1402,168 @@ body {
 
     scale: 0.9;
 }
+
+.bio-text {
+    font-size: 14px;
+    color: white;
+    font-family: ArchiformSans;
+    margin: 7px;
+    opacity: 0.9;
+}
+
+@keyframes show-edit-profile {
+    from {
+        opacity: 0;
+        scale: 0.9;
+        filter: blur(20px);
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes hide-edit-profile {
+    from {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        scale: 0.9;
+        filter: blur(20px);
+    }
+}
+
+.show-edit-profile {
+    animation: show-edit-profile 0.5s forwards ease;
+}
+
+.hide-edit-profile {
+    animation: hide-edit-profile 0.5s forwards ease;
+}
+
+#edit-profile {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 10;
+    
+    width: 900px;
+    height: 700px;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+
+    padding: 20px;
+
+    opacity: 0;
+    scale: 0.9;
+    filter: blur(20px);
+
+    display: none;
+}
+
+#edit-profile-preview {
+    margin: 10px 0px;
+    margin-left: 30px;
+}
+
+#edit-profile-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#edit-profile-header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-profile-columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#edit-profile-fields {
+    width: 400px;
+}
+
+#edit-profile-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    position: absolute;
+    bottom: 10px;
+    width: 900px;
+}
+
+#edit-profile-save {
+    font-size: 20px;
+    padding: 10px;
+
+    border-radius: 10px 5px 5px 10px;
+}
+
+#edit-profile-signout {
+    font-size: 20px;
+    padding: 10px;
+    width: 400px;
+
+    border-radius: 5px;
+}
+
+#edit-profile-changepassword {
+    font-size: 20px;
+    padding: 10px;
+    width: 600px;
+
+    border-radius: 5px 5px 5px 5px;
+}
+
+#edit-profile-deleteaccount {
+    font-size: 20px;
+    padding: 10px;
+    width: 60px;
+
+    border-radius: 5px 10px 10px 5px;
+}
+
+.user-details-bottom-bio {
+    margin-right: 20px;
+    overflow-y: auto;
+    height: 65px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.user-details-bottom-bio::-webkit-scrollbar {
+    width: 7px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+.user-details-bottom-bio::-webkit-scrollbar-thumb {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+.user-details-bottom-bio::-webkit-scrollbar-thumb:hover {
+    height: 4px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+}
+
 

@@ -19,10 +19,17 @@ class MainConsumer(AsyncWebsocketConsumer):
             position = await self.get_position()
             conversation = await self.get_current_conversation()
             circles = await self.get_circles_in_users_circle()
+            user_data = await self.get_userdetails(self.username)
 
             initial_message = {
                 "type": "initial_message",
+
                 "username": self.username,
+                "display_name": user_data["display_name"],
+                "bio": user_data["bio"],
+                "primary_color": user_data["primary_color"],
+                "secondary_color": user_data["secondary_color"],
+
                 "location_server": location[0],
                 "location_circle": location[1],
                 "x": position[0],
@@ -54,7 +61,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             self.close()
 
     async def disconnect(self, close_code):
-        print("disconnected")
+        print("Disconnected")
         await self.go_offline()
         pass
 
@@ -132,7 +139,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(userdetails))
 
-        elif text_data["type"] == "dm_user": # TODO: Detect if DM already exists
+        elif text_data["type"] == "dm_user":
             # Create conversation
             create_dm = await self.dm_user(text_data["username"])
 
@@ -165,9 +172,30 @@ class MainConsumer(AsyncWebsocketConsumer):
             else:
                 await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
 
+        elif text_data["type"] == "get_profile_details":
+            userdetails = await self.get_userdetails(self.username)
+
+            userdetails["type"] = "profile_details"
+            await self.send(json.dumps(userdetails))
+
+        elif text_data["type"] == "save_profile_details":
+            result = await self.save_profile_details(text_data)
+
+        elif text_data["type"] == "sign_out":
+            await self.sign_out()
+            
+            await self.close()
+
 
         else:
             print("Not known packet")
+
+    @sync_to_async
+    def sign_out(self):
+        print("a")
+        self.scope["session"].flush()
+        self.scope["session"].save()
+        print("b")
 
 
     @database_sync_to_async
@@ -249,6 +277,9 @@ class MainConsumer(AsyncWebsocketConsumer):
             else:
                 user_snippet = {
                     "username": user.username,
+                    "display_name": user.display_name,
+                    "primary_color": user.primary_color,
+                    "secondary_color": user.secondary_color,
                     "x": user.x,
                     "y": user.y,
                 }
@@ -424,7 +455,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         else:
             print("That conversation type is not recognized.")
-            self.disconnect()
+            self.disconnect(1000)
 
             return False
         
@@ -674,6 +705,10 @@ class MainConsumer(AsyncWebsocketConsumer):
         if len(user) == 1:
             userdetails = { # TODO: Include color and other information soon
                 "username": user[0].username,
+                "display_name": user[0].display_name,
+                "bio": user[0].bio,
+                "primary_color": user[0].primary_color,
+                "secondary_color": user[0].secondary_color
             }
 
             return userdetails
@@ -726,6 +761,21 @@ class MainConsumer(AsyncWebsocketConsumer):
             conversation.save()
 
             return [True, name] # Return the name of the Conversation
+        
+    @database_sync_to_async
+    def save_profile_details(self, json):
+        '''
+        Saves profile details from the packet recieved
+        TODO: Send notification from here instead of the client in case there is an error
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: Detect if there's multiple or no users
+
+        me.display_name = json["display_name"]
+        me.bio = json["bio"]
+        me.primary_color = json["primary_color"]
+        me.secondary_color = json["secondary_color"]
+
+        me.save()
 
 
 

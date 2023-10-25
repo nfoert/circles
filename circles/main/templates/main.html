@@ -117,25 +117,95 @@
             <p class="main-addmenu-item" id="add-conversation"><i class="ph-bold ph-chat-teardrop-text"></i> Conversation</p>
         </div>
 
-        <div id="user-details">
-            <div id="user-details-top">
-                <p id="user-details-profilepicture">?</p>
-                <div id="user-details-textdetails">
-                    <p id="user-details-textdetails-username">Loading...</p>
-                    <p id="user-details-textdetails-server">circles.media</p> <!-- TODO: Will need set once multiple servers is supported -->
+        <div id="user-details" class="user-details">
+            <div class="user-details-top" id="user-details-top">
+                <p class="user-details-profilepicture" id="user-details-profilepicture">?</p>
+                <div class="user-details-textdetails">
+                    <p class="user-details-username" id="user-details-textdetails-username">Loading...</p>
+                    <p class="user-details-server" id="user-details-textdetails-server">circles.media</p> <!-- TODO: Will need set once multiple servers is supported -->
                 </div>
             </div>
 
-            <div id="user-details-bottom">
-                <div id="user-details-bottom-buttons">
+            <div class="user-details-bottom">
+                <div class="user-details-bottom-bio">
+                    <p class="bio-text" id="userdetails-bio">Bio</p>
+                </div>
+
+                <div class="user-details-bottom-buttons">
                     <div class="user-details-button" id="userdetails-message"><i class="ph-bold ph-chat-teardrop-text"></i></div>
                     <div class="user-details-button" id="userdetails-follow"><i class="ph-bold ph-user-plus"></i></div>
-                    <div class="user-details-button" id="userdetails-report" disabled><i class="ph-bold ph-flag"></i></div>
-                    <div class="user-details-button-wide" id="userdetails-more" disabled><i class="ph-bold ph-dots-three"></i> More</div>
+                    <div class="user-details-button" id="userdetails-report"><i class="ph-bold ph-flag"></i></div>
+                    <div class="user-details-button-wide" id="userdetails-more"><i class="ph-bold ph-dots-three"></i> More</div>
                 </div>
 
-                <div id="user-details-bottom-close"></div>
             </div>
+
+            <div id="user-details-bottom-close"></div>
+
+        </div>
+
+        <div id="edit-profile">
+            <div id="edit-profile-header">
+                <div id="edit-profile-header-text">
+                    <p class="dialog-header">Edit Profile</p>
+                    <p class="dialog-subheader">Preview and Edit</p>
+                </div>
+
+                <p class="buttonx" id="edit-profile-close">X</p>
+                
+            </div>
+            <div id="edit-profile-columns">
+                <div class="user-details" id="edit-profile-preview">
+                    <div class="user-details-top" id="editprofile-top">
+                        <p class="user-details-profilepicture" id="editprofile-profilepicture">{{ username|slice:1|title }}</p>
+                        <div class="user-details-textdetails">
+                            <p class="user-details-username" id="editprofile-username">{{ username }}</p>
+                            <p class="user-details-server" id="editprofile-server">{{ server_name }}</p> <!-- TODO: Will need set once multiple servers is supported -->
+                        </div>
+                    </div>
+        
+                    <div class="user-details-bottom">
+                        <div class="user-details-bottom-bio">
+                            <p class="bio-text" id="editprofile-bio">Bio</p>
+                        </div>
+
+                        <div class="user-details-bottom-buttons">
+                            <div class="user-details-button"><i class="ph-bold ph-chat-teardrop-text"></i></div>
+                            <div class="user-details-button"><i class="ph-bold ph-user-plus"></i></div>
+                            <div class="user-details-button"><i class="ph-bold ph-flag"></i></div>
+                            <div class="user-details-button-wide"><i class="ph-bold ph-dots-three"></i> More</div>
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+                <div id="edit-profile-fields">
+
+                    <input class="textarea" placeholder="Display Name" type="text" id="edit-profile-displayname"></input>
+                    <p class="textedit-subtext"><strong>Display Name</strong> The name you appear as</p>
+
+                    <textarea class="textarea" placeholder="Bio" id="edit-profile-bio" rows="4"></textarea>
+                    <p class="textedit-subtext"><strong>Bio</strong> Information about you</p>
+
+                    <input class="textarea-color" placeholder="Primary Color" type="color" id="edit-profile-primary"></input>
+                    <p class="textedit-subtext"><strong>Primary Color</strong> The main color for your User. This is the color of your Circle in the world.</p>
+                
+                    <input class="textarea-color" placeholder="Secondary Color" type="color" id="edit-profile-secondary"></input>
+                    <p class="textedit-subtext"><strong>Secondary Color</strong> The secondary color for your User. This color is displayed in your profile.</p>
+                    
+                    <br>
+                    
+                </div>
+            </div>
+
+            <div id="edit-profile-buttons">
+                <button class="buttontiny" id="edit-profile-save"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                <button class="buttontiny" id="edit-profile-signout"><i class="ph-bold ph-sign-out"></i> Sign Out</button>
+                <button class="buttontiny" id="edit-profile-changepassword"><i class="ph-bold ph-lock"></i> Change Password</button>
+                <button class="buttontiny" id="edit-profile-deleteaccount"><i class="ph-bold ph-trash"></i></button>
+            </div>
+
         </div>
 
         <div id="main-backgroundblur"></div>
@@ -160,6 +230,7 @@
         <script src="{% static 'main/scripts/location.js' %}"></script>
         <script src="{% static 'main/scripts/add.js' %}"></script>
         <script src="{% static 'main/scripts/userdetails.js' %}"></script>
+        <script src="{% static 'main/scripts/editprofile.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

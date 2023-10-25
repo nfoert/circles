@@ -53,7 +53,7 @@ animate();
 document.getElementById("main-canvas").addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
-document.addEventListener('mousedown', right_click);
+document.getElementById("main-canvas").addEventListener('mousedown', right_click);
 document.getElementById("main-canvas").addEventListener("mousedown", left_click);
 document.addEventListener('mouseup', right_click_up);
 

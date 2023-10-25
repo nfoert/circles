@@ -208,6 +208,16 @@
 
         </div>
 
+        <div id="mobile-warning">
+            <div id="mobile-warning-contents">
+                <p class="text-medium" style="text-align: left;"><i class="ph-bold ph-device-mobile"></i> Hi, your screen is really tiny.</p>
+                <p class="text-small" style="text-align: left;">Circles doesn't really work that well on screens this size. You can give it a try anyways, but you may have some troubles getting things to work well. A mobile version of Circles will be coming eventually<i class="ph-bold ph-trademark"></i></p>
+                <button class="buttonsmaller" id="mobile-warning-button" style="margin-left: 0px;"><i class="ph-bold ph-skull"></i> Try It Anyway</button>
+
+            </div>
+            
+        </div>
+
         <div id="main-backgroundblur"></div>
 
         <script>
@@ -231,6 +241,7 @@
         <script src="{% static 'main/scripts/add.js' %}"></script>
         <script src="{% static 'main/scripts/userdetails.js' %}"></script>
         <script src="{% static 'main/scripts/editprofile.js' %}"></script>
+        <script src="{% static 'main/scripts/mobilewarning.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

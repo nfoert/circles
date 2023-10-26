@@ -25,10 +25,15 @@ class Circle(models.Model): # Any circle within the server. Circles can also be 
 
     def __str__(self):
         if self.parent_circle:
-            return(f"{self.parent_circle} / {self.name}")
+            string = self.parent_circle or ""
+            return(f"{string} / {self.name}")
         
         elif self.parent_server:
-            return(f"{self.parent_server} / {self.name}")
+            string = self.parent_server or ""
+            return(f"{string} / {self.name}")
+        
+        else:
+            return(f"/!\ --- {self.name}")
 
 class Conversation(models.Model): # A private conversation between users. Has a list of the users in it
     name = models.CharField(max_length=256, default="no-name")

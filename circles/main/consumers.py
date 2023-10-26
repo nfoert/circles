@@ -640,12 +640,17 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0]
         server = Server.objects.all()[0]
 
+        print(server)
+
 
         if direction == "forwards":
             circles = Circle.objects.all()
 
+            print(circles)
+
             if me.location_circle != None:
                 for circle in circles: # Messy but does the job
+                    print(circle)
                     if str(circle) == (str(me.location_circle) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -653,6 +658,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             else:
                 for circle in circles: # Messy but does the job
+                    print(circle)
                     if str(circle) == (str(server.name) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -708,7 +714,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         '''
         me = User.objects.filter(username=self.username)[0]
 
-        circle = Circle(name=name, creator=me, parent_circle=me.location_circle, x=x, y=y)
+        circle = Circle(name=name, creator=me, parent_circle=me.location_circle, parent_server=me.location_server, x=x, y=y)
         circle.save()
 
     @database_sync_to_async

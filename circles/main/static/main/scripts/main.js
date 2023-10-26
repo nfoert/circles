@@ -76,6 +76,13 @@ function onWindowResize() {
 
 }
 
+window.addEventListener("error", (event) => error(event));
+
+function error(event) {
+    show_notification("Exception Occured", event.message + "\n File: " + event.filename + " \nLine " + event.lineno + " Column " + event.colno, "normal", true);
+    set_notification_color(255, 0, 0);
+}
+
 class User {
     constructor() {
 

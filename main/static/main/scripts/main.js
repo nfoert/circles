@@ -106,9 +106,6 @@ class User {
 
         var location_box = document.getElementById("main-location-box-location")
 
-        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
-        this.location_circle.shift();
-
         for (const item in this.location_circle) {
             const element = document.createElement("p")
             element.classList.add("location-item")
@@ -205,9 +202,6 @@ class OtherUser {
         this.circle.position.y = this.y;
 
         var location_box = document.getElementById("main-location-box-location")
-
-        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
-        this.location_circle.shift();
 
     }
 

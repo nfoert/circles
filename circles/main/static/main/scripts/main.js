@@ -275,9 +275,6 @@ class OtherUser {
 
         var location_box = document.getElementById("main-location-box-location")
 
-        // Thanks to Thalsan's answer here https://stackoverflow.com/questions/29605929/remove-first-item-of-the-array-like-popping-from-stack
-        this.location_circle.shift();
-
     }
 
     move() {

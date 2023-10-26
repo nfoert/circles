@@ -77,7 +77,11 @@ def create_account(request):
 
             hashed_password = make_password(password)
             
-            user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now()).save()
+            server = Server.objects.all()[0] # TODO: Breaks if there is no server
+            user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now())
+            user.location_server = server
+
+            user.save()
 
             request.session["username"] = username
             request.session["password"] = password

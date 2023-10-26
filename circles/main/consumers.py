@@ -192,10 +192,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def sign_out(self):
-        print("a")
         self.scope["session"].flush()
         self.scope["session"].save()
-        print("b")
 
 
     @database_sync_to_async
@@ -247,18 +245,21 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         else:
             circle = str(user.location_circle)
-
         
         if not user.location_server and not user.location_circle:
             print("User is not in a Server or Circle!")
             self.disconnect(1011)
 
-        try:
-            circles = circle.split(" / ")
-            return [server, circles]
-        except:
-            print("There was a problem when splitting the user's Circle location.")
-            pass
+        if circle != False:
+            try:
+                circles = circle.split(" / ")
+                return [server, circles]
+            except:
+                print("There was a problem when splitting the user's Circle location.")
+                pass
+
+        else:
+            return [server, False]
 
     @database_sync_to_async
     def get_users_in_circle(self):
@@ -398,7 +399,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         for user in users:
             selected_user = User.objects.filter(username=user)
-            print(selected_user[0])
             conversation.users.add(selected_user[0])
 
         conversation.save()
@@ -638,15 +638,26 @@ class MainConsumer(AsyncWebsocketConsumer):
         If direction = "absolute", expects the full path of the Circle to go to
         '''
         me = User.objects.filter(username=self.username)[0]
+        server = Server.objects.all()[0]
 
 
         if direction == "forwards":
             circles = Circle.objects.all()
 
-            for circle in circles: # Messy but does the job
-                if str(circle) == (str(me.location_circle) + " / " + name):
-                    me.location_circle = circle # TODO: Uncomment
-                    break
+            if me.location_circle != None:
+                for circle in circles: # Messy but does the job
+                    if str(circle) == (str(me.location_circle) + " / " + name):
+                        me.location_circle = circle
+                        me.location_server = None
+                        break
+
+            else:
+                for circle in circles: # Messy but does the job
+                    if str(circle) == (str(server.name) + " / " + name):
+                        me.location_circle = circle
+                        me.location_server = None
+                        break
+
 
         elif direction == "backwards":
             me.location_circle = me.location_circle.parent
@@ -661,10 +672,16 @@ class MainConsumer(AsyncWebsocketConsumer):
 
 
             string = string[:-3] # Remove last three characters from the string " / "
-
+    
             for circle in circles:
-                if str(circle) == string:
-                    me.location_circle = circle # TODO: Uncomment
+                if str(server.name) == string:
+                    me.location_circle = None
+                    me.location_server = server
+                    break
+
+                elif str(circle) == string:
+                    me.location_server = None
+                    me.location_circle = circle
                     break
 
         # Now, set the user's position to the center
@@ -689,14 +706,10 @@ class MainConsumer(AsyncWebsocketConsumer):
         Creates a current circle with name of 'name'.
         Creator of the circle is the current user
         '''
-        print(name)
-
         me = User.objects.filter(username=self.username)[0]
 
         circle = Circle(name=name, creator=me, parent_circle=me.location_circle, x=x, y=y)
         circle.save()
-
-        print("Created circle/")
 
     @database_sync_to_async
     def get_userdetails(self, username):

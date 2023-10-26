@@ -26,10 +26,26 @@ function set_event_listeners() {
 function update_position_indicator() {
     location_box.replaceChildren() // Clear children
 
-    for (const item in me.location_circle) {
+    if (me.location_circle){
+        for (const item in me.location_circle) {
+            const element = document.createElement("p")
+            element.classList.add("location-item")
+            element.innerHTML = me.location_circle[item];
+    
+            const slash = document.createElement("p")
+            slash.classList.add("location-slash")
+            slash.innerHTML = "/";
+    
+            location_box.appendChild(element);
+            location_box.appendChild(slash);
+        }
+    
+        set_event_listeners();
+    
+    } else {
         const element = document.createElement("p")
         element.classList.add("location-item")
-        element.innerHTML = me.location_circle[item];
+        element.innerHTML = me.location_server;
 
         const slash = document.createElement("p")
         slash.classList.add("location-slash")
@@ -37,9 +53,11 @@ function update_position_indicator() {
 
         location_box.appendChild(element);
         location_box.appendChild(slash);
+    
+        set_event_listeners();
     }
 
-    set_event_listeners();
+    
 }
 
 function location_change_circle(event) {
@@ -67,7 +85,8 @@ function location_change_circle(event) {
 
         server_socket.send(JSON.stringify(change_circle_json))
 
-        me.location_circle = location; // TODO: What if you switch to the server?
+        me.location_circle = position; // TODO: What if you switch to the server?
+
         setTimeout(function() {
             update_position_indicator();
             changing_circle = false;

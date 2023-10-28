@@ -37,6 +37,8 @@ ALLOWED_HOSTS = ["127.0.0.1", "192.168.1.101"]
 
 ASGI_APPLICATION = "circles.asgi.application"
 
+DJANGO_SETTINGS_MODULE = "circles.settings"
+
 # Application definition
 
 INSTALLED_APPS = [

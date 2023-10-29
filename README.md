@@ -121,6 +121,8 @@ Everything *should* be working. Locally at least.
 
 If you're doing this on a production server you should either follow the steps as above again, or if you're wanting to customize your own server fork this repo and repeat the steps above with your own GitHub repo url.
 
+**Note: Set the `DJANGO_SETTINGS_MODULE` enviroment variable to `circles.production_settings` on your production server.**
+
 **Warning: The `SECRET_KEY` in `settings.py` is insecure! Ensure to change this and do any steps in `python manage.py check --deploy` when using this in production.**
 
 Additional setup may be required on specific hosting providers to be able to find things like static or media files.

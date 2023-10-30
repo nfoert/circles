@@ -4,7 +4,7 @@
       {
         "label": "Start server",
         "type": "shell",
-        "command": "source ./circles/.venv/bin/activate && python ./circles/manage.py runserver",
+        "command": "source .venv/bin/activate && python ./circles/manage.py runserver",
         "presentation": {
           "reveal": "always",
           "panel": "new"
@@ -17,7 +17,7 @@
       {
         "label": "Start server (external)",
         "type": "shell",
-        "command": "source ./circles/.venv/bin/activate && python ./circles/manage.py runserver 192.168.1.101:1111",
+        "command": "source .venv/bin/activate && python ./circles/manage.py runserver 192.168.1.101:1111",
         "presentation": {
           "reveal": "always",
           "panel": "new"
@@ -27,7 +27,7 @@
       {
         "label": "Migrate models",
         "type": "shell",
-        "command": "source ./circles/.venv/bin/activate && python ./circles/manage.py makemigrations && python ./circles/manage.py migrate",
+        "command": "source .venv/bin/activate && python ./circles/manage.py makemigrations && python ./circles/manage.py migrate",
         "presentation": {
           "reveal": "always",
           "panel": "new"

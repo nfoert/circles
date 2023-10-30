@@ -135,7 +135,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Why do I do this to myself -_-
 STATICFILES_DIRS = (
-    BASE_DIR, Path(BASE_DIR).parent / Path("main/static"),
+    Path(BASE_DIR).parent / Path("main/static"),
 )
 
 # Default primary key field type

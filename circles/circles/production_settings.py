@@ -35,6 +35,7 @@ SECRET_KEY = get_random_secret_key()
 DEBUG = False
 
 ALLOWED_HOSTS = ["urchin-app-aiid2.ondigitalocean.app"]
+CSRF_TRUSTED_ORIGINS = ['https://urchin-app-aiid2.ondigitalocean.app']
 
 ASGI_APPLICATION = "circles.asgi.application"
 

@@ -32,3 +32,4 @@ typing_extensions
 urllib3
 zope.interface
 dj_database_url
+psycopg2-binary

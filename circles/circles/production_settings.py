@@ -20,6 +20,7 @@ The secret key should be regenerated along with normal security stuff. (Use 'pyt
 from pathlib import Path
 import os
 from django.core.management.utils import get_random_secret_key
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -103,7 +104,7 @@ if not DATABASE_URL:
 
 else:
     DATABASES = {
-        "default": DATABASE_URL
+        "default": dj_database_url.parse(DATABASE_URL)
     }
 
 

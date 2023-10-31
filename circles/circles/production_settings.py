@@ -90,12 +90,22 @@ WSGI_APPLICATION = 'circles.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.getenv('DATABASE_URL', None)
+
+if not DATABASE_URL:
+    print("Using default database")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        "default": DATABASE_URL
+    }
+
 
 
 # Password validation

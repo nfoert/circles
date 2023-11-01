@@ -11,10 +11,20 @@ from django.db.models import Q
 # Thanks to BAZA's answer here https://stackoverflow.com/questions/66936893/django-channels-sleep-between-group-sends
 class MainConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        
-        await self.accept()
+        server = await self.get_server_information()
 
         if await self.check_user():
+            if server["websocket_accept"] == True:
+                await self.accept()
+
+            elif self.username in server["admins"]:
+                await self.accept()
+
+            else:
+                print("Websocket connection is disabled")
+                await self.close()
+
+
             location = await self.get_location()
             position = await self.get_position()
             conversation = await self.get_current_conversation()
@@ -795,6 +805,26 @@ class MainConsumer(AsyncWebsocketConsumer):
         me.secondary_color = json["secondary_color"]
 
         me.save()
+
+    @database_sync_to_async
+    def get_server_information(self):
+        server = Server.objects.all()[0]
+
+        admins = []
+
+        for admin in server.admins.all():
+            admins.append(admin.username)
+
+        server_info = {
+            "name": server.name,
+            "ip": server.ip,
+            "admins": admins,
+            "production": server.production,
+            "account_creation": server.account_creation,
+            "websocket_accept": server.websocket_accept
+        }
+
+        return server_info
 
 
 

@@ -68,31 +68,35 @@ def sign_in(request):
         return HttpResponse("request is not a get or post request")
 
 def create_account(request):
+    server = Server.objects.all()[0]
     
     if request.method == "GET":
-        if "Username" in request.headers and "Password" in request.headers and "Email" in request.headers:
-            username = request.headers["Username"]
-            password = request.headers["Password"]
-            email = request.headers["Email"]
+        if server.account_creation == True:
+            if "Username" in request.headers and "Password" in request.headers and "Email" in request.headers:
+                username = request.headers["Username"]
+                password = request.headers["Password"]
+                email = request.headers["Email"]
 
-            hashed_password = make_password(password)
+                hashed_password = make_password(password)
+                
+                server = Server.objects.all()[0] # TODO: Breaks if there is no server
+                user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now())
+                user.location_server = server
+
+                user.save()
+
+                request.session["username"] = username
+                request.session["password"] = password
+
+                print("account created!")
+                return sign_in(request)
             
-            server = Server.objects.all()[0] # TODO: Breaks if there is no server
-            user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now())
-            user.location_server = server
-
-            user.save()
-
-            request.session["username"] = username
-            request.session["password"] = password
-
-            print("account created!")
-            return sign_in(request)
+            else:
+                return HttpResponse("Missing headers")
             
-        
         else:
-            return HttpResponse("Missing headers")
-        
+            return HttpResponse("Account creation is disabled.")
+            
     else:
         return HttpResponse("Request is not a GET request.")
 

@@ -1,5 +1,6 @@
 <p align="center">
-    <img src="repo/images/hacktoberfest_banner.png" style="width: 800px; border-radius:20px;">
+    <!-- <img src="repo/images/hacktoberfest_banner.png" style="width: 800px; border-radius:20px;"> -->
+    <img src="repo/images/circles.png" style="width: 400px; border-radius:20px;">
 </p>
 <hr>
 <p align="center"><b>ⵔ Official server & Open Alpha coming soon ⵔ</b></p>
@@ -40,16 +41,9 @@ I have lots of ideas on how to make Circles great and It's going to be a lot of 
 
 I'd love to work with other programmers, artists, designers, and even you. I'd love to see pepole collaborating and contributing to Circles. Here's a rough list of the things that needs done. This list will change and evolve as the project grows.
 
-- Rules
-- Change Profile Details
-  - Password
-  - Username
-  - Display Name
-  - Color
-  - Delete Account
-- Basic features (lol)
-  - Moving between circles
-  - Online user count
+- What's the best way to make Circles decentralized?
+
+There's more that I have planned, I need to figure out a good way to show my To-Do list :D
 
 # Installation for Development
 
@@ -132,7 +126,7 @@ On my production server I also have to run `python manage.py collectstatic` to g
 # Contributing
 Check [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how to contribute to Circles.
 
-# Hacktoberfest
+<!-- # Hacktoberfest
 
 Circles is proud to be a part of hacktoberfest 2023! I'd love to see some people contributing to Circles, and I'll also be contributing to other open source projects during Hacktoberfest.
 
@@ -140,4 +134,4 @@ If you're not sure what Hacktoberfest is, It's an celebration of open source sof
 
 Circles is a very new project, and there's lots of things to be done. If you have any skills to help get some of the things on the above list finished, or just want to help clean up some code, I'd appreciate it.
 
-You can learn more about Hacktoberfest [here](https://hacktoberfest.com/).
+You can learn more about Hacktoberfest [here](https://hacktoberfest.com/). -->

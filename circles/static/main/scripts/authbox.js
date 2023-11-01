@@ -6,87 +6,91 @@ Handles everything relating to logging in and signing up
 - Creates Account or signs in
 */
 
-var background = document.getElementById("background-darkness")
+addEventListener("DOMContentLoaded", (event) => {
+    background = document.getElementById("background-darkness")
 
-var authbox = document.getElementById("auth-box")
+    authbox = document.getElementById("auth-box")
 
-var button_signup = document.getElementById("button_signup")
-var button_login = document.getElementById("button_login")
-var button_close = document.getElementById("auth-box-close")
+    button_signup = document.getElementById("button_signup")
+    button_login = document.getElementById("button_login")
+    button_close = document.getElementById("auth-box-close")
 
 
-var button_authbox_login = document.getElementById("auth-box-buttonbox-login")
+    button_authbox_login = document.getElementById("auth-box-buttonbox-login")
 
-var button_authbox_next_username = document.getElementById("auth-box-buttonbox-next-username")
+    button_authbox_next_username = document.getElementById("auth-box-buttonbox-next-username")
 
-var button_authbox_back_email = document.getElementById("auth-box-buttonbox-back-email")
-var button_authbox_next_email = document.getElementById("auth-box-buttonbox-next-email")
+    button_authbox_back_email = document.getElementById("auth-box-buttonbox-back-email")
+    button_authbox_next_email = document.getElementById("auth-box-buttonbox-next-email")
 
-var button_authbox_back_password = document.getElementById("auth-box-buttonbox-back-password")
-var button_authbox_next_password = document.getElementById("auth-box-buttonbox-next-password")
+    button_authbox_back_password = document.getElementById("auth-box-buttonbox-back-password")
+    button_authbox_next_password = document.getElementById("auth-box-buttonbox-next-password")
 
-var button_authbox_back_rules = document.getElementById("auth-box-buttonbox-back-rules")
-var button_authbox_createaccount_rules = document.getElementById("auth-box-buttonbox-createaccount-rules")
+    button_authbox_back_rules = document.getElementById("auth-box-buttonbox-back-rules")
+    button_authbox_createaccount_rules = document.getElementById("auth-box-buttonbox-createaccount-rules")
 
-button_authbox_login.disabled = true;
-button_authbox_next_username.disabled = true;
-button_authbox_next_email.disabled = true;
-button_authbox_next_password.disabled = true;
+    button_authbox_login.disabled = true;
+    button_authbox_next_username.disabled = true;
+    button_authbox_next_email.disabled = true;
+    button_authbox_next_password.disabled = true;
 
-var box_login = document.getElementById("auth-box-login")
-var box_username = document.getElementById("auth-box-username")
-var box_email = document.getElementById("auth-box-email")
-var box_password = document.getElementById("auth-box-password")
-var box_rules = document.getElementById("auth-box-rules")
+    box_login = document.getElementById("auth-box-login")
+    box_username = document.getElementById("auth-box-username")
+    box_email = document.getElementById("auth-box-email")
+    box_password = document.getElementById("auth-box-password")
+    box_rules = document.getElementById("auth-box-rules")
 
-var header_label = document.getElementById("auth-box-text-label")
-var header_server = document.getElementById("auth-box-text-server")
+    header_label = document.getElementById("auth-box-text-label")
+    header_server = document.getElementById("auth-box-text-server")
 
-var textarea_login_username  = document.getElementById("auth-box-textarea-login-username")
-var textarea_login_password  = document.getElementById("auth-box-textarea-login-password")
-var textarea_username_username  = document.getElementById("auth-box-textarea-username-username")
-var textarea_email_email  = document.getElementById("auth-box-textarea-email-email")
-var textarea_password_password  = document.getElementById("auth-box-textarea-password-password")
-var textarea_password_confirmpassword = document.getElementById("auth-box-textarea-password-confirmpassword")
+    textarea_login_username  = document.getElementById("auth-box-textarea-login-username")
+    textarea_login_password  = document.getElementById("auth-box-textarea-login-password")
+    textarea_username_username  = document.getElementById("auth-box-textarea-username-username")
+    textarea_email_email  = document.getElementById("auth-box-textarea-email-email")
+    textarea_password_password  = document.getElementById("auth-box-textarea-password-password")
+    textarea_password_confirmpassword = document.getElementById("auth-box-textarea-password-confirmpassword")
 
-var warning_box = document.getElementById("auth-box-login-warning")
-var warning_box_text = document.getElementById("auth-box-login-warning-text")
-warning_box.style.display = "none";
+    warning_box = document.getElementById("auth-box-login-warning")
+    warning_box_text = document.getElementById("auth-box-login-warning-text")
+    warning_box.style.display = "none";
 
-box_login.style.display = "none";
-box_username.style.display = "none";
-box_email.style.display = "none";
-box_password.style.display = "none";
-box_rules.style.display = "none";
+    box_login.style.display = "none";
+    box_username.style.display = "none";
+    box_email.style.display = "none";
+    box_password.style.display = "none";
+    box_rules.style.display = "none";
 
-button_authbox_createaccount_rules.disabled = true;
+    button_authbox_createaccount_rules.disabled = true;
 
-button_signup.addEventListener("click", signup)
-button_login.addEventListener("click", login)
-button_close.addEventListener("click", hide_auth_box)
-background.addEventListener("click", hide_auth_box)
+    button_signup.addEventListener("click", signup)
+    button_login.addEventListener("click", login)
+    button_close.addEventListener("click", hide_auth_box)
+    background.addEventListener("click", hide_auth_box)
 
-button_authbox_next_username.addEventListener("click", update_value_next)
-button_authbox_next_email.addEventListener("click", update_value_next)
+    button_authbox_next_username.addEventListener("click", update_value_next)
+    button_authbox_next_email.addEventListener("click", update_value_next)
 
-button_authbox_back_email.addEventListener("click", update_value_back)
-button_authbox_back_password.addEventListener("click", update_value_back)
+    button_authbox_back_email.addEventListener("click", update_value_back)
+    button_authbox_back_password.addEventListener("click", update_value_back)
 
-button_authbox_next_password.addEventListener("click", update_value_next)
-button_authbox_login.addEventListener("click", log_in)
+    button_authbox_next_password.addEventListener("click", update_value_next)
+    button_authbox_login.addEventListener("click", log_in)
 
-button_authbox_back_rules.addEventListener("click", update_value_back)
-button_authbox_createaccount_rules.addEventListener("click", create_account)
+    button_authbox_back_rules.addEventListener("click", update_value_back)
+    button_authbox_createaccount_rules.addEventListener("click", create_account)
 
-textarea_username_username.addEventListener("input", check_username)
-textarea_email_email.addEventListener("input", check_email)
-textarea_password_password.addEventListener("input", check_password)
-textarea_password_confirmpassword.addEventListener("input", check_password)
+    textarea_username_username.addEventListener("input", check_username)
+    textarea_email_email.addEventListener("input", check_email)
+    textarea_password_password.addEventListener("input", check_password)
+    textarea_password_confirmpassword.addEventListener("input", check_password)
 
-textarea_login_username.addEventListener("input", check_log_in)
-textarea_login_password.addEventListener("input", check_log_in)
+    textarea_login_username.addEventListener("input", check_log_in)
+    textarea_login_password.addEventListener("input", check_log_in)
 
-// window.addEventListener("keypress", check_enter_key(e)) Add enter key to advance
+    // window.addEventListener("keypress", check_enter_key(e)) // TODO: Add enter key to advance
+
+    
+});
 
 var screen = null; // 0 is login, 1 is username, 2 is email, 3 is password, 4 is rules
 var rules_countdown = 30;

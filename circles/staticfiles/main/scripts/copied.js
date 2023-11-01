@@ -1,6 +1,6 @@
 /*
 copied.js
-Handles when the username for the User is clicked to copy the username to the clipboard
+Handles the action of clicking the User's username and copying it to the clipboard
 */
 
 var copied_box = document.getElementById("main-copied-box");
@@ -16,7 +16,7 @@ async function copy() {
 
         } catch (err) {
             console.error('Failed to copy: ', err); // TODO: Change appearance if copy fail
-            
+
         }
     }
 
@@ -26,7 +26,6 @@ async function copy() {
     
     setTimeout(() => {
         copied_box.classList.remove("copied");
-
     }, 5000);
     
 }

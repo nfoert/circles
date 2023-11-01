@@ -1,13 +1,13 @@
 /*
 authbox.js
-Handles everything for the main signup and login boxes
+Handles everything relating to logging in and signing up
 - Switches pages
 - Handles buttons
-- Makes requests for sign up and log in
+- Creates Account or signs in
 */
 
-
 var background = document.getElementById("background-darkness")
+
 var authbox = document.getElementById("auth-box")
 
 var button_signup = document.getElementById("button_signup")
@@ -23,17 +23,21 @@ var button_authbox_back_email = document.getElementById("auth-box-buttonbox-back
 var button_authbox_next_email = document.getElementById("auth-box-buttonbox-next-email")
 
 var button_authbox_back_password = document.getElementById("auth-box-buttonbox-back-password")
-var button_authbox_createaccount_password = document.getElementById("auth-box-buttonbox-createaccount-password")
+var button_authbox_next_password = document.getElementById("auth-box-buttonbox-next-password")
+
+var button_authbox_back_rules = document.getElementById("auth-box-buttonbox-back-rules")
+var button_authbox_createaccount_rules = document.getElementById("auth-box-buttonbox-createaccount-rules")
 
 button_authbox_login.disabled = true;
 button_authbox_next_username.disabled = true;
 button_authbox_next_email.disabled = true;
-button_authbox_createaccount_password.disabled = true;
+button_authbox_next_password.disabled = true;
 
 var box_login = document.getElementById("auth-box-login")
 var box_username = document.getElementById("auth-box-username")
 var box_email = document.getElementById("auth-box-email")
 var box_password = document.getElementById("auth-box-password")
+var box_rules = document.getElementById("auth-box-rules")
 
 var header_label = document.getElementById("auth-box-text-label")
 var header_server = document.getElementById("auth-box-text-server")
@@ -45,7 +49,6 @@ var textarea_email_email  = document.getElementById("auth-box-textarea-email-ema
 var textarea_password_password  = document.getElementById("auth-box-textarea-password-password")
 var textarea_password_confirmpassword = document.getElementById("auth-box-textarea-password-confirmpassword")
 
-
 var warning_box = document.getElementById("auth-box-login-warning")
 var warning_box_text = document.getElementById("auth-box-login-warning-text")
 warning_box.style.display = "none";
@@ -54,6 +57,9 @@ box_login.style.display = "none";
 box_username.style.display = "none";
 box_email.style.display = "none";
 box_password.style.display = "none";
+box_rules.style.display = "none";
+
+button_authbox_createaccount_rules.disabled = true;
 
 button_signup.addEventListener("click", signup)
 button_login.addEventListener("click", login)
@@ -66,22 +72,24 @@ button_authbox_next_email.addEventListener("click", update_value_next)
 button_authbox_back_email.addEventListener("click", update_value_back)
 button_authbox_back_password.addEventListener("click", update_value_back)
 
-button_authbox_createaccount_password.addEventListener("click", create_account)
+button_authbox_next_password.addEventListener("click", update_value_next)
 button_authbox_login.addEventListener("click", log_in)
+
+button_authbox_back_rules.addEventListener("click", update_value_back)
+button_authbox_createaccount_rules.addEventListener("click", create_account)
 
 textarea_username_username.addEventListener("input", check_username)
 textarea_email_email.addEventListener("input", check_email)
 textarea_password_password.addEventListener("input", check_password)
-textarea_password_confirmpassword.addEventListener("input",confirm_password)
+textarea_password_confirmpassword.addEventListener("input", check_password)
 
 textarea_login_username.addEventListener("input", check_log_in)
 textarea_login_password.addEventListener("input", check_log_in)
 
 // window.addEventListener("keypress", check_enter_key(e)) Add enter key to advance
 
-var screen = null; // 0 is login, 1 is username, 2 is email, 3 is password
-
-
+var screen = null; // 0 is login, 1 is username, 2 is email, 3 is password, 4 is rules
+var rules_countdown = 30;
 
 function update_value_next() {
     if (screen == 1) { // in username, so go next
@@ -94,8 +102,14 @@ function update_value_next() {
         box_password.style.display = "inline";
     }
 
-    if (screen == 3) { // Done with password, so create account
+    if (screen == 3) { // Done with password, so show rules
         box_password.style.display = "none";
+        box_rules.style.display = "inline";
+        update_rules_countdown();
+    }
+
+    if (screen == 4) { // Done with rules, so create account
+        box_rules.style.display = "none";
     }
 
     screen++;
@@ -109,8 +123,12 @@ function update_value_back() {
 
     if (screen == 3) { // in password, so go back
         box_password.style.display = "none";
-        box_email.style.display = "inline";
-        
+        box_email.style.display = "inline";   
+    }
+
+    if (screen == 4) { // in rules, so go back
+        box_rules.style.display = "none";
+        box_password.style.display = "inline";
     }
 
     screen--;
@@ -123,6 +141,8 @@ function login() {
         box_username.style.display = "none";
         box_email.style.display = "none";
         box_password.style.display = "none";
+        box_rules.style.display = "none";
+        
         box_login.style.display = "inline";
         header_label.innerHTML = "Log in to Circles"
         header_server.innerHTML = "Logging in to " + server_name;
@@ -185,7 +205,6 @@ function check_email() {
     }
 }
 
-
 // 8 characters (0) capital (1) number (2) symbol (3)
 function check_password() {
     var pwd = textarea_password_password.value;
@@ -204,7 +223,7 @@ function check_password() {
     var segment_4 = document.getElementById("auth-box-password-validate-4")
     var password_strength = document.getElementById("auth-box-password-strength")
 
-    button_authbox_createaccount_password.disabled = true;
+    button_authbox_next_password.disabled = true;
 
 
     if (pwd.length >= 8) {
@@ -241,7 +260,6 @@ function check_password() {
         segment_3.style.backgroundColor = original_color
         segment_4.style.backgroundColor = original_color
         password_strength.innerHTML = "Moderate Password"
-        button_authbox_createaccount_password.disabled = false;
 
     } else if (strength == 3) {
         var background_color = "rgba(146, 255, 0, 0.2)"
@@ -250,7 +268,6 @@ function check_password() {
         segment_3.style.backgroundColor = background_color
         segment_4.style.backgroundColor = original_color
         password_strength.innerHTML = "Good Password"
-        button_authbox_createaccount_password.disabled = false;
 
     } else if (strength == 4) {
         var background_color = "rgba(11, 219, 0, 0.2)"
@@ -259,7 +276,6 @@ function check_password() {
         segment_3.style.backgroundColor = background_color
         segment_4.style.backgroundColor = background_color
         password_strength.innerHTML = "Great Password"
-        button_authbox_createaccount_password.disabled = false;
 
     }
 
@@ -271,17 +287,18 @@ function check_password() {
         segment_4.style.backgroundColor = original_color
     }
 
-    confirm_password();
+    confirm_password(strength);
 }
 
-function confirm_password(){
+function confirm_password(strength) {
     var pwd = textarea_password_password.value;
     var conf = textarea_password_confirmpassword.value;
 
-    if(conf !== pwd && pwd !== ''){
-        button_authbox_createaccount_password.disabled = true;
-    }else{
-        button_authbox_createaccount_password.disabled = false;
+    if (conf == pwd && pwd != "" && strength > 1) {
+        button_authbox_next_password.disabled = false;
+
+    } else {
+        button_authbox_next_password.disabled = true;
     }
 
 }
@@ -331,6 +348,10 @@ async function create_account() {
         } else if (text == "Not whitelisted") {
             warning_box.innerHTML = "Your email is not whitelisted."
             warning_box.style.display = "block";
+        
+        } else {
+            warning_box.innerHTML = text;
+            warning_box.style.display = "block";
         }
     });
 }
@@ -352,7 +373,7 @@ async function log_in() {
 
         if (text.includes("<html>")) {
             window.location.href = server_ip + "/main";
-
+            
         } else if (text == "incorrect password") {
             warning_box_text.innerHTML = "Your password is incorrect."
             warning_box.style.display = "block";
@@ -378,8 +399,21 @@ async function log_in() {
             warning_box.style.display = "block";
             
         }
-    });
+    });    
+}
+
+function update_rules_countdown() {
+    if (!rules_countdown <= 0) {
+        button_authbox_createaccount_rules.disabled = true;
+        button_authbox_createaccount_rules.innerText = rules_countdown;
+
+        rules_countdown--;
 
 
+        setTimeout(update_rules_countdown, 1000)
     
+    } else if (rules_countdown <= 0) {
+        button_authbox_createaccount_rules.disabled = false;
+        button_authbox_createaccount_rules.innerText = "Create Account";
+    }
 }

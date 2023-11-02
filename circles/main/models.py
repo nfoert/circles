@@ -6,7 +6,10 @@ from django.core.exceptions import ValidationError
 class Server(models.Model):
     name = models.CharField(max_length=256)
     ip = models.CharField(max_length=256)
+    admins = models.ManyToManyField(User, blank=True)
     production = models.BooleanField(default=1)
+    account_creation = models.BooleanField(default=1)
+    websocket_accept = models.BooleanField(default=1)
 
     def __str__(self):
         return(self.name)

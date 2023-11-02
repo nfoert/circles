@@ -1,0 +1,479 @@
+@font-face {
+	font-family: 'ArchiformSans';
+	src: local('Abc'),
+		 url('./fonts/Arciform.otf') format("opentype");
+}
+
+
+/* Classes */
+/*     Text */
+
+.text-medium {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 60px;
+    z-index: 5;
+    text-align: center;
+}
+
+.text-small {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 30px;
+    z-index: 5;
+    text-align: center; 
+}
+
+.text-small-left {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 30px;
+    z-index: 5;
+    text-align: left; 
+    margin: 0px;
+}
+
+.text-tiny {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+    text-align: left; 
+    margin: 0px;
+    opacity: 0.6;
+
+}
+
+.dialog-header {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 40px;
+    margin: 0;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.dialog-subheader {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+    margin: 0;
+    margin-left: 20px;
+}
+
+.textedit-subtext {
+    color:white;
+    margin: 0;
+    margin-left: 8%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: ArchiformSans;
+    font-size: 18px;
+    opacity: 0.5;
+}
+
+.user-in-conversation {
+    margin: 5px;
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: ArchiformSans;
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    width: fit-content;
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+.user-in-conversation-search {
+    margin: 5px;
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: ArchiformSans;
+    backdrop-filter: blur(20px);
+    background-color: rgba(163, 206, 255, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    width: fit-content;
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+.user-in-conversation-search:hover {
+    background-color: rgba(169, 255, 152, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    scale: 1.05;
+    transition: 0.3s ease;
+}
+
+.user-in-conversation-confirm {
+    margin: 5px;
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: ArchiformSans;
+    backdrop-filter: blur(20px);
+    background-color: rgba(169, 255, 152, 0.2);
+    border: 2px solid rgba(211, 211, 211, 0.4);
+    width: fit-content;
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+@keyframes user-in-conversation-shake {
+    0% {
+        transform: translateX(0px);
+    }
+
+    25% {
+        transform: translateX(3px);
+    }
+
+    50% {
+        transform: translateX(-3px);
+    }
+
+    75% {
+        transform: translateX(3px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+
+    
+}
+
+.user-in-conversation-confirm:hover {
+    background-color: rgba(255, 152, 152, 0.2);
+    scale: 0.9;
+    transition: 0.3s ease;
+    animation: user-in-conversation-shake 0.5s infinite;
+    animation-delay: 1s;
+
+}
+
+.user-in-conversation-confirm:active {
+    background-color: rgba(255, 152, 152, 0.2);
+    scale: 0.8;
+    transition: 0.1s ease;
+}
+
+/*     Buttons */
+.button {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    color: white;
+    border-radius: 5px;
+    font-size: 30px;
+    font-family: ArchiformSans;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
+    border: 1px solid rgba(211, 211, 211, 0.4);
+}
+
+.button:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.button:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+.buttonsmaller {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    color: white;
+    border-radius: 30px;
+    font-size: 20px;
+    font-family: ArchiformSans;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5px;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
+    border: 1px solid rgba(211, 211, 211, 0.4);
+}
+
+.buttonsmaller:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.buttonsmaller:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+.buttonsmaller:disabled {
+    background-color: rgba(104, 104, 104, 0.103);
+    transform: scale(0.8);
+}
+
+.buttontiny {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px 15px;
+    transition: 0.3s ease;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 15px;
+
+    width: 100%;
+}
+
+.buttontiny:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.buttontiny:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+
+@keyframes shake {
+    0% {
+        transform: scale(0.85);
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(10px);
+    }
+
+    50% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+
+    100% {
+        transform: translateX(0);
+        transform: scale(0.8);
+    }
+}
+
+.buttonsmaller:disabled:active {
+    background-color: rgba(255, 0, 0, 0.103);
+    transform: scale(0.8);
+    animation: shake 0.5s;
+}
+
+
+.buttonx {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 40px;
+    margin: 30px;
+    text-align: right;
+    transition: 0.3s ease;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.buttonx:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.buttonx:active {
+    transform: scale(0.9);
+}
+
+/*     Text Area */
+.textarea {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 10%;
+    padding: 5px;
+    font-family: ArchiformSans;
+    transition: 0.3s ease;
+    opacity: 0.5;
+}
+
+.textarea:focus {
+    opacity: 1;
+}
+
+.textarea:hover:not(:focus) {
+    opacity: 0.6;
+    transform: scale(1.02);
+}
+
+.textarea::placeholder {
+    color: white;
+}
+
+.textarea-color {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 10%;
+    padding: 5px;
+    font-family: ArchiformSans;
+    transition: 0.3s ease;
+    opacity: 0.5;
+}
+
+.textarea-color::-webkit-color-swatch {
+    border-radius: 15px;
+    border: 4px;
+    padding: 0px;
+    transition: 0.3s ease;
+}
+
+.textarea-color::-webkit-color-swatch-wrapper {
+    padding: 0px;
+    padding-left: 40%;
+    padding-right: 40%;
+}
+
+.textarea-color::-moz-color-swatch {
+    border-radius: 15px;
+    border: 4px;
+    padding: 0px;
+    transition: 0.3s ease;
+}
+
+.textarea-color::-moz-color-swatch-wrapper {
+    padding: 0px;
+    padding-left: 40%;
+    padding-right: 40%;
+}
+
+.textarea-color:focus {
+    opacity: 1;
+}
+
+.textarea-color:hover:not(:focus) {
+    opacity: 0.6;
+    transform: scale(1.02);
+}
+
+/*     Box */
+/*         Info Box */
+.infobox {
+    height: fit-content;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 10px;
+    background-color: rgba(19, 52, 88, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: default;
+    
+}
+
+.infobox > p {
+    font-family: ArchiformSans;
+    color: white;
+    opacity: 0.5;
+    margin: 10px;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.infobox:hover > p {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+/*         Critical Box */
+.criticalbox {
+    height: fit-content;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 10px;
+    background-color: rgba(129, 5, 5, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: default;
+    
+}
+
+.criticalbox > p {
+    font-family: ArchiformSans;
+    color: white;
+    opacity: 0.5;
+    margin: 10px;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.criticalbox:hover > p {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+/*         Warning Box */
+.warningbox {
+    height: fit-content;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 10px;
+    background-color: rgba(255, 217, 0, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: default;
+    
+}
+
+.warningbox > p {
+    font-family: ArchiformSans;
+    color: white;
+    opacity: 0.5;
+    margin: 10px;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.warningbox:hover > p {
+    opacity: 0.8;
+    transform: scale(1.02);
+}

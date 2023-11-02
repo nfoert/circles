@@ -19,6 +19,8 @@ The secret key should be regenerated along with normal security stuff. (Use 'pyt
 
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,14 +30,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@vc&x%k-v6lj-jr_jg8w18kv3s@&0cxnva^9r9r$c2f0p^*+ug'
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.1.101"]
+ALLOWED_HOSTS = ["urchin-app-aiid2.ondigitalocean.app"]
+CSRF_TRUSTED_ORIGINS = ['https://urchin-app-aiid2.ondigitalocean.app']
 
 ASGI_APPLICATION = "circles.asgi.application"
+
+DJANGO_SETTINGS_MODULE = "circles.production_settings"
 
 # Application definition
 
@@ -86,12 +91,22 @@ WSGI_APPLICATION = 'circles.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.getenv('DATABASE_URL', None)
+
+if not DATABASE_URL:
+    print("Using default database")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        "default": dj_database_url.parse(DATABASE_URL)
+    }
+
 
 
 # Password validation
@@ -128,7 +143,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

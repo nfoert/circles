@@ -6,39 +6,43 @@ Manages things relating to user details, including
 - Generating the user details box when a user is clicked
 */
 
-var userdetails_box = document.getElementById("user-details")
-var userdetails_close = document.getElementById("user-details-bottom-close")
+var userdetails_box = document.getElementById("user-details");
+var userdetails_close = document.getElementById("user-details-bottom-close");
 
-var userdetails_profilepicture = document.getElementById("user-details-profilepicture")
-var userdetails_top = document.getElementById("user-details-top")
+var userdetails_profilepicture = document.getElementById("user-details-profilepicture");
+var userdetails_top = document.getElementById("user-details-top");
 
 var userdetails_message = document.getElementById("userdetails-message")
-var userdetails_follow = document.getElementById("userdetails-follow")
-var userdetails_report = document.getElementById("userdetails-report")
-var userdetails_more = document.getElementById("userdetails-more")
+var userdetails_follow = document.getElementById("userdetails-follow");
+var userdetails_report = document.getElementById("userdetails-report");
+var userdetails_more = document.getElementById("userdetails-more");
 
-userdetails_message.addEventListener("click", dm_user)
+userdetails_message.addEventListener("click", dm_user);
 
-var userdetails_username = document.getElementById("user-details-textdetails-username")
-var userdetails_server = document.getElementById("user-details-textdetails-server")
-var userdetails_bio = document.getElementById("userdetails-bio")
+var userdetails_username = document.getElementById("user-details-textdetails-username");
+var userdetails_server = document.getElementById("user-details-textdetails-server");
+var userdetails_bio = document.getElementById("userdetails-bio");
 
-userdetails_close.addEventListener("click", close_userdetails)
+userdetails_close.addEventListener("click", close_userdetails);
 
 var userdetails_open = false;
 
 function open_userdetails() {
+    hide_small_buttons_expand();
+
     userdetails_open = true;
     
-    userdetails_box.classList.remove("hide-user-details")
-    userdetails_box.classList.add("show-user-details")
+    userdetails_box.classList.remove("hide-user-details");
+    userdetails_box.classList.add("show-user-details");
 }
 
 function close_userdetails() {
+    show_small_buttons_expand();
+
     userdetails_open = false;
 
-    userdetails_box.classList.remove("show-user-details")
-    userdetails_box.classList.add("hide-user-details")
+    userdetails_box.classList.remove("show-user-details");
+    userdetails_box.classList.add("hide-user-details");
 }
 
 function request_userdetails(username) {
@@ -47,7 +51,7 @@ function request_userdetails(username) {
         "username": username
     }
     
-    server_socket.send(JSON.stringify(get_userdetails_json))
+    server_socket.send(JSON.stringify(get_userdetails_json));
 }
 
 function render_userdetails(json) {
@@ -69,5 +73,5 @@ function dm_user() {
         "username": username
     }
 
-    server_socket.send(JSON.stringify(dm_user_json))
+    server_socket.send(JSON.stringify(dm_user_json));
 }

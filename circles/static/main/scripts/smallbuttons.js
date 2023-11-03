@@ -28,3 +28,24 @@ function update_small_buttons_column() {
         small_buttons_expand.style.transform = "rotate(0deg)"
     }
 }
+
+function hide_small_buttons_expand() {
+    small_buttons_open = true;
+    update_small_buttons_column();
+    small_buttons_expand.style.opacity = "0";
+
+    setTimeout(() => {
+        small_buttons_expand.style.display = "none";
+
+    }, 100)
+}
+
+function show_small_buttons_expand() {
+    small_buttons_expand.style.display = "block";
+    small_buttons_expand.style.opacity = "0";
+
+
+    setTimeout(() => {
+        small_buttons_expand.style.opacity = "1"
+    }, 500) 
+}

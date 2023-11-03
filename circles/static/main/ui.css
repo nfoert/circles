@@ -309,6 +309,34 @@
     transform: scale(0.9);
 }
 
+.buttonsmallcircle {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 20px;
+    transition: 0.3s ease;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+
+    width: 40px;
+    padding-top: 3px;
+
+    aspect-ratio: 1/1;
+    margin: 3px;
+}
+
+.buttonsmallcircle:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.buttonsmallcircle:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+
 /*     Text Area */
 .textarea {
     backdrop-filter: blur(20px);

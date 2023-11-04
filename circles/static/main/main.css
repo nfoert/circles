@@ -1622,3 +1622,38 @@ body {
     opacity: 0.5;
     backdrop-filter: blur(20px);
 }
+
+/* Version Warning */
+#version-warning {
+    position: absolute;
+    z-index: 500; /* lol */
+    right: -90px;
+    top: 50px;
+    background-color: #FF2A2A;
+    border: 1px #FFA9A9 solid;
+    border-radius: 20px;
+    transform: rotate(45deg);
+    width: 300px;
+    height: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0.5;
+    transition: 0.3s ease;
+}
+
+#version-warning:hover {
+    opacity: 1;
+    scale: 1.1;
+}
+
+#version-warning-text {
+    color: white;
+    font-family: ArchiformSans, Calibri;
+    font-size: 15px;
+    text-align: center;
+    margin: auto;
+    user-select: none;
+}

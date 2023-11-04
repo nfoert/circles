@@ -190,6 +190,31 @@ class User {
         server_socket.send(position_json)
     }
 
+    move_camera_to_me() {
+        let isAnimating = true;
+        var camera_position = { x: camera.position.x, y: camera.position.y }
+
+        const move_animation = new TWEEN.Tween(camera_position)
+            .to({ x: this.x, y: this.y }, 250)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(() => {
+                camera.position.x = camera_position.x;
+                camera.position.y = camera_position.y;
+            })
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate)
+    }
+
 }
 
 class OtherUser {
@@ -552,6 +577,24 @@ function zoom(e) {
     } else {
         scale = scale + 0.02;
     }
+
+    if (scale > 1) {
+        scale = 1;
+
+    } else if (scale < 0.1) {
+        scale = 0.1;
+    }
+
+    camera.zoom = scale;
+
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+}
+
+// Thanks to WestLangley's answer here https://stackoverflow.com/questions/20314486/how-to-perform-zoom-with-a-orthographic-projection
+function zoom_amount(amount) { // TODO: Animate
+    scale = Math.round(scale * 100) / 100;
+    scale = scale + (amount/100)
 
     if (scale > 1) {
         scale = 1;

@@ -12,6 +12,31 @@ small_buttons_expand.addEventListener("click", update_small_buttons_column)
 
 var small_buttons_open = true;
 
+document.getElementById("small-buttons-github").addEventListener("click", () => {
+    window.open("https://github.com/nfoert/circles", "_blank") // TODO: Make this URL an attribute in Server
+})
+
+document.getElementById("small-buttons-issues").addEventListener("click", () => {
+    window.open("https://github.com/nfoert/circles/issues", "_blank") // TODO: Make this URL an attribute in Server
+})
+
+document.getElementById("small-buttons-discord").addEventListener("click", () => {
+    window.open("https://discord.com/invite/QBDw4UrGXX", "_blank") // TODO: Make this URL an attribute in Server
+})
+
+document.getElementById("small-buttons-zoomin").addEventListener("click", () => {
+    console.log("It's zoomin")
+    zoom_amount(5);
+})
+
+document.getElementById("small-buttons-zoomout").addEventListener("click", () => {
+    zoom_amount(-5);
+})
+
+document.getElementById("small-buttons-me").addEventListener("click", () => {
+    me.move_camera_to_me();
+})
+
 function update_small_buttons_column() {
     if (small_buttons_open) {
         console.log("close")

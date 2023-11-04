@@ -668,39 +668,21 @@ function right_click_up(event) {
 function left_click(event) {
     if (event.button === 0) {
 
-        me.coords_before_move = { x: me.circle.position.x, y: me.circle.position.y }
+        try {
+            me.coords_before_move = { x: me.circle.position.x, y: me.circle.position.y }
 
-        const mouse = new THREE.Vector2();
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, camera);
-
-        const intersects = raycaster.intersectObject(plane);
-
-        if (users.length == 0) {
-            const intersectionPoint = intersects[0].point;
-
-            if (intersects.length > 0) {
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+    
+            const intersects = raycaster.intersectObject(plane);
+    
+            if (users.length == 0) {
                 const intersectionPoint = intersects[0].point;
     
-                me.x = Math.round(intersectionPoint.x);
-                me.y = Math.round(intersectionPoint.y);
-    
-                me.move();
-    
-            }
-        }
-
-        for (user in users) {
-            const intersectionPoint = intersects[0].point;
-
-            if (Math.abs(users[user].x - intersectionPoint.x) < 50 && Math.abs(users[user].y - intersectionPoint.y) < 50) { // Is there a user close to the cursor position?
-                request_userdetails(users[user].username);
-                break;
-            
-            } else {
                 if (intersects.length > 0) {
                     const intersectionPoint = intersects[0].point;
         
@@ -711,7 +693,30 @@ function left_click(event) {
         
                 }
             }
+    
+            for (user in users) {
+                const intersectionPoint = intersects[0].point;
+    
+                if (Math.abs(users[user].x - intersectionPoint.x) < 50 && Math.abs(users[user].y - intersectionPoint.y) < 50) { // Is there a user close to the cursor position?
+                    request_userdetails(users[user].username);
+                    break;
+                
+                } else {
+                    if (intersects.length > 0) {
+                        const intersectionPoint = intersects[0].point;
+            
+                        me.x = Math.round(intersectionPoint.x);
+                        me.y = Math.round(intersectionPoint.y);
+            
+                        me.move();
+            
+                    }
+                }
+            } 
+        } catch (TypeError) {
+            return false;
         }
+        
     }
 }
 

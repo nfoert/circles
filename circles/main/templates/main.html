@@ -208,6 +208,24 @@
 
         </div>
 
+        <div id="small-buttons">
+            <div id="small-buttons-column">
+                <button class="buttonsmallcircle" id="small-buttons-github"><i class="ph-bold ph-github-logo"></i></button>
+                <button class="buttonsmallcircle" id="small-buttons-issues"><i class="ph-bold ph-bug-beetle"></i></button>
+                <button class="buttonsmallcircle" id="small-buttons-discord"><i class="ph-bold ph-discord-logo"></i></button>
+                <div class="small-buttons-spacer"></div>
+                <button class="buttonsmallcircle" id="small-buttons-zoomin"><i class="ph-bold ph-magnifying-glass-plus"></i></button> <!-- It's zoomin -->
+                <button class="buttonsmallcircle" id="small-buttons-zoomout"><i class="ph-bold ph-magnifying-glass-minus"></i></button>
+                <button class="buttonsmallcircle" id="small-buttons-me"><i class="ph-bold ph-navigation-arrow"></i></button>
+                <div class="small-buttons-spacer"></div>
+            </div>
+
+            <button class="buttonsmallcircle" id="small-buttons-expand"><i class="ph-bold ph-caret-down"></i></button>
+
+
+
+        </div>
+
         <div id="mobile-warning">
             <div id="mobile-warning-contents">
                 <p class="text-medium" style="text-align: left;"><i class="ph-bold ph-device-mobile"></i> Hi, your screen is really tiny.</p>
@@ -217,6 +235,8 @@
             </div>
             
         </div>
+
+        <div id="version-warning"><p id="version-warning-text">Open Alpha</p></div>
 
         <div id="main-backgroundblur"></div>
 
@@ -242,6 +262,7 @@
         <script src="{% static 'main/scripts/userdetails.js' %}"></script>
         <script src="{% static 'main/scripts/editprofile.js' %}"></script>
         <script src="{% static 'main/scripts/mobilewarning.js' %}"></script>
+        <script src="{% static 'main/scripts/smallbuttons.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         

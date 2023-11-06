@@ -56,6 +56,8 @@ function request_userdetails(username) {
 
 function render_userdetails(json) {
     close_userdetails();
+
+    userdetails_box.setAttribute("username", json["username"]);
     
     userdetails_username.innerText = json["display_name"];
     userdetails_server.innerText = json["username"] + "@" + "circles.media"; // TODO: Change server name based off of actual server name
@@ -66,7 +68,7 @@ function render_userdetails(json) {
 }
 
 function dm_user() {
-    const username = userdetails_username.innerText
+    const username = userdetails_box.getAttribute("username");
 
     const dm_user_json = {
         "type": "dm_user",

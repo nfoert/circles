@@ -15,7 +15,6 @@ button.addEventListener("click", update_messages_conversations);
 let conversations_messages_state = 0; // 0 = messages, 1 = conversations
 
 function update_messages_conversations() {
-    messages_box_manager.replaceChildren(); // Clear children
 
     if (conversations_messages_state == 0) {
         conversations_messages_state = 1;

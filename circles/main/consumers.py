@@ -111,7 +111,6 @@ class MainConsumer(AsyncWebsocketConsumer):
             await self.send(json.dumps(packet))
 
         elif text_data["type"] == "switch_conversation":
-            print("SWITCH CONVERSATION", text_data["name"], text_data["conversation_type"])
             result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
 
         elif text_data["type"] == "send_message":
@@ -219,7 +218,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         if len(user) == 1:
             if check_password(password, user[0].password):
-                print("Logged in")
+                print(f"{self.username} logged in")
                 user[0].online = True
                 user[0].save()
                 return True
@@ -364,7 +363,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             if conversations_before != conversations: # New changes
                 new_conversations = [item for item in conversations if item not in conversations_before]
-                print("New conversation!", new_conversations)
 
                 conversations_before = conversations
 
@@ -382,7 +380,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0]
         me.online = False
         me.save()
-        print("User marked as offline.")
+        print(f"{self.username} went offline")
 
     @database_sync_to_async
     def search_for_usernames(self, string):
@@ -465,7 +463,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         else:
             print("That conversation type is not recognized.")
-            self.disconnect(1000)
+            self.close()
 
             return False
         
@@ -650,17 +648,11 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0]
         server = Server.objects.all()[0]
 
-        print(server)
-
-
         if direction == "forwards":
             circles = Circle.objects.all()
 
-            print(circles)
-
             if me.location_circle != None:
                 for circle in circles: # Messy but does the job
-                    print(circle)
                     if str(circle) == (str(me.location_circle) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -668,7 +660,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             else:
                 for circle in circles: # Messy but does the job
-                    print(circle)
                     if str(circle) == (str(server.name) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -768,6 +759,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         Returns True if a new Conversation was created
         '''
         me = User.objects.filter(username=self.username)[0]
+        print(username)
         them = User.objects.filter(username=username)[0]
 
         name = f"{me.username}, {username}"

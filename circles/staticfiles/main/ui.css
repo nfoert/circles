@@ -309,6 +309,34 @@
     transform: scale(0.9);
 }
 
+.buttonsmallcircle {
+    backdrop-filter: blur(20px);
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 20px;
+    transition: 0.3s ease;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: 20px;
+
+    width: 40px;
+    padding-top: 3px;
+
+    aspect-ratio: 1/1;
+    margin: 3px;
+}
+
+.buttonsmallcircle:hover {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.buttonsmallcircle:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+
 /*     Text Area */
 .textarea {
     backdrop-filter: blur(20px);
@@ -394,7 +422,7 @@
 /*         Info Box */
 .infobox {
     height: fit-content;
-    width: 90%;
+    width: 88%;
     margin-left: 5%;
     margin-right: 5%;
     border-radius: 10px;
@@ -403,19 +431,17 @@
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: default;
-    
-}
+    padding: 10px;
 
-.infobox > p {
     font-family: ArchiformSans;
     color: white;
     opacity: 0.5;
-    margin: 10px;
     font-size: 16px;
     transition: 0.3s ease;
+    
 }
 
-.infobox:hover > p {
+.infobox:hover {
     opacity: 0.8;
     transform: scale(1.02);
 }
@@ -423,7 +449,7 @@
 /*         Critical Box */
 .criticalbox {
     height: fit-content;
-    width: 90%;
+    width: 88%;
     margin-left: 5%;
     margin-right: 5%;
     border-radius: 10px;
@@ -432,19 +458,17 @@
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: default;
-    
-}
+    padding: 10px;
 
-.criticalbox > p {
     font-family: ArchiformSans;
     color: white;
     opacity: 0.5;
-    margin: 10px;
     font-size: 16px;
     transition: 0.3s ease;
+    
 }
 
-.criticalbox:hover > p {
+.criticalbox:hover {
     opacity: 0.8;
     transform: scale(1.02);
 }
@@ -452,7 +476,7 @@
 /*         Warning Box */
 .warningbox {
     height: fit-content;
-    width: 90%;
+    width: 88%;
     margin-left: 5%;
     margin-right: 5%;
     border-radius: 10px;
@@ -461,19 +485,17 @@
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: default;
-    
-}
+    padding: 10px;
 
-.warningbox > p {
     font-family: ArchiformSans;
     color: white;
     opacity: 0.5;
-    margin: 10px;
     font-size: 16px;
     transition: 0.3s ease;
+    
 }
 
-.warningbox:hover > p {
+.warningbox:hover {
     opacity: 0.8;
     transform: scale(1.02);
 }

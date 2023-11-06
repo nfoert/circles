@@ -190,6 +190,31 @@ class User {
         server_socket.send(position_json)
     }
 
+    move_camera_to_me() {
+        let isAnimating = true;
+        var camera_position = { x: camera.position.x, y: camera.position.y }
+
+        const move_animation = new TWEEN.Tween(camera_position)
+            .to({ x: this.x, y: this.y }, 250)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(() => {
+                camera.position.x = camera_position.x;
+                camera.position.y = camera_position.y;
+            })
+            .start()
+            .onComplete(() => {
+                isAnimating = false;
+            })
+
+        function animate(time) {
+            if (isAnimating) {
+                TWEEN.update(time)
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate)
+    }
+
 }
 
 class OtherUser {
@@ -566,6 +591,24 @@ function zoom(e) {
     renderer.render(scene, camera);
 }
 
+// Thanks to WestLangley's answer here https://stackoverflow.com/questions/20314486/how-to-perform-zoom-with-a-orthographic-projection
+function zoom_amount(amount) { // TODO: Animate
+    scale = Math.round(scale * 100) / 100;
+    scale = scale + (amount/100)
+
+    if (scale > 1) {
+        scale = 1;
+
+    } else if (scale < 0.1) {
+        scale = 0.1;
+    }
+
+    camera.zoom = scale;
+
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+}
+
 // Thanks to Chase Finch's answer here https://stackoverflow.com/questions/4235426/how-can-i-capture-the-right-click-event-in-javascript
 function block_context_menu(event) {
     event.preventDefault();
@@ -625,39 +668,21 @@ function right_click_up(event) {
 function left_click(event) {
     if (event.button === 0) {
 
-        me.coords_before_move = { x: me.circle.position.x, y: me.circle.position.y }
+        try {
+            me.coords_before_move = { x: me.circle.position.x, y: me.circle.position.y }
 
-        const mouse = new THREE.Vector2();
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, camera);
-
-        const intersects = raycaster.intersectObject(plane);
-
-        if (users.length == 0) {
-            const intersectionPoint = intersects[0].point;
-
-            if (intersects.length > 0) {
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+    
+            const intersects = raycaster.intersectObject(plane);
+    
+            if (users.length == 0) {
                 const intersectionPoint = intersects[0].point;
     
-                me.x = Math.round(intersectionPoint.x);
-                me.y = Math.round(intersectionPoint.y);
-    
-                me.move();
-    
-            }
-        }
-
-        for (user in users) {
-            const intersectionPoint = intersects[0].point;
-
-            if (Math.abs(users[user].x - intersectionPoint.x) < 50 && Math.abs(users[user].y - intersectionPoint.y) < 50) { // Is there a user close to the cursor position?
-                request_userdetails(users[user].username);
-                break;
-            
-            } else {
                 if (intersects.length > 0) {
                     const intersectionPoint = intersects[0].point;
         
@@ -668,7 +693,30 @@ function left_click(event) {
         
                 }
             }
+    
+            for (user in users) {
+                const intersectionPoint = intersects[0].point;
+    
+                if (Math.abs(users[user].x - intersectionPoint.x) < 50 && Math.abs(users[user].y - intersectionPoint.y) < 50) { // Is there a user close to the cursor position?
+                    request_userdetails(users[user].username);
+                    break;
+                
+                } else {
+                    if (intersects.length > 0) {
+                        const intersectionPoint = intersects[0].point;
+            
+                        me.x = Math.round(intersectionPoint.x);
+                        me.y = Math.round(intersectionPoint.y);
+            
+                        me.move();
+            
+                    }
+                }
+            } 
+        } catch (TypeError) {
+            return false;
         }
+        
     }
 }
 

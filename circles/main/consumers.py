@@ -30,6 +30,8 @@ class MainConsumer(AsyncWebsocketConsumer):
             conversation = await self.get_current_conversation()
             circles = await self.get_circles_in_users_circle()
             user_data = await self.get_userdetails(self.username)
+            settings = await self.get_all_settings()
+            stats = await self.get_all_stats()
 
             initial_message = {
                 "type": "initial_message",
@@ -44,6 +46,9 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "location_circle": location[1],
                 "x": position[0],
                 "y": position[1],
+
+                "settings": settings,
+                "stats": stats,
             }
             
             initial_message["current_conversation"] = conversation
@@ -194,6 +199,32 @@ class MainConsumer(AsyncWebsocketConsumer):
             await self.sign_out()
             
             await self.close()
+
+        elif text_data["type"] == "set_setting":
+            await self.set_setting(text_data["key"], text_data["value"])
+
+        elif text_data["type"] == "update_settings":
+            response = await self.get_all_settings()
+
+            setting_response = {
+                "type": "all_settings",
+                "settings": response
+            }
+
+            await self.send(json.dumps(setting_response))
+
+        elif text_data["type"] == "set_stat":
+            await self.set_stat(text_data["key"], text_data["value"])
+
+        elif text_data["type"] == "update_stats":
+            response = await self.get_all_stats()
+
+            stat_response = {
+                "type": "all_stats",
+                "stats": response
+            }
+
+            await self.send(json.dumps(stat_response))
 
 
         else:
@@ -377,10 +408,15 @@ class MainConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def go_offline(self):
-        me = User.objects.filter(username=self.username)[0]
-        me.online = False
-        me.save()
-        print(f"{self.username} went offline")
+        try:
+            me = User.objects.filter(username=self.username)[0]
+            me.online = False
+            me.save()
+            print(f"{self.username} went offline")
+
+        except IndexError:
+            print("There was a problem marking that User as offline")
+
 
     @database_sync_to_async
     def search_for_usernames(self, string):
@@ -817,6 +853,80 @@ class MainConsumer(AsyncWebsocketConsumer):
         }
 
         return server_info
+    
+    @database_sync_to_async
+    def set_setting(self, key, value):
+        '''
+        Sets a value of setting key in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        me.settings[key] = value
+        me.save()
+
+        return value
+    
+    @database_sync_to_async
+    def get_setting(self, key, default):
+        '''
+        Tries to get a setting saved in the User's profile
+        If the setting is not found, the paramater default will be used to set it
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.settings[key]
+        
+        except KeyError:
+            me.settings[key] = default
+            me.save()
+            return default
+        
+    @database_sync_to_async
+    def get_all_settings(self):
+        '''
+        Gets all settings saved in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        return me.settings
+    
+    
+    @database_sync_to_async
+    def set_stat(self, key, value):
+        '''
+        Sets a value of a stat's key in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        me.stats[key] = value
+        me.save()
+
+        return value
+    
+    @database_sync_to_async
+    def get_stat(self, key, default):
+        '''
+        Tries to get a stat saved in the User's profile
+        If the stat is not found, the paramater default will be used to set it
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.stats[key]
+        
+        except KeyError:
+            me.stats[key] = default
+            me.save()
+            return default
+        
+    @database_sync_to_async
+    def get_all_stats(self):
+        '''
+        Gets all stats saved in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        return me.stats
+
 
 
 

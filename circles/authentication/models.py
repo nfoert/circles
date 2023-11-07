@@ -15,6 +15,8 @@ class User(AbstractBaseUser):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     online = models.BooleanField(default=0)
+    settings = models.JSONField(default=dict, blank=True)
+    stats = models.JSONField(default=dict, blank=True)
     location_server = models.ForeignKey("main.Server", on_delete=models.SET_NULL, blank=True, null=True)
     location_circle = models.ForeignKey("main.Circle", on_delete=models.SET_NULL, blank=True, null=True)
     current_conversation = models.ForeignKey("main.Conversation", on_delete=models.SET_NULL, blank=True, null=True)

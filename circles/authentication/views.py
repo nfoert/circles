@@ -77,19 +77,26 @@ def create_account(request):
                 password = request.headers["Password"]
                 email = request.headers["Email"]
 
-                hashed_password = make_password(password)
+                users = User.objects.filter(username=username)
+
+                if len(users) > 0:
+                    return HttpResponse("Account with username already exists")
                 
-                server = Server.objects.all()[0] # TODO: Breaks if there is no server
-                user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now())
-                user.location_server = server
+                else:
 
-                user.save()
+                    hashed_password = make_password(password)
+                    
+                    server = Server.objects.all()[0] # TODO: Breaks if there is no server
+                    user = User(username=username, password=hashed_password, email=email, date_created=datetime.datetime.now())
+                    user.location_server = server
 
-                request.session["username"] = username
-                request.session["password"] = password
+                    user.save()
 
-                print("account created!")
-                return sign_in(request)
+                    request.session["username"] = username
+                    request.session["password"] = password
+
+                    print("account created!")
+                    return sign_in(request)
             
             else:
                 return HttpResponse("Missing headers")

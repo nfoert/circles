@@ -33,6 +33,16 @@
           "panel": "new"
         },
         "problemMatcher": []
+      },
+      {
+        "label": "Collect static files",
+        "type": "shell",
+        "command": "source .venv/bin/activate && python ./circles/manage.py collectstatic --noinput",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
       }
     ]
   }

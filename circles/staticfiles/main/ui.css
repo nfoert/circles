@@ -499,3 +499,40 @@
     opacity: 0.8;
     transform: scale(1.02);
 }
+
+/*     Checkbox */
+/* Thanks to https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o */
+.checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+    transition: 0.3s ease;
+
+    display: inline-flex;
+    margin: 3px;
+}
+
+.checkbox > input {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    padding: 0px;
+
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.checkbox > input:checked {
+    background-color: rgba(0, 150, 0, 0.4);
+}
+
+.checkbox > input:hover:not(:checked) {
+    background-color: rgba(44, 44, 44, 0.4);
+}
+
+.checkbox > input:hover {
+    background-color: rgba(100, 250, 100, 0.4);
+}

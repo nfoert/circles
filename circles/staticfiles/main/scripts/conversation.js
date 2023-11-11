@@ -319,6 +319,7 @@ function select_conversation(event) {
         messages_entry.placeholder = name;
     }
 
+    document.getElementById("main-messages-box-messages").replaceChildren(); // Clear children
     update_messages_conversations_hide_conversations();    
 }
 

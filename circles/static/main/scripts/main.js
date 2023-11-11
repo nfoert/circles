@@ -216,7 +216,7 @@ class User {
     }
 
     get_setting(key, normal) {
-        console.log(me.settings[key])
+        console.log("normal", normal)
         if (me.settings[key] != undefined) {
             return me.settings[key];
         
@@ -835,11 +835,11 @@ server_socket.onmessage = function (e) {
 
         render_circles(json);
 
-        if (me.get_setting("show_version_warning") == false) {
+        if (me.get_setting("show_version_warning", true) == false) {
             document.getElementById("version-warning").style.opacity = "0";
         }
 
-        if (me.get_setting("show_controls_on_start") == false) {
+        if (me.get_setting("show_controls_on_start", true) == false) {
             document.getElementById("controls").style.display = "none";
         }
 

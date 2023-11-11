@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'ArchiformSans';
 	src: local('Abc'),
-		 url('./fonts/Arciform.otf') format("opentype");
+	url('./fonts/Arciform.otf') format("opentype");
 }
 
 
@@ -74,6 +74,15 @@
 
 body {
     background-color: #35363E;
+    overflow: hidden;
+}
+
+#main-main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 
@@ -131,14 +140,23 @@ body {
     filter: blur(75px);
 }
 
+#particles-js {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
 #main-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 #main-header-text {
-    margin-top: 15vw;
+    margin-top: 0vw;
 }
 
 #main-header-subtext {
@@ -146,9 +164,9 @@ body {
 }
 
 #main-header_line {
-    width: 600px;
-    height: 5px;
-    background-color: white;
+    width: 70%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
 }
 
@@ -190,11 +208,15 @@ body {
 
 #background-darkness {
     z-index: 9;
+
     position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100vw;
+    height: 100vh;
+
     background-color: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(80px);
     opacity: 0;
@@ -316,4 +338,48 @@ body {
     text-decoration: none;
     font-family: ArchiformSans;
     font-size: 20px;
+}
+
+/* Navigation Bar */
+
+#nav-bar {
+    position: absolute;
+    top: clamp(40px, 40px, 60px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 98%;
+    height: clamp(40px, 50px, 80px);
+
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 50px;
+    backdrop-filter: blur(20px);
+
+    display: flex;
+    flex-direction: row;
+
+    display: none; /* TODO: Disabled for now */
+}
+
+#nav-logo {
+    height: 80%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+}
+
+.nav-spacer {
+    width: 4px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+    backdrop-filter: blur(20px);
+    height: 60%;
+
+    opacity: 0.7;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+    margin-inline-start: 5px;
 }

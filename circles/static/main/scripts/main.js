@@ -839,6 +839,10 @@ server_socket.onmessage = function (e) {
             document.getElementById("version-warning").style.opacity = "0";
         }
 
+        if (me.get_setting("show_controls_on_start") == false) {
+            document.getElementById("controls").style.display = "none";
+        }
+
 
     } else if (json["type"] == "users_update") {
         var users_used = [];

@@ -1679,3 +1679,63 @@ body {
     margin: auto;
     user-select: none;
 }
+
+/* Controls */
+
+@keyframes controls-animation {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+    }
+
+    20% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    70% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        filter: blur(20px);
+        display: none;
+    }
+}
+#controls {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    translate: -50% -50%;
+    right: 50%;
+    z-index: 5;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 40px;
+    transition: 0.3s ease;
+
+    opacity: 0;
+    filter: blur(20px);
+
+    width: 400px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    padding-bottom: 30px;
+
+    user-select: none;
+
+    animation: controls-animation forwards 5s ease;
+    animation-delay: 1s;
+}
+
+.controls-control {
+    margin: 5px !important;
+    margin-left: 50px !important;
+}

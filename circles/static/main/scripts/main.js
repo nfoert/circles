@@ -215,6 +215,55 @@ class User {
         requestAnimationFrame(animate)
     }
 
+    get_setting(key, normal) {
+        console.log(me.settings[key])
+        if (me.settings[key] != undefined) {
+            return me.settings[key];
+        
+        } else {
+            this.set_setting(key, normal);
+            return normal;
+        }
+    }
+
+    set_setting(key, value) {
+        this.settings[key] = value;
+
+        let set_setting_json = {
+            "type": "set_setting",
+            "key": key,
+            "value": value,
+        }
+
+        server_socket.send(JSON.stringify(set_setting_json));
+
+        return value;
+    }
+
+    get_stat(key, normal) {
+        if (me.stats[key] != undefined) {
+            return me.stats[key];
+        
+        } else {
+            this.set_stat(key, normal);
+            return normal;
+        }
+    }
+
+    set_stat(key, value) {
+        this.stats[key] = value;
+
+        let set_stat_json = {
+            "type": "set_stat",
+            "key": key,
+            "value": value,
+        }
+
+        server_socket.send(JSON.stringify(set_stat_json));
+
+        return value;
+    }
+
 }
 
 class OtherUser {
@@ -768,6 +817,8 @@ server_socket.onmessage = function (e) {
         me.bio = json["bio"];
         me.primary_color = json["primary_color"];
         me.secondary_color = json["secondary_color"];
+        me.settings = json["settings"];
+        me.stats = json["stats"];
         me.draw();
 
         set_user_box_colors(json["primary_color"], json["secondary_color"]);
@@ -783,6 +834,15 @@ server_socket.onmessage = function (e) {
         }
 
         render_circles(json);
+
+        if (me.get_setting("show_version_warning") == false) {
+            document.getElementById("version-warning").style.opacity = "0";
+        }
+
+        if (me.get_setting("show_controls_on_start") == false) {
+            document.getElementById("controls").style.display = "none";
+        }
+
 
     } else if (json["type"] == "users_update") {
         var users_used = [];
@@ -895,6 +955,12 @@ server_socket.onmessage = function (e) {
 
     } else if (json["type"] == "profile_details") {
         render_profile_details(json);
+
+    } else if (json["type"] == "all_settings") {
+        me.settings = json["settings"];
+
+    } else if (json["type"] == "all_stats") {
+        me.stats = json["stats"];
 
     } else {
         console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])

@@ -71,9 +71,8 @@ function render_recent_messages(packet) {
     // Thanks to Michael Mrozek's answer here https://stackoverflow.com/questions/3367415/get-epoch-for-a-specific-date-using-javascript
     // Thanks to chovy's answer here https://stackoverflow.com/questions/13707333/javascript-convert-date-time-string-to-epoch
     // Thanks to rink.attendant.6's answer here https://stackoverflow.com/questions/23749464/reverse-the-order-of-elements-added-to-dom-with-javascript
-
+    
     main_messages_box.replaceChildren() // Clear children
-
 
     for (message in packet["messages"]) {
         const text = packet["messages"][message]["text"];

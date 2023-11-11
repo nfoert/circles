@@ -24,12 +24,16 @@ class MainConsumer(AsyncWebsocketConsumer):
                 print("Websocket connection is disabled")
                 await self.close()
 
+            await self.set_stat("logged_in", await self.get_stat("logged_in", 0) + 1)
+
 
             location = await self.get_location()
             position = await self.get_position()
             conversation = await self.get_current_conversation()
             circles = await self.get_circles_in_users_circle()
             user_data = await self.get_userdetails(self.username)
+            settings = await self.get_all_settings()
+            stats = await self.get_all_stats()
 
             initial_message = {
                 "type": "initial_message",
@@ -44,6 +48,9 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "location_circle": location[1],
                 "x": position[0],
                 "y": position[1],
+
+                "settings": settings,
+                "stats": stats,
             }
             
             initial_message["current_conversation"] = conversation
@@ -79,11 +86,20 @@ class MainConsumer(AsyncWebsocketConsumer):
         text_data = json.loads(text_data)
 
         if text_data["type"] == "position_update":
+            position = await self.get_position()
+            
+            x_distance = abs(position[0] - text_data["x"])
+            y_distance = abs(position[1] - text_data["y"])
+
             await self.set_position(text_data["x"], text_data["y"])
+
+            await self.set_stat("distance_moved", await self.get_stat("distance_moved", 0) + (x_distance + y_distance))
 
         elif text_data["type"] == "create_conversation":
             await self.create_conversation(text_data["name"], text_data["users"])
             await self.send_notification("Created Conversation", f"Created new Conversation {text_data['name']}", "normal")
+
+            await self.set_stat("conversations_created", await self.get_stat("conversations_created", 0) + 1)
 
         elif text_data["type"] == "username_search":
             usernames = await self.search_for_usernames(text_data["string"])
@@ -111,11 +127,12 @@ class MainConsumer(AsyncWebsocketConsumer):
             await self.send(json.dumps(packet))
 
         elif text_data["type"] == "switch_conversation":
-            print("SWITCH CONVERSATION", text_data["name"], text_data["conversation_type"])
             result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
+            await self.set_stat("conversations_switched", await self.get_stat("conversations_switched", 0) + 1)
 
         elif text_data["type"] == "send_message":
             result = await self.send_message(text_data["message"])
+            await self.set_stat("messages_sent", await self.get_stat("messages_sent", 0) + 1)
 
         elif text_data["type"] == "change_circle":
             result = await self.change_circle(text_data["direction"], text_data["name"])
@@ -128,6 +145,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             switch_circle_packet["circles"] = circles_in_current_circle
             await self.send(json.dumps(switch_circle_packet))
+
+            await self.set_stat("circles_switched", await self.get_stat("circles_switched", 0) + 1)
 
             location = await self.get_location()
             current_location_packet = {
@@ -183,7 +202,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                 await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
 
         elif text_data["type"] == "get_profile_details":
-            userdetails = await self.get_userdetails(self.username)
+            userdetails = await self.get_userdetails(self.username, True)
 
             userdetails["type"] = "profile_details"
             await self.send(json.dumps(userdetails))
@@ -195,6 +214,32 @@ class MainConsumer(AsyncWebsocketConsumer):
             await self.sign_out()
             
             await self.close()
+
+        elif text_data["type"] == "set_setting":
+            await self.set_setting(text_data["key"], text_data["value"])
+
+        elif text_data["type"] == "update_settings":
+            response = await self.get_all_settings()
+
+            setting_response = {
+                "type": "all_settings",
+                "settings": response
+            }
+
+            await self.send(json.dumps(setting_response))
+
+        elif text_data["type"] == "set_stat":
+            await self.set_stat(text_data["key"], text_data["value"])
+
+        elif text_data["type"] == "update_stats":
+            response = await self.get_all_stats()
+
+            stat_response = {
+                "type": "all_stats",
+                "stats": response
+            }
+
+            await self.send(json.dumps(stat_response))
 
 
         else:
@@ -219,7 +264,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         if len(user) == 1:
             if check_password(password, user[0].password):
-                print("Logged in")
+                print(f"{self.username} logged in")
                 user[0].online = True
                 user[0].save()
                 return True
@@ -364,7 +409,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             if conversations_before != conversations: # New changes
                 new_conversations = [item for item in conversations if item not in conversations_before]
-                print("New conversation!", new_conversations)
 
                 conversations_before = conversations
 
@@ -379,10 +423,15 @@ class MainConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def go_offline(self):
-        me = User.objects.filter(username=self.username)[0]
-        me.online = False
-        me.save()
-        print("User marked as offline.")
+        try:
+            me = User.objects.filter(username=self.username)[0]
+            me.online = False
+            me.save()
+            print(f"{self.username} went offline")
+
+        except IndexError:
+            print("There was a problem marking that User as offline")
+
 
     @database_sync_to_async
     def search_for_usernames(self, string):
@@ -465,7 +514,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         else:
             print("That conversation type is not recognized.")
-            self.disconnect(1000)
+            self.close()
 
             return False
         
@@ -650,17 +699,11 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0]
         server = Server.objects.all()[0]
 
-        print(server)
-
-
         if direction == "forwards":
             circles = Circle.objects.all()
 
-            print(circles)
-
             if me.location_circle != None:
                 for circle in circles: # Messy but does the job
-                    print(circle)
                     if str(circle) == (str(me.location_circle) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -668,7 +711,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             else:
                 for circle in circles: # Messy but does the job
-                    print(circle)
                     if str(circle) == (str(server.name) + " / " + name):
                         me.location_circle = circle
                         me.location_server = None
@@ -728,7 +770,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         circle.save()
 
     @database_sync_to_async
-    def get_userdetails(self, username):
+    def get_userdetails(self, username, extra=False):
         user = User.objects.filter(username=username)
 
         if len(user) == 1:
@@ -737,8 +779,12 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "display_name": user[0].display_name,
                 "bio": user[0].bio,
                 "primary_color": user[0].primary_color,
-                "secondary_color": user[0].secondary_color
+                "secondary_color": user[0].secondary_color,
             }
+
+            if extra:
+                userdetails["settings"] = user[0].settings
+                userdetails["stats"] = user[0].stats
 
             return userdetails
 
@@ -768,6 +814,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         Returns True if a new Conversation was created
         '''
         me = User.objects.filter(username=self.username)[0]
+        print(username)
         them = User.objects.filter(username=username)[0]
 
         name = f"{me.username}, {username}"
@@ -803,6 +850,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         me.bio = json["bio"]
         me.primary_color = json["primary_color"]
         me.secondary_color = json["secondary_color"]
+        me.settings = json["settings"]
 
         me.save()
 
@@ -825,6 +873,91 @@ class MainConsumer(AsyncWebsocketConsumer):
         }
 
         return server_info
+    
+    @database_sync_to_async
+    def set_setting(self, key, value):
+        '''
+        Sets a value of setting key in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        me.settings[key] = value
+        me.save()
+
+        return value
+    
+    @database_sync_to_async
+    def get_setting(self, key, default):
+        '''
+        Tries to get a setting saved in the User's profile
+        If the setting is not found, the paramater default will be used to set it
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.settings[key]
+        
+        except KeyError:
+            me.settings[key] = default
+            me.save()
+            return default
+        
+    @database_sync_to_async
+    def get_all_settings(self):
+        '''
+        Gets all settings saved in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        return me.settings
+    
+    
+    @database_sync_to_async
+    def set_stat(self, key, value):
+        '''
+        Sets a value of a stat's key in the User's profile
+        '''
+
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        
+        try:
+            if me.settings["stat_tracking"] == True:
+
+                me.stats[key] = value
+                me.save()
+
+                return value
+            
+            else:
+                return False
+                
+        except KeyError:
+            return False
+    
+    @database_sync_to_async
+    def get_stat(self, key, default):
+        '''
+        Tries to get a stat saved in the User's profile
+        If the stat is not found, the paramater default will be used to set it
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.stats[key]
+        
+        except KeyError:
+            me.stats[key] = default
+            me.save()
+            return default
+        
+    @database_sync_to_async
+    def get_all_stats(self):
+        '''
+        Gets all stats saved in the User's profile
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        return me.stats
+
 
 
 

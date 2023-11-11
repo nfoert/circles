@@ -354,6 +354,24 @@
     opacity: 0.5;
 }
 
+.textarea::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+}
+
 .textarea:focus {
     opacity: 1;
 }
@@ -498,4 +516,57 @@
 .warningbox:hover {
     opacity: 0.8;
     transform: scale(1.02);
+}
+
+/*     Checkbox */
+/* Thanks to https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o */
+.checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+    transition: 0.3s ease;
+
+    display: inline-flex;
+    margin: 3px;
+}
+
+.checkbox > input {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    padding: 0px;
+
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.checkbox > input:checked {
+    background-color: rgba(0, 150, 0, 0.4);
+}
+
+.checkbox > input:hover:not(:checked) {
+    background-color: rgba(44, 44, 44, 0.4);
+}
+
+.checkbox > input:hover {
+    background-color: rgba(100, 250, 100, 0.4);
+}
+
+.checkbox-layout {
+    display: flex;
+    flex-direction: row;
+    margin-left: 40px;
+}
+
+.checkbox-text {
+    color: white;
+    font-family: ArchiformSans;
+    opacity: 0.5;
+    font-size: 18px;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 10px;
 }

@@ -181,6 +181,8 @@
                 </div>
 
                 <div id="edit-profile-fields">
+                    <p class="dialog-subheader">Edit Profile</p>
+                    <br>
 
                     <input class="textarea" placeholder="Display Name" type="text" id="edit-profile-displayname"></input>
                     <p class="textedit-subtext"><strong>Display Name</strong> The name you appear as</p>
@@ -195,6 +197,24 @@
                     <p class="textedit-subtext"><strong>Secondary Color</strong> The secondary color for your User. This color is displayed in your profile.</p>
                     
                     <br>
+
+                    <p class="dialog-subheader">Settings</p>
+                    <br>
+
+                    <div class="checkbox-layout">
+                        <div class="checkbox"><input type="checkbox" class="setting" default="true" setting="show_version_warning"></div>
+                        <p class="checkbox-text">Show version warning</p>
+                    </div>
+
+                    <div class="checkbox-layout">
+                        <div class="checkbox"><input type="checkbox" class="setting" default="true" setting="show_controls_on_start"></div>
+                        <p class="checkbox-text">Show controls on start</p>
+                    </div>
+
+                    <div class="checkbox-layout">
+                        <div class="checkbox"><input type="checkbox" class="setting" default="true" setting="stat_tracking"></div>
+                        <p class="checkbox-text">Statistic tracking</p>
+                    </div>
                     
                 </div>
             </div>
@@ -237,6 +257,13 @@
         </div>
 
         <div id="version-warning"><p id="version-warning-text">Open Alpha</p></div>
+
+        <div id="controls" class="controls-fade">
+            <p class="text-small" style="text-align: left; margin-left: 40px;">Controls</p>
+            <p class="text-tiny controls-control"><strong>[Left Click]</strong> Move</p>
+            <p class="text-tiny controls-control"><strong>[Right Click]</strong> Pan Camera</p>
+            <p class="text-tiny controls-control"><strong>[Scroll]</strong> Zoom In and Out</p>
+        </div>
 
         <div id="main-backgroundblur"></div>
 

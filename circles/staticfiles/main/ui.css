@@ -354,6 +354,24 @@
     opacity: 0.5;
 }
 
+.textarea::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
+}
+
 .textarea:focus {
     opacity: 1;
 }
@@ -535,4 +553,20 @@
 
 .checkbox > input:hover {
     background-color: rgba(100, 250, 100, 0.4);
+}
+
+.checkbox-layout {
+    display: flex;
+    flex-direction: row;
+    margin-left: 40px;
+}
+
+.checkbox-text {
+    color: white;
+    font-family: ArchiformSans;
+    opacity: 0.5;
+    font-size: 18px;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 10px;
 }

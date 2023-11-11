@@ -48,7 +48,7 @@ function close_userdetails() {
 function request_userdetails(username) {
     const get_userdetails_json = {
         "type": "get_userdetails",
-        "username": username
+        "username": username,
     }
     
     server_socket.send(JSON.stringify(get_userdetails_json));

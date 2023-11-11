@@ -1501,6 +1501,28 @@ body {
 
 #edit-profile-fields {
     width: 400px;
+    height: 540px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+
+#edit-profile-fields::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 3px;
+}
+
+#edit-profile-fields::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 5px;
+}
+
+#edit-profile-fields::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 5px;
 }
 
 #edit-profile-buttons {

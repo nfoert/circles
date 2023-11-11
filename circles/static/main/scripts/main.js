@@ -835,6 +835,11 @@ server_socket.onmessage = function (e) {
 
         render_circles(json);
 
+        if (me.get_setting("show_version_warning") == false) {
+            document.getElementById("version-warning").style.opacity = "0";
+        }
+
+
     } else if (json["type"] == "users_update") {
         var users_used = [];
         // If user in list "users" doesn't exist already, create it

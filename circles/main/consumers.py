@@ -202,7 +202,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                 await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
 
         elif text_data["type"] == "get_profile_details":
-            userdetails = await self.get_userdetails(self.username)
+            userdetails = await self.get_userdetails(self.username, True)
 
             userdetails["type"] = "profile_details"
             await self.send(json.dumps(userdetails))
@@ -770,7 +770,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         circle.save()
 
     @database_sync_to_async
-    def get_userdetails(self, username):
+    def get_userdetails(self, username, extra=False):
         user = User.objects.filter(username=username)
 
         if len(user) == 1:
@@ -779,8 +779,12 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "display_name": user[0].display_name,
                 "bio": user[0].bio,
                 "primary_color": user[0].primary_color,
-                "secondary_color": user[0].secondary_color
+                "secondary_color": user[0].secondary_color,
             }
+
+            if extra:
+                userdetails["settings"] = user[0].settings
+                userdetails["stats"] = user[0].stats
 
             return userdetails
 
@@ -846,6 +850,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         me.bio = json["bio"]
         me.primary_color = json["primary_color"]
         me.secondary_color = json["secondary_color"]
+        me.settings = json["settings"]
 
         me.save()
 
@@ -911,11 +916,22 @@ class MainConsumer(AsyncWebsocketConsumer):
         '''
         Sets a value of a stat's key in the User's profile
         '''
-        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
-        me.stats[key] = value
-        me.save()
 
-        return value
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        
+        try:
+            if me.settings["stat_tracking"] == True:
+
+                me.stats[key] = value
+                me.save()
+
+                return value
+            
+            else:
+                return False
+                
+        except KeyError:
+            return False
     
     @database_sync_to_async
     def get_stat(self, key, default):

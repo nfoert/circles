@@ -43,6 +43,17 @@
           "panel": "new"
         },
         "problemMatcher": []
+      },
+      // Thanks to https://github.com/pypa/pip/issues/4318#issuecomment-284272355
+      {
+        "label": "Pip freeze",
+        "type": "shell",
+        "command": "source .venv/bin/activate && pip freeze | sed s/=.*// > requirements.txt",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
       }
     ]
   }

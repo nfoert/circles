@@ -9,14 +9,17 @@ charset-normalizer
 constantly
 cryptography
 daphne
+dj-database-url
 Django
 django-colorfield
+future
 gunicorn
 hyperlink
 idna
 incremental
 packaging
 Pillow
+psycopg2-binary
 pyasn1
 pyasn1-modules
 pycparser
@@ -31,5 +34,3 @@ txaio
 typing_extensions
 urllib3
 zope.interface
-dj_database_url
-psycopg2-binary

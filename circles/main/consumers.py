@@ -24,6 +24,8 @@ class MainConsumer(AsyncWebsocketConsumer):
                 print("Websocket connection is disabled")
                 await self.close()
 
+            await self.set_stat("logged_in", await self.get_stat("logged_in", 0) + 1)
+
 
             location = await self.get_location()
             position = await self.get_position()
@@ -84,11 +86,20 @@ class MainConsumer(AsyncWebsocketConsumer):
         text_data = json.loads(text_data)
 
         if text_data["type"] == "position_update":
+            position = await self.get_position()
+            
+            x_distance = abs(position[0] - text_data["x"])
+            y_distance = abs(position[1] - text_data["y"])
+
             await self.set_position(text_data["x"], text_data["y"])
+
+            await self.set_stat("distance_moved", await self.get_stat("distance_moved", 0) + (x_distance + y_distance))
 
         elif text_data["type"] == "create_conversation":
             await self.create_conversation(text_data["name"], text_data["users"])
             await self.send_notification("Created Conversation", f"Created new Conversation {text_data['name']}", "normal")
+
+            await self.set_stat("conversations_created", await self.get_stat("conversations_created", 0) + 1)
 
         elif text_data["type"] == "username_search":
             usernames = await self.search_for_usernames(text_data["string"])
@@ -117,9 +128,11 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         elif text_data["type"] == "switch_conversation":
             result = await self.switch_conversation(text_data["name"], text_data["conversation_type"])
+            await self.set_stat("conversations_switched", await self.get_stat("conversations_switched", 0) + 1)
 
         elif text_data["type"] == "send_message":
             result = await self.send_message(text_data["message"])
+            await self.set_stat("messages_sent", await self.get_stat("messages_sent", 0) + 1)
 
         elif text_data["type"] == "change_circle":
             result = await self.change_circle(text_data["direction"], text_data["name"])
@@ -132,6 +145,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             switch_circle_packet["circles"] = circles_in_current_circle
             await self.send(json.dumps(switch_circle_packet))
+
+            await self.set_stat("circles_switched", await self.get_stat("circles_switched", 0) + 1)
 
             location = await self.get_location()
             current_location_packet = {

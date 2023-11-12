@@ -216,7 +216,6 @@ class User {
     }
 
     get_setting(key, normal) {
-        console.log("normal", normal)
         if (me.settings[key] != undefined) {
             return me.settings[key];
         

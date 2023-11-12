@@ -59,7 +59,7 @@ body {
 }
 
 #main-canvas {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-color: #35363E;
 }
@@ -519,6 +519,18 @@ body {
     }
 }
 
+@keyframes fade_out_bg {
+    0% {
+        backdrop-filter: blur(10px);
+        background-color: rgba(36, 36, 36, 0.4);
+    }
+
+    100% {
+        backdrop-filter: blur(0px);
+        background-color: rgba(36, 36, 36, 0);
+    }
+}
+
 
 .fade_in_bg {
     display: inline !important;
@@ -526,8 +538,7 @@ body {
 }
 
 .fade_out_bg {
-    animation: fade_in_bg 1s reverse forwards;
-    display: none !important;
+    animation: fade_out_bg 1s forwards;
 }
 
 #main-backgroundblur {
@@ -1647,16 +1658,17 @@ body {
 
 /* Version Warning */
 #version-warning {
-    position: absolute;
+    position: fixed;
     z-index: 500; /* lol */
-    right: -90px;
+    right: -220px;
     top: 50px;
+    translate: -50% 50%;
     background-color: #FF2A2A;
     border: 1px #FFA9A9 solid;
     border-radius: 20px;
     transform: rotate(45deg);
     width: 300px;
-    height: 20px;
+    height: 2vh;
 
     display: flex;
     justify-content: center;
@@ -1674,7 +1686,7 @@ body {
 #version-warning-text {
     color: white;
     font-family: ArchiformSans, Calibri;
-    font-size: 15px;
+    font-size: 1.5vh;
     text-align: center;
     margin: auto;
     user-select: none;
@@ -1689,12 +1701,12 @@ body {
     }
 
     20% {
-        opacity: 1;
+        opacity: 0.5;
         filter: blur(0px);
     }
 
     70% {
-        opacity: 1;
+        opacity: 0.5;
         filter: blur(0px);
     }
 
@@ -1738,4 +1750,140 @@ body {
 .controls-control {
     margin: 5px !important;
     margin-left: 50px !important;
+}
+
+/* Dialog Box System */
+@media (min-width: 1000px) {
+    /* Larger Screens */
+    @keyframes show-dialog {
+        from {
+            opacity: 0;
+            scale: 0.9;
+            filter: blur(20px);
+        }
+
+        to {
+            opacity: 1;
+            scale: 1;
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes hide-dialog {
+        from {
+            opacity: 1;
+            scale: 1;
+            filter: blur(0px);
+        }
+
+        to {
+            opacity: 0;
+            scale: 0.9;
+            filter: blur(20px);
+        }
+    }
+
+    .show-dialog {
+        animation: show-dialog 0.5s ease forwards;
+    }
+
+    .hide-dialog {
+        animation: hide-dialog 0.5s ease forwards;
+    }
+
+    #dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        z-index: 10;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        width: 600px;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+
+        transition: 0.3s ease;
+
+        display: none;
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1000px) {
+    /* Smaller screens */
+
+    @keyframes show-dialog {
+        0% {
+            opacity: 0;
+            max-height: 0%;
+            filter: blur(20px);
+        }
+
+        100% {
+            opacity: 1;
+            max-height: 85%;
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes hide-dialog {
+        from {
+            opacity: 1;
+            max-height: 85%;
+            filter: blur(0px);
+        }
+
+        to {
+            opacity: 0;
+            max-height: 0%;
+            filter: blur(20px);
+        }
+    }
+
+    .show-dialog {
+        animation: show-dialog 0.5s ease forwards;
+    }
+
+    .hide-dialog {
+        animation: hide-dialog 0.5s ease forwards;
+    }
+
+    #dialog {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        translate: -50% 0;
+        z-index: 10;
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    
+        background-color: rgba(211, 211, 211, 0.3);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+
+        transition: 0.3s ease;
+
+        display: none;
+        opacity: 0;
+    }
+}
+
+
+#dialog-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#dialog-text {
+    display: flex;
+    flex-direction: column;
 }

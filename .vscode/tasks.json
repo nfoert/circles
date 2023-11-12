@@ -17,7 +17,7 @@
       {
         "label": "Start server (external)",
         "type": "shell",
-        "command": "source .venv/bin/activate && python ./circles/manage.py runserver 192.168.1.101:1111",
+        "command": "source .venv/bin/activate && python ./circles/manage.py runserver 192.168.1.103:1111",
         "presentation": {
           "reveal": "always",
           "panel": "new"

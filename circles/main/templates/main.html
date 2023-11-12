@@ -265,6 +265,17 @@
             <p class="text-tiny controls-control"><strong>[Scroll]</strong> Zoom In and Out</p>
         </div>
 
+        <div id="dialog">
+            <div id="dialog-top">
+                <div id="dialog-text">
+                    <p class="dialog-header" id="dialog-header">Dialog Box</p>
+                    <p class="dialog-subheader" id="dialog-subheader">Subheader</p>
+                </div>
+                <p class="buttonx" id="dialog-close">X</p>
+            </div>
+        
+        </div>
+
         <div id="main-backgroundblur"></div>
 
         <script>
@@ -292,6 +303,7 @@
         <script src="{% static 'main/scripts/smallbuttons.js' %}"></script>
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
+        <script src="{% static 'main/scripts/dialog.js' %}"></script>
         
         
         

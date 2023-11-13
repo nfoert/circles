@@ -804,10 +804,12 @@ if (production == "True") {
     url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
 }
 
+log_connection("Creating WebSocket...");
 var server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
+    log_connection("Recieved packet '" + json["type"] + "'")
 
     if (json["type"] == "initial_message") {
         let messages_input_box = document.getElementById("main-messages-box-input-textarea");
@@ -971,6 +973,8 @@ server_socket.onmessage = function (e) {
 };
 
 server_socket.onclose = function (e) {
+    log_connection("Connection closed.")
+    log_critical("Websocket disconnected.")
     if (e.wasClean) {
         background_blur.style.display = "inline";
         background_blur.classList.add("fade_in_bg")
@@ -993,6 +997,7 @@ server_socket.onclose = function (e) {
 };
 
 server_socket.onopen = async function (e) {
+    log_connection("Connection opened");
     set_notification_title("<i class='ph-bold ph-check-circle'></i> Connected");
     set_notification_color(4, 223, 33);
     status_done();

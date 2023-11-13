@@ -22,7 +22,7 @@ Hello to all of us hackers who likes to open the console! Hack away! (Nicely)
 `)
 
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
+var camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,6 +41,7 @@ camera.updateProjectionMatrix();
 camera.position.z = 1000;
 
 // Thanks to mrdoob's answer here https://stackoverflow.com/questions/11285065/limiting-framerate-in-three-js-to-increase-performance-requestanimationframe
+// Thanks to Cory Gross's answer here https://stackoverflow.com/questions/11170952/threejs-orthographic-camera-adjusting-size-of-scene-to-window
 function animate() {
     setTimeout(() => {
         requestAnimationFrame(animate);
@@ -63,17 +64,20 @@ var users = [];
 var circles = [];
 
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
-window.addEventListener('resize', onWindowResize, false);
+window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
+    const camFactor = 2;
+
     camera.aspect = window.innerWidth / window.innerHeight;
-    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.left = -window.innerWidth / camFactor;
+    camera.right = window.innerWidth / camFactor;
+    camera.top = window.innerHeight / camFactor;
+    camera.bottom = -window.innerHeight / camFactor;
+
     camera.updateProjectionMatrix();
-    
     renderer.setSize(window.innerWidth, window.innerHeight);
-
-    renderer.render(scene, camera);
-
 }
 
 window.addEventListener("error", (event) => error(event));

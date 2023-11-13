@@ -16,9 +16,7 @@ var add_menu_button_text = document.getElementById("main-addmenubutton-text")
 var add_circle = document.getElementById("add-circle")
 var add_conversation = document.getElementById("add-conversation")
 
-var add_circle_box = document.getElementById("create-circle-box")
-var add_circle_box_close = document.getElementById("create-circle-box-close")
-
+var add_circle_box = document.getElementById("dialog-createcircle")
 
 var add_circle_name = document.getElementById("circle-box-name-input")
 var add_circle_button = document.getElementById("circle-box-button")
@@ -29,10 +27,6 @@ add_circle_button.addEventListener("click", create_circle)
 
 add_circle.addEventListener("click", function () {
     open_add_circle();
-})
-
-add_circle_box_close.addEventListener("click", function () {
-    close_add_circle();
 })
 
 add_menu_button.addEventListener("click", update_add_menu)
@@ -67,25 +61,8 @@ function add_conversation_func() {
 }
 
 function open_add_circle() {
-    add_circle_box.style.display = "flex";
-    add_circle_box.classList.remove("hide-create-circle-box")
-    add_circle_box.classList.add("show-create-circle-box")
-
-    background_blur.classList.remove("fade_out_bg")
-    background_blur.classList.add("fade_in_bg")
-}
-
-function close_add_circle() {
-    add_circle_box.style.opacity = 1;
-    add_circle_box.classList.remove("show-create-circle-box")
-    add_circle_box.classList.add("hide-create-circle-box")
-
-    background_blur.classList.remove("fade_in_bg")
-    background_blur.classList.add("fade_out_bg")
-
-    setTimeout(function () {
-        add_circle_box.style.display = "none";
-    }, 500);
+    render_dialog("createcircle");
+    show_dialog();
 }
 
 function update_add_circle() {
@@ -98,7 +75,7 @@ function update_add_circle() {
 }
 
 function create_circle() {
-    close_add_circle();
+    hide_dialog();
 
     create_circle_packet = {
         "type": "create_circle",

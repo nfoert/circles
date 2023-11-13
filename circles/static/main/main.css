@@ -1067,8 +1067,7 @@ body {
     overflow-x: hidden;
     max-height: 80vh;
 
-    opacity: 0;
-    
+    opacity: 0;    
 }
 
 .main-addmenu-item {
@@ -1716,13 +1715,14 @@ body {
         display: none;
     }
 }
+
 #controls {
     position: absolute;
     bottom: 50px;
     left: 50%;
     translate: -50% -50%;
     right: 50%;
-    z-index: 5;
+    z-index: 4;
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -1745,6 +1745,9 @@ body {
 
     animation: controls-animation forwards 5s ease;
     animation-delay: 1s;
+
+    /* Thanks to Andy's answer here https://stackoverflow.com/questions/7700051/make-overlapping-div-not-clickable-so-that-content-below-can-be-accessed */
+    pointer-events: none;
 }
 
 .controls-control {
@@ -1811,6 +1814,8 @@ body {
 
         display: none;
         opacity: 0;
+
+        overflow-x: hidden;
     }
 }
 
@@ -1873,14 +1878,16 @@ body {
 
         display: none;
         opacity: 0;
+
+        overflow-x: hidden;
     }
 }
-
 
 #dialog-top {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 #dialog-text {

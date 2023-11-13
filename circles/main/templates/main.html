@@ -14,6 +14,9 @@
     <body>
         <div id="main-canvas"></div>
 
+        {% include "dialogs/dialog_createconversation.html" %}
+        {% include "dialogs/dialog_createcircle.html" %}
+
         <div id="main-user-box">
             <!-- <img src="{% static 'main/images/circles.png' %}"> -->
             <div id="main-user-box-profile">
@@ -50,39 +53,6 @@
                 <button id="main-messages-box-input-send" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send <i class="ph-bold ph-paper-plane-tilt"></i></p></button>
                 <button id="main-messages-box-input-conversations" class="buttonsmaller"><p id="main-messages-box-input-conversations-text"><i class="ph-bold ph-list"></i></p></button>
             </div>
-        </div>
-
-        <div id="create-conversation-box">
-            <div id="create-conversation-box-text">
-                    <p class="dialog-header">Create Conversation</p>
-                <p class="buttonx" id="create-conversation-box-close">X</p>
-            </div>
-
-            
-            <input class="textarea" placeholder="Name" type="text" id="conversation-box-name-input"></input>
-            <p class="textedit-subtext">Pick a name for your new Conversation.</p>
-            
-
-            
-            <input class="textarea" placeholder="Search for a user" type="text" id="conversation-box-user-search"></input>
-            <p class="textedit-subtext">Search for users to add to your Conversation</p>
-
-            <div id="conversation-box-userstoadd"></div>
-
-            <button class="buttonsmaller" id="conversation-box-button">Create Conversation</button>
-            
-        </div>
-
-        <div id="create-circle-box">
-            <div id="create-conversation-box-text"> <!-- Reuse because this whole system will be redone soon -->
-                <p class="dialog-header">Create Circle</p>
-                <p class="buttonx" id="create-circle-box-close">X</p>
-            </div>
-
-            <input class="textarea" placeholder="Name" type="text" id="circle-box-name-input"></input>
-            <p class="textedit-subtext">Pick a name for your new Circle.</p>
-
-            <button class="buttonsmaller" id="circle-box-button">Create Circle</button>
         </div>
 
         <div id="main-status-box">

@@ -985,6 +985,11 @@ server_socket.onclose = function (e) {
         status_error();
 
         console.error('Chat socket closed unexpectedly');
+
+        document.getElementById("loading-screen").classList.add("hide-loading-screen");
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+        }, 1600)
     } else {
         background_blur.style.display = "inline";
         background_blur.classList.add("fade_in_bg")
@@ -994,6 +999,11 @@ server_socket.onclose = function (e) {
         status_error();
 
         console.error('Chat socket closed unexpectedly');
+
+        document.getElementById("loading-screen").classList.add("hide-loading-screen");
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+        }, 1600)
     }
 };
 
@@ -1004,5 +1014,11 @@ server_socket.onopen = async function (e) {
     status_done();
 
     get_users_conversations_request();
+
+    document.getElementById("loading-screen").classList.add("hide-loading-screen");
+
+    setTimeout(function() {
+        document.getElementById("loading-screen").style.display = "none";
+    }, 1600)
 
 };

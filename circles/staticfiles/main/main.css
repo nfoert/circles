@@ -1922,3 +1922,93 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+/* Loading Screen */
+@keyframes hide-loading-screen {
+    from {
+        opacity: 1;
+        -webkit-backdrop-filter: blur(40px);
+        backdrop-filter: blur(40px);
+        scale: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        scale: 1.5;
+    }
+
+    to {
+        opacity: 0;
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        scale: 1.5;
+    }
+
+}
+
+.hide-loading-screen {
+    animation: hide-loading-screen 1s forwards ease;
+    animation-delay: 0.5s;
+}
+
+.hide-loading-screen > img {
+    scale: 1 !important;
+}
+
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(70, 70, 70, 0.4);
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    z-index: 1000; /* lol */
+}
+
+@keyframes show-loading-screen-image {
+    from {
+        opacity: 0;
+        scale: 0.8;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes load-loading-screen-image {
+    from {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.1;
+    }
+
+    to {
+        scale: 1;
+    }
+}
+
+
+#loading-screen-image {
+    width: 20vw;
+    height: auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    opacity: 1;
+    scale: 0.8;
+    animation: show-loading-screen-image 1s ease forwards, load-loading-screen-image 1s ease forwards infinite 2s;
+
+    filter: drop-shadow(3px 3px #777777);
+}

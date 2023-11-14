@@ -103,6 +103,7 @@
     border-radius: 10px;
     font-size: 20px;
     font-family: ArchiformSans;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -118,6 +119,7 @@
     border-radius: 10px;
     font-size: 20px;
     font-family: ArchiformSans;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(163, 206, 255, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -140,6 +142,7 @@
     border-radius: 10px;
     font-size: 20px;
     font-family: ArchiformSans;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(169, 255, 152, 0.2);
     border: 2px solid rgba(211, 211, 211, 0.4);
@@ -189,6 +192,7 @@
 
 /*     Buttons */
 .button {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     color: white;
@@ -221,6 +225,7 @@
 }
 
 .buttonsmaller {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     color: white;
@@ -258,6 +263,7 @@
 }
 
 .buttontiny {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -351,6 +357,7 @@
 }
 
 .buttonsmallcircle {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -362,6 +369,7 @@
     font-size: 20px;
 
     width: 40px;
+    padding: 1px; /* Fixes problem on mobile for some unexplainable reason */
     padding-top: 3px;
 
     aspect-ratio: 1/1;
@@ -380,6 +388,7 @@
 
 /*     Text Area */
 .textarea {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
@@ -427,6 +436,7 @@
 }
 
 .textarea-color {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);

@@ -809,7 +809,7 @@ var server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
-    log_connection("Recieved packet '" + json["type"] + "'")
+    log_connection_packet(`Recieved packet '${json["type"]}'`)
 
     if (json["type"] == "initial_message") {
         let messages_input_box = document.getElementById("main-messages-box-input-textarea");
@@ -867,6 +867,7 @@ server_socket.onmessage = function (e) {
                 users_used.push(user_class);
 
                 user_class.draw();
+                log_info(`Created user '${user_class.username}'`)
 
             } else if (user_exists_in_client(json["users"][user]["username"])) { // User is online
                 var user_that_exists = json["users"][user];
@@ -973,7 +974,7 @@ server_socket.onmessage = function (e) {
 };
 
 server_socket.onclose = function (e) {
-    log_connection("Connection closed.")
+    log_connection_close("Connection closed.")
     log_critical("Websocket disconnected.")
     if (e.wasClean) {
         background_blur.style.display = "inline";

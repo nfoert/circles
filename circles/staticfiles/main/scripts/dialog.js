@@ -35,6 +35,8 @@ function render_dialog(name) {
         document.getElementById("dialog-subheader").innerText = div.getAttribute("subheader");
         document.getElementById("dialog").appendChild(div);
 
+        log_info(`Rendered dialog '${name}'`)
+
     } catch {
         console.log("FAIL"); // TODO: need a logging system!
     }
@@ -48,6 +50,8 @@ function show_dialog() {
     dialog.setAttribute("style", "display: inline !important;");
     dialog.classList.remove("hide-dialog");
     dialog.classList.add("show-dialog");
+
+    log_info("Showed dialog")
 }
 
 function hide_dialog() {
@@ -66,6 +70,8 @@ function hide_dialog() {
                 results[result].remove();
             }
         }
+
+        log_info("Hid and reset dialog")
     }, 1000);
 
     

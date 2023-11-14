@@ -196,6 +196,7 @@ body {
     border-radius: 20px;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     position: fixed;
     top: 50%;
@@ -353,6 +354,7 @@ body {
     background-color: rgba(211, 211, 211, 0.4);
     border: 1px solid rgba(211, 211, 211, 0.4);
     border-radius: 50px;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 
     display: flex;
@@ -373,6 +375,7 @@ body {
     background-color: rgba(211, 211, 211, 0.4);
     border: 1px solid rgba(211, 211, 211, 0.4);
     border-radius: 5px;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     height: 60%;
 

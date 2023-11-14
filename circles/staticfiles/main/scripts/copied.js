@@ -13,6 +13,7 @@ async function copy() {
     const copy_content = async () => {
         try {
             await navigator.clipboard.writeText(text);
+            log_info(`Copied to clipboard '${text}'`)
 
         } catch (err) {
             console.error('Failed to copy: ', err); // TODO: Change appearance if copy fail

@@ -59,8 +59,7 @@ body {
 }
 
 #main-canvas {
-    width: 100%;
-    height: 100vh;
+    position: absolute;
     background-color: #35363E;
 }
 
@@ -70,6 +69,7 @@ body {
     left: 20px;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     width: 300px;
@@ -87,6 +87,7 @@ body {
 #main-user-box-profile-circle {
     background-color: rgba(211, 211, 211, 0.4);
     border: 1px solid rgba(211, 211, 211, 0.6);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     aspect-ratio: 1;
     width: 60px;
@@ -169,6 +170,7 @@ body {
     left: 20px;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     width: 95px;
@@ -191,6 +193,7 @@ body {
     left: 20px;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     display: flex;
@@ -267,6 +270,7 @@ body {
     flex-direction: row;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     width: 500px;
     margin-top: 20px;
@@ -306,6 +310,7 @@ body {
     animation: fade_in 0.5s forwards;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     height: auto;
     margin-top: 5px;
@@ -349,6 +354,7 @@ body {
     animation: fade_in 0.5s forwards;
     background-color: rgba(121, 190, 255, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     height: auto;
     margin-top: 5px;
@@ -425,6 +431,7 @@ body {
     animation: fade_in 0.5s forwards;
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     display: flex;
@@ -509,13 +516,29 @@ body {
 
 @keyframes fade_in_bg {
     0% {
+        -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
         background-color: rgba(36, 36, 36, 0);
     }
 
     100% {
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         background-color: rgba(36, 36, 36, 0.4);
+    }
+}
+
+@keyframes fade_out_bg {
+    0% {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba(36, 36, 36, 0.4);
+    }
+
+    100% {
+        -webkit-backdrop-filter: blur(0px);
+        backdrop-filter: blur(0px);
+        background-color: rgba(36, 36, 36, 0);
     }
 }
 
@@ -526,8 +549,7 @@ body {
 }
 
 .fade_out_bg {
-    animation: fade_in_bg 1s reverse forwards;
-    display: none !important;
+    animation: fade_out_bg 1s forwards;
 }
 
 #main-backgroundblur {
@@ -596,6 +618,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
 
@@ -683,6 +706,7 @@ body {
     transition: 0.5s ease;
 
     background-color: rgba(211, 211, 211, 0.2);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(211, 211, 211, 0.4);
     backdrop-filter: blur(20px);
     border-radius: 10px;
@@ -799,6 +823,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     width: fit-content;
@@ -865,6 +890,7 @@ body {
     
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     scale: 0;
@@ -912,6 +938,7 @@ body {
 .notification-list {
     background-color: rgba(211, 211, 211, 0.1);
     border: 1px solid rgba(211, 211, 211, 0.2);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
     margin: 10px;
@@ -947,6 +974,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     display: flex;
     justify-content: center;
@@ -1047,6 +1075,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
@@ -1057,21 +1086,22 @@ body {
     max-height: 80vh;
 
     opacity: 0;
-    
 }
 
 .main-addmenu-item {
     border-radius: 10px;
     margin:7px;
     width: 88%;
-    height: 100%;
-    padding:10px;
+    height: auto; /* Fixes another problem on mobile for yet another unexplainable reason */
+    padding: 10px;
     transition: 0.3s ease;
 
     color: white;
     user-select: none;
     font-family: ArchiformSans, Calibri;
     font-size: 20px;
+
+    overflow-y: hidden;
 
 }
 
@@ -1164,6 +1194,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
 
@@ -1230,6 +1261,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
 
@@ -1238,13 +1270,13 @@ body {
 
     /* background-image: url("images/bg.png"); */
     background-size: cover;
-    backdrop-filter: blur(20px);
 
 }
 
 .user-details-top {
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px 10px 0px 0px;
 
@@ -1464,6 +1496,7 @@ body {
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 10px;
 
@@ -1603,6 +1636,7 @@ body {
     translate: -50% -50%;
 
     background-color: rgba(88, 88, 88, 0.6);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 
     z-index: 150;
@@ -1642,21 +1676,23 @@ body {
     border-radius: 5px;
     margin: 7px 10px;
     opacity: 0.5;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 }
 
 /* Version Warning */
 #version-warning {
-    position: absolute;
+    position: fixed;
     z-index: 500; /* lol */
-    right: -90px;
+    right: -220px;
     top: 50px;
+    translate: -50% 50%;
     background-color: #FF2A2A;
     border: 1px #FFA9A9 solid;
     border-radius: 20px;
     transform: rotate(45deg);
     width: 300px;
-    height: 20px;
+    height: 2vh;
 
     display: flex;
     justify-content: center;
@@ -1674,7 +1710,7 @@ body {
 #version-warning-text {
     color: white;
     font-family: ArchiformSans, Calibri;
-    font-size: 15px;
+    font-size: 1.5vh;
     text-align: center;
     margin: auto;
     user-select: none;
@@ -1689,12 +1725,12 @@ body {
     }
 
     20% {
-        opacity: 1;
+        opacity: 0.5;
         filter: blur(0px);
     }
 
     70% {
-        opacity: 1;
+        opacity: 0.5;
         filter: blur(0px);
     }
 
@@ -1704,16 +1740,18 @@ body {
         display: none;
     }
 }
+
 #controls {
     position: absolute;
     bottom: 50px;
     left: 50%;
     translate: -50% -50%;
     right: 50%;
-    z-index: 5;
+    z-index: 4;
 
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-radius: 40px;
     transition: 0.3s ease;
@@ -1733,9 +1771,244 @@ body {
 
     animation: controls-animation forwards 5s ease;
     animation-delay: 1s;
+
+    /* Thanks to Andy's answer here https://stackoverflow.com/questions/7700051/make-overlapping-div-not-clickable-so-that-content-below-can-be-accessed */
+    pointer-events: none;
 }
 
 .controls-control {
     margin: 5px !important;
     margin-left: 50px !important;
+}
+
+/* Dialog Box System */
+@media (min-width: 1000px) {
+    /* Larger Screens */
+    @keyframes show-dialog {
+        from {
+            opacity: 0;
+            scale: 0.9;
+            filter: blur(20px);
+        }
+
+        to {
+            opacity: 1;
+            scale: 1;
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes hide-dialog {
+        from {
+            opacity: 1;
+            scale: 1;
+            filter: blur(0px);
+        }
+
+        to {
+            opacity: 0;
+            scale: 0.9;
+            filter: blur(20px);
+        }
+    }
+
+    .show-dialog {
+        animation: show-dialog 0.5s ease forwards;
+    }
+
+    .hide-dialog {
+        animation: hide-dialog 0.5s ease forwards;
+    }
+
+    #dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        z-index: 10;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        width: 600px;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+
+        transition: 0.3s ease;
+
+        display: none;
+        opacity: 0;
+
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 1000px) {
+    /* Smaller screens */
+
+    @keyframes show-dialog {
+        0% {
+            opacity: 0;
+            max-height: 0%;
+            filter: blur(20px);
+        }
+
+        100% {
+            opacity: 1;
+            max-height: 85%;
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes hide-dialog {
+        from {
+            opacity: 1;
+            max-height: 85%;
+            filter: blur(0px);
+        }
+
+        to {
+            opacity: 0;
+            max-height: 0%;
+            filter: blur(20px);
+        }
+    }
+
+    .show-dialog {
+        animation: show-dialog 0.5s ease forwards;
+    }
+
+    .hide-dialog {
+        animation: hide-dialog 0.5s ease forwards;
+    }
+
+    #dialog {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        translate: -50% 0;
+        z-index: 10;
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    
+        background-color: rgba(211, 211, 211, 0.3);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+
+        transition: 0.3s ease;
+
+        display: none;
+        opacity: 0;
+
+        overflow-x: hidden;
+    }
+}
+
+#dialog-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#dialog-text {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Loading Screen */
+@keyframes hide-loading-screen {
+    from {
+        opacity: 1;
+        -webkit-backdrop-filter: blur(40px);
+        backdrop-filter: blur(40px);
+        scale: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        scale: 1.5;
+    }
+
+    to {
+        opacity: 0;
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        scale: 1.5;
+    }
+
+}
+
+.hide-loading-screen {
+    animation: hide-loading-screen 1s forwards ease;
+    animation-delay: 0.5s;
+}
+
+.hide-loading-screen > img {
+    scale: 1 !important;
+}
+
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(70, 70, 70, 0.4);
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    z-index: 1000; /* lol */
+}
+
+@keyframes show-loading-screen-image {
+    from {
+        opacity: 0;
+        scale: 0.8;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes load-loading-screen-image {
+    from {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.1;
+    }
+
+    to {
+        scale: 1;
+    }
+}
+
+
+#loading-screen-image {
+    width: 20vw;
+    height: auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    opacity: 1;
+    scale: 0.8;
+    animation: show-loading-screen-image 1s ease forwards, load-loading-screen-image 1s ease forwards infinite 2s;
+
+    filter: drop-shadow(3px 3px #777777);
 }

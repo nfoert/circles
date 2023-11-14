@@ -40,15 +40,7 @@ edit_profile_signout.addEventListener("click", sign_out);
 edit_profile_changepassword.addEventListener("click", not_implemented);
 edit_profile_deleteaccount.addEventListener("click", not_implemented);
 
-var settings = document.getElementsByClassName("setting")
-
-for (const setting in settings) {
-
-    if (settings[setting].nodeName == "INPUT") {
-        settings[setting].addEventListener("change", update_setting)
-
-    }
-}
+var settings = document.getElementsByClassName("setting");
 
 function not_implemented() {
     show_notification("<i class='ph-bold ph-warning'></i> Not Implemented", "That feature has not been implemented yet. Check the Issues page for more information at github.com/nfoert/circles/issues", "normal", true);
@@ -60,7 +52,7 @@ function get_profile_details() {
         "type": "get_profile_details"
     }
 
-    server_socket.send(JSON.stringify(get_profile_details_request))
+    server_socket.send(JSON.stringify(get_profile_details_request));
 }
 
 function render_profile_details(json) {
@@ -121,10 +113,10 @@ function save_profile_details() {
         "settings": settings_json
     }
 
-    server_socket.send(JSON.stringify(save_profile_details_request))
+    server_socket.send(JSON.stringify(save_profile_details_request));
 
     show_notification("<i class='ph-bold ph-check-circle'></i> Changes saved", "Saved your profile changes", "normal", true);
-    set_notification_color(0, 255, 0)
+    set_notification_color(0, 255, 0);
 }
 
 function sign_out() {
@@ -132,7 +124,7 @@ function sign_out() {
         "type": "sign_out"
     }
 
-    server_socket.send(JSON.stringify(sign_out_request))
+    server_socket.send(JSON.stringify(sign_out_request));
 
     close_edit_profile();
 
@@ -144,7 +136,7 @@ function sign_out() {
     }, 100);
 
     setTimeout(() => {
-        location.reload();
+        location.reload(); /* Reloads the page to return to the home screen */
     }, 5000);
 }
 
@@ -168,8 +160,4 @@ function close_edit_profile() {
     setTimeout(function() {
         edit_profile.style.display = "none";
     }, 500);
-}
-
-function update_setting(e) {
-    console.log(e.target)
 }

@@ -22,7 +22,7 @@ Hello to all of us hackers who likes to open the console! Hack away! (Nicely)
 `)
 
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
+var camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,6 +41,7 @@ camera.updateProjectionMatrix();
 camera.position.z = 1000;
 
 // Thanks to mrdoob's answer here https://stackoverflow.com/questions/11285065/limiting-framerate-in-three-js-to-increase-performance-requestanimationframe
+// Thanks to Cory Gross's answer here https://stackoverflow.com/questions/11170952/threejs-orthographic-camera-adjusting-size-of-scene-to-window
 function animate() {
     setTimeout(() => {
         requestAnimationFrame(animate);
@@ -63,17 +64,20 @@ var users = [];
 var circles = [];
 
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
-window.addEventListener('resize', onWindowResize, false);
+window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
+    const camFactor = 2;
+
     camera.aspect = window.innerWidth / window.innerHeight;
-    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.left = -window.innerWidth / camFactor;
+    camera.right = window.innerWidth / camFactor;
+    camera.top = window.innerHeight / camFactor;
+    camera.bottom = -window.innerHeight / camFactor;
+
     camera.updateProjectionMatrix();
-    
     renderer.setSize(window.innerWidth, window.innerHeight);
-
-    renderer.render(scene, camera);
-
 }
 
 window.addEventListener("error", (event) => error(event));
@@ -216,7 +220,6 @@ class User {
     }
 
     get_setting(key, normal) {
-        console.log("normal", normal)
         if (me.settings[key] != undefined) {
             return me.settings[key];
         
@@ -801,10 +804,12 @@ if (production == "True") {
     url = "ws://" + server_ip.replace("http://", "").replace("https://", "") + "/main/";
 }
 
+log_connection("Creating WebSocket...");
 var server_socket = new WebSocket(url);
 
 server_socket.onmessage = function (e) {
     const json = JSON.parse(e.data);
+    log_connection_packet(`Recieved packet '${json["type"]}'`)
 
     if (json["type"] == "initial_message") {
         let messages_input_box = document.getElementById("main-messages-box-input-textarea");
@@ -862,6 +867,7 @@ server_socket.onmessage = function (e) {
                 users_used.push(user_class);
 
                 user_class.draw();
+                log_info(`Created user '${user_class.username}'`)
 
             } else if (user_exists_in_client(json["users"][user]["username"])) { // User is online
                 var user_that_exists = json["users"][user];
@@ -968,6 +974,8 @@ server_socket.onmessage = function (e) {
 };
 
 server_socket.onclose = function (e) {
+    log_connection_close("Connection closed.")
+    log_critical("Websocket disconnected.")
     if (e.wasClean) {
         background_blur.style.display = "inline";
         background_blur.classList.add("fade_in_bg")
@@ -977,6 +985,11 @@ server_socket.onclose = function (e) {
         status_error();
 
         console.error('Chat socket closed unexpectedly');
+
+        document.getElementById("loading-screen").classList.add("hide-loading-screen");
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+        }, 1600)
     } else {
         background_blur.style.display = "inline";
         background_blur.classList.add("fade_in_bg")
@@ -986,14 +999,26 @@ server_socket.onclose = function (e) {
         status_error();
 
         console.error('Chat socket closed unexpectedly');
+
+        document.getElementById("loading-screen").classList.add("hide-loading-screen");
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+        }, 1600)
     }
 };
 
 server_socket.onopen = async function (e) {
+    log_connection("Connection opened");
     set_notification_title("<i class='ph-bold ph-check-circle'></i> Connected");
     set_notification_color(4, 223, 33);
     status_done();
 
     get_users_conversations_request();
+
+    document.getElementById("loading-screen").classList.add("hide-loading-screen");
+
+    setTimeout(function() {
+        document.getElementById("loading-screen").style.display = "none";
+    }, 1600)
 
 };

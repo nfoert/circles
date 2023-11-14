@@ -9,8 +9,7 @@ Handles everything relating to the Converstion list
 
 var background_blur = document.getElementById("main-backgroundblur")
 
-const conversation_box = document.getElementById("create-conversation-box")
-const conversation_box_close = document.getElementById("create-conversation-box-close")
+const conversation_box = document.getElementById("dialog-createconversation")
 const conversation_box_name = document.getElementById("conversation-box-name-input")
 const conversation_box_search = document.getElementById("conversation-box-user-search")
 const conversation_userstoadd = document.getElementById("conversation-box-userstoadd")
@@ -21,8 +20,6 @@ const conversation_list = document.getElementById("main-messages-box-conversatio
 
 conversation_confirm.addEventListener("click", create_new_conversation)
 
-conversation_box_close.addEventListener("click", hide_conversation_box)
-
 conversation_box_name.addEventListener("input", check_name)
 conversation_box_search.addEventListener("input", check_username)
 
@@ -30,26 +27,8 @@ var selected_users = [];
 
 
 function show_conversation_box() {
-    conversation_box.style.display = "flex";
-    conversation_box.classList.remove("hide-create-conversation-box")
-    conversation_box.classList.add("show-create-conversation-box")
-
-    background_blur.classList.remove("fade_out_bg")
-    background_blur.classList.add("fade_in_bg")
-}
-
-function hide_conversation_box() {
-    conversation_box.style.opacity = 1;
-    conversation_box.classList.remove("show-create-conversation-box")
-    conversation_box.classList.add("hide-create-conversation-box")
-
-    background_blur.classList.remove("fade_in_bg")
-    background_blur.classList.add("fade_out_bg")
-
-    setTimeout(function () {
-        conversation_box.style.display = "none";
-    }, 500);
-
+    render_dialog("createconversation");
+    show_dialog();
 }
 
 function check_name() {
@@ -129,7 +108,7 @@ function create_new_conversation() {
 
     const packet_json = JSON.stringify(packet);
     
-    hide_conversation_box();
+    hide_dialog();
 
     conversation_box_search.value = "";
     conversation_box_name.value = "";
@@ -320,6 +299,7 @@ function select_conversation(event) {
     }
 
     document.getElementById("main-messages-box-messages").replaceChildren(); // Clear children
-    update_messages_conversations_hide_conversations();    
+    update_messages_conversations_hide_conversations();
+    log_info("Switched conversation")
 }
 

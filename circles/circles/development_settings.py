@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-@vc&x%k-v6lj-jr_jg8w18kv3s@&0cxnva^9r9r$c2f0p^*+ug
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.1.101"]
+ALLOWED_HOSTS = ["*"]
 
 ASGI_APPLICATION = "circles.asgi.application"
 

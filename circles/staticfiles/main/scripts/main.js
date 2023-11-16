@@ -431,7 +431,7 @@ class OtherUser {
             }
         }
 
-
+        log_info(`Removed user ${this.username}`);
 
     }
 }

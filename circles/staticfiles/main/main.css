@@ -1,6 +1,7 @@
 body {
     overflow: hidden;
     margin: 0;
+    background-color: #35363E;
 }
 
 @font-face {
@@ -210,6 +211,27 @@ body {
     margin-right:20px;
 }
 
+@keyframes location-user-change {
+    from {
+        opacity: 0.5;
+        scale: 1;
+    }
+
+    50% {
+        opacity: 0;
+        scale: 0.9;
+    }
+
+    to {
+        opacity: 0.5;
+        scale: 1;
+    }
+}
+
+.location-user-change {
+    animation: location-user-change 0.5s ease forwards;
+}
+
 #main-location-box-users {
     margin: 0;
     font-family: ArchiformSans, Calibri;
@@ -219,6 +241,36 @@ body {
     margin-left: 20px;
     margin-right: 20px;
     opacity: 0.5;
+
+    width: fit-content;
+}
+
+@keyframes location-item {
+    from {
+        opacity: 0;
+        scale: 0.9;
+    }
+
+    to {
+        opacity: 0.5;
+        scale: 1;
+    }
+}
+
+@keyframes location-item-hide {
+    from {
+        opacity: 0.5;
+        scale: 1;
+    }
+
+    to {
+        opacity: 0;
+        scale: 0.9;
+    }
+}
+
+.location-item-hide {
+    animation: location-item-hide 0.5s forwards ease;
 }
 
 .location-item {
@@ -226,9 +278,11 @@ body {
     font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 20px;
-    opacity: 0.5;
+    opacity: 0;
     transition: 0.3s ease;
     user-select: none;
+
+    animation: location-item 0.5s forwards ease;
 }
 
 .location-item:hover {
@@ -246,11 +300,13 @@ body {
     font-family: ArchiformSans, Calibri;
     color: white;
     font-size: 20px;
-    opacity: 0.5;
+    opacity: 0;
     transition: 0.3s ease;
     padding-left: 3px;
     padding-right: 3px;
     user-select: none;
+
+    animation: location-item 0.3s forwards ease;
 }
 
 #main-messages-box {

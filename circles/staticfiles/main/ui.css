@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'ArchiformSans';
 	src: local('Abc'),
-		 url('./fonts/Arciform.otf') format("opentype");
+	url('./fonts/Arciform.otf') format("opentype");
 }
 
 
@@ -11,7 +11,7 @@
 .text-medium {
     color: white;
     font-family: ArchiformSans;
-    font-size: 60px;
+    font-size: clamp(6vh, 60px, 6vw);
     z-index: 5;
     text-align: center;
 }
@@ -19,7 +19,7 @@
 .text-small {
     color: white;
     font-family: ArchiformSans;
-    font-size: 30px;
+    font-size: clamp(3vh, 30px, 3vw);
     z-index: 5;
     text-align: center; 
 }
@@ -43,46 +43,24 @@
 
 }
 
-@media (orientation: portrait) {
-    .dialog-header {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 2.5vh;
-        margin: 0;
-        margin-top: 30px;
-        margin-left: 30px;
-    }
-    
-    .dialog-subheader {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 2vh;
-        margin: 0;
-        margin-left: 35px;
-        margin-top: 5px;
-    }
+
+.dialog-header {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: clamp(3vh, 30px, 3vw);
+    margin: 0;
+    margin-top: 30px;
+    margin-left: 30px;
 }
 
-@media (orientation: landscape) {
-    .dialog-header {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 3vw;
-        margin: 0;
-        margin-top: 30px;
-        margin-left: 30px;
-    }
-    
-    .dialog-subheader {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 2vw;
-        margin: 0;
-        margin-left: 35px;
-        margin-top: 5px;
-    }
+.dialog-subheader {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: clamp(2vh, 20px, 2vw);
+    margin: 0;
+    margin-left: 35px;
+    margin-top: 5px;
 }
-
 
 
 .textedit-subtext {
@@ -92,7 +70,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: ArchiformSans;
-    font-size: 18px;
+    font-size: clamp(1.8vh, 18px, 1.8vw);
     opacity: 0.5;
 }
 
@@ -197,7 +175,7 @@
     background-color: rgba(211, 211, 211, 0.2);
     color: white;
     border-radius: 5px;
-    font-size: 30px;
+    font-size: clamp(2vh, 20px, 40px);
     font-family: ArchiformSans;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -230,7 +208,7 @@
     background-color: rgba(211, 211, 211, 0.2);
     color: white;
     border-radius: 30px;
-    font-size: 20px;
+    font-size: clamp(1.8vh, 20px, 40px);
     font-family: ArchiformSans;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -267,14 +245,14 @@
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 5px;
-    padding: 5px 15px;
+    padding: 10px 15px;
     transition: 0.3s ease;
 
     color: white;
     font-family: ArchiformSans;
-    font-size: 15px;
+    font-size: clamp(1.5vh, 15px, 30px);
 
     width: 100%;
 }
@@ -319,30 +297,16 @@
     animation: shake 0.5s;
 }
 
-@media (orientation: portrait) {
-    .buttonx {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 3vh;
-        margin: 30px;
-        text-align: right;
-        transition: 0.3s ease;
-        cursor: pointer;
-        opacity: 0.5;
-    }
-}
-
-@media (orientation: landscape) {
-    .buttonx {
-        color: white;
-        font-family: ArchiformSans;
-        font-size: 3vw;
-        margin: 30px;
-        text-align: right;
-        transition: 0.3s ease;
-        cursor: pointer;
-        opacity: 0.5;
-    }
+.buttonx {
+    color: white;
+    font-family: ArchiformSans;
+    font-size: clamp(3vh, 40px, 3vw);
+    margin: 30px;
+    text-align: right;
+    transition: 0.3s ease;
+    cursor: pointer;
+    opacity: 0.5;
+    width: fit-content;
 }
 
 
@@ -361,16 +325,17 @@
     backdrop-filter: blur(20px);
     background-color: rgba(211, 211, 211, 0.2);
     border: 1px solid rgba(211, 211, 211, 0.4);
-    border-radius: 20px;
+    border-radius: 50px;
     transition: 0.3s ease;
 
     color: white;
     font-family: ArchiformSans;
-    font-size: 20px;
+    font-size: clamp(2vh, 20px, 2vw);
 
-    width: 40px;
+    width: clamp(4vh, 40px, 4vw);
+    height: clamp(4vh, 40px, 4vw);
     padding: 1px; /* Fixes problem on mobile for some unexplainable reason */
-    padding-top: 3px;
+    padding-top: (1vh, 5px, 1vw);
 
     aspect-ratio: 1/1;
     margin: 3px;
@@ -394,7 +359,7 @@
     border: 1px solid rgba(211, 211, 211, 0.4);
     color: white;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: clamp(2vh, 20px, 2vw);
     width: 90%;
     margin-left: 5%;
     margin-right: 10%;
@@ -442,7 +407,7 @@
     border: 1px solid rgba(211, 211, 211, 0.4);
     color: white;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: clamp(2vh, 20px, 2vw);
     width: 90%;
     margin-left: 5%;
     margin-right: 10%;
@@ -450,6 +415,8 @@
     font-family: ArchiformSans;
     transition: 0.3s ease;
     opacity: 0.5;
+
+    height: clamp(2vh, 20px, 2vw);
 }
 
 .textarea-color::-webkit-color-swatch {
@@ -572,11 +539,11 @@
 /*     Checkbox */
 /* Thanks to https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o */
 .checkbox {
-    width: 20px;
-    height: 20px;
+    width: clamp(2vh, 20px, 2vw);
+    height: clamp(2vh, 20px, 2vw);
     background-color: rgba(211, 211, 211, 0.4);
     border: 1px solid rgba(211, 211, 211, 0.4);
-    border-radius: 5px;
+    border-radius: clamp(0.5vh, 5px, 0.5vw);
     transition: 0.3s ease;
 
     display: inline-flex;
@@ -585,8 +552,8 @@
 
 .checkbox > input {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: clamp(2vh, 20px, 2vw);
+    height: clamp(2vh, 20px, 2vw);
     margin: 0px;
     padding: 0px;
 
@@ -616,7 +583,7 @@
     color: white;
     font-family: ArchiformSans;
     opacity: 0.5;
-    font-size: 18px;
+    font-size: clamp(2vh, 20px, 2vw);
     margin-bottom: auto;
     margin-top: auto;
     margin-left: 10px;

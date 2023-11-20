@@ -46,7 +46,7 @@ function update_small_buttons_column() {
     
     } else if (!small_buttons_open) {
         small_buttons_open = true;
-        small_buttons_column.style.maxHeight = "400px";
+        small_buttons_column.style.maxHeight = "40vh";
         small_buttons_column.style.filter = "blur(0px)";
         small_buttons_expand.style.transform = "rotate(0deg)"
     }

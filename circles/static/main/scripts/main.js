@@ -21,6 +21,29 @@ Hello to all of us hackers who likes to open the console! Hack away! (Nicely)
 
 `)
 
+// ----------
+// Initial functions
+// ----------
+
+// Thanks to Michael Zaporozhets' answer here https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+window.mobile_check = function() {
+    let check = false;
+    (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+    return check;
+};
+
+function error(event) {
+    show_notification("Exception Occured", event.message + "\n File: " + event.filename + " \nLine " + event.lineno + " Column " + event.colno, "normal", true);
+    set_notification_color(255, 0, 0);
+};
+
+window.addEventListener("error", (event) => error(event));
+
+// ----------
+// three.js
+// ----------
+
+// Main
 const scene = new THREE.Scene();
 var camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 5000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -30,16 +53,18 @@ document.getElementById("main-canvas").appendChild(renderer.domElement);
 
 scene.background = new THREE.Color("rgb(53, 54, 62)");
 
+// Create base plane
 const plane_geometry = new THREE.PlaneGeometry(50000, 30000);
 const plane_material = new THREE.MeshBasicMaterial({ color: "rgb(54, 54, 62)" });
 const plane = new THREE.Mesh(plane_geometry, plane_material)
 scene.add(plane)
-plane.recieveShadow = true;
 
+// Camera zoom setup
 camera.zoom = 0.5;
 camera.updateProjectionMatrix();
 camera.position.z = 1000;
 
+// Start the loop
 // Thanks to mrdoob's answer here https://stackoverflow.com/questions/11285065/limiting-framerate-in-three-js-to-increase-performance-requestanimationframe
 // Thanks to Cory Gross's answer here https://stackoverflow.com/questions/11170952/threejs-orthographic-camera-adjusting-size-of-scene-to-window
 function animate() {
@@ -51,6 +76,10 @@ function animate() {
 }
 animate();
 
+// ----------
+// Interaction Events
+// ----------
+// Click
 document.getElementById("main-canvas").addEventListener("wheel", (event) => zoom(event))
 
 document.getElementById("main-canvas").addEventListener('contextmenu', (event) => block_context_menu(event));
@@ -58,11 +87,22 @@ document.getElementById("main-canvas").addEventListener('mousedown', right_click
 document.getElementById("main-canvas").addEventListener("mousedown", left_click);
 document.addEventListener('mouseup', right_click_up);
 
+// Touch
+addEventListener("touchstart", touch_start);
+addEventListener("touchend", touch_end);
+addEventListener("touchcancel", touch_cancel);
+addEventListener("touchmove", touch_move);
 
+// ----------
+// Initial Variables
+// ----------
 var scale = 0.5; // 0 smallest, 1 largest
 var users = [];
 var circles = [];
 
+// ----------
+// Window Resize
+// ----------
 // Thanks to Shawn Whinnery's answer here https://stackoverflow.com/questions/20290402/three-js-resizing-canvas
 window.addEventListener('resize', onWindowResize);
 
@@ -80,12 +120,9 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-window.addEventListener("error", (event) => error(event));
-
-function error(event) {
-    show_notification("Exception Occured", event.message + "\n File: " + event.filename + " \nLine " + event.lineno + " Column " + event.colno, "normal", true);
-    set_notification_color(255, 0, 0);
-}
+// ----------
+// Classes
+// ----------
 
 class User {
     constructor() {
@@ -96,9 +133,12 @@ class User {
         const circle_geometry = new THREE.CircleGeometry(55, 55);
         const circle_material = new THREE.MeshBasicMaterial({ color: this.primary_color });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
-        scene.add(this.circle);
-        this.circle.position.z = 2;
 
+        this.group = new THREE.Group();
+        this.group.add(this.circle)
+        scene.add(this.group);
+
+        this.circle.position.z = 2;
         this.circle.scale.set(0, 0, 0);
 
         var scale = { x: 0, y: 0, z: 0 }
@@ -268,7 +308,6 @@ class User {
     }
 
 }
-
 class OtherUser {
     constructor() {
 
@@ -279,6 +318,10 @@ class OtherUser {
         const circle_material = new THREE.MeshBasicMaterial({ color: this.primary_color });
         const text_material = new THREE.MeshBasicMaterial({ color:0xffffff, transparent: true, opacity: 0.7 })
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
+
+        this.group = new THREE.Group();
+        this.group.position.x = this.x;
+        this.group.position.y = this.y;
 
         const loader = new FontLoader();
 
@@ -294,34 +337,30 @@ class OtherUser {
             this.text = new THREE.Mesh(text_geometry, text_material)
             
             // TODO: Center the text inside the circle!
-            this.text.position.x = this.x - 50;
-            this.text.position.y = this.y + 60;
+            this.group.add(this.text);
 
-            this.text.scale.set(0, 0, 0);
+            this.text.position.x = this.circle.position.x - 50;
+            this.text.position.y = this.circle.position.y + 60;
 
-            scene.add(this.text);
-
-            
         });
 
 
-        scene.add(this.circle);
+        this.group.add(this.circle);
+        scene.add(this.group);
 
         this.circle.position.z = 1;
 
-        this.circle.scale.set(0, 0, 0);
+        this.group.scale.set(0, 0, 0);
 
         var scale = { x: 0, y: 0, z: 0 }
-        var text_scale = { x: 0, y: 0, z: 0 }
 
         let isAnimating = true;
-        let textIsAnimating = true;
 
         const scale_animation = new TWEEN.Tween(scale)
             .to({ x: 1, y: 1, z: 1 }, 1000)
             .easing(TWEEN.Easing.Elastic.Out)
             .onUpdate(() => {
-                this.circle.scale.set(scale.x, scale.y, scale.z)
+                this.group.scale.set(scale.x, scale.y, scale.z)
             })
             .delay(Math.random() * 1000)
             .start()
@@ -329,24 +368,8 @@ class OtherUser {
                 isAnimating = false;
             })
 
-        const text_scale_animation = new TWEEN.Tween(text_scale)
-            .to({ x: 1, y: 1, z: 1 }, 1000)
-            .easing(TWEEN.Easing.Elastic.Out)
-            .onUpdate(() => {
-                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
-            })
-            .delay((Math.random() * 1000) + 1000)
-            .start()
-            .onComplete(() => {
-                textIsAnimating = false;
-            })
-
-
         function animate(time) {
             if (isAnimating) {
-                TWEEN.update(time)
-            
-            } else if (textIsAnimating) {
                 TWEEN.update(time)
             }
 
@@ -354,40 +377,29 @@ class OtherUser {
         }
         requestAnimationFrame(animate)
 
-        this.circle.position.x = this.x;
-        this.circle.position.y = this.y;
-
-        var location_box = document.getElementById("main-location-box-location")
+        this.group.position.x = this.x;
+        this.group.position.y = this.y;
 
     }
 
     move() {
         let isAnimating = true;
-        let textIsAnimating = true;
 
         const move_animation = new TWEEN.Tween(this.coords_before_move)
             .to({ x: this.x, y: this.y }, 250)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate(() => {
-                this.circle.position.x = this.coords_before_move.x;
-                this.circle.position.y = this.coords_before_move.y;
+                this.group.position.x = this.coords_before_move.x;
+                this.group.position.y = this.coords_before_move.y;
             })
             .start()
             .onComplete(() => {
                 isAnimating = false;
             })
-
-        setTimeout(() => { // TODO: Animate
-            this.text.position.x = this.x - 50;
-            this.text.position.y = this.y + 60;
-        }, 300)
         
 
         function animate(time) {
             if (isAnimating) {
-                TWEEN.update(time)
-            
-            } else if (textIsAnimating) {
                 TWEEN.update(time)
             }
 
@@ -397,8 +409,7 @@ class OtherUser {
     }
 
     dispose() {
-        this.circle.scale.set(1, 1, 1);
-        this.text.scale.set(1, 1, 1);
+        this.group.scale.set(1, 1, 1);
 
         var scale = { x: 1, y: 1, z: 1 }
 
@@ -408,7 +419,7 @@ class OtherUser {
             .to({ x: 0, y: 0, z: 0 }, 1000)
             .easing(TWEEN.Easing.Elastic.In)
             .onUpdate(() => {
-                this.circle.scale.set(scale.x, scale.y, scale.z)
+                this.group.scale.set(scale.x, scale.y, scale.z)
             })
             .delay(Math.random() * 500)
             .start()
@@ -416,11 +427,11 @@ class OtherUser {
                 isAnimating = false;
                 this.circle.geometry.dispose();
                 this.circle.material.dispose();
-                scene.remove(this.circle);
 
                 this.text.geometry.dispose();
                 this.text.material.dispose();
-                scene.remove(this.text);
+
+                scene.remove(this.group);
             })
 
         
@@ -435,7 +446,6 @@ class OtherUser {
 
     }
 }
-
 class Circle {
     constructor() {
 
@@ -470,6 +480,10 @@ class Circle {
         const circle_material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
         this.circle = new THREE.Mesh(circle_geometry, circle_material);
 
+        this.group = new THREE.Group();
+        this.group.position.x = this.x;
+        this.group.position.y = this.y;
+
         
         loader.load("/static/main/fonts/Arciform_Regular.json", (font) => {
 
@@ -482,55 +496,32 @@ class Circle {
 
             this.text = new THREE.Mesh(text_geometry, circle_material)
             
-            // TODO: Center the text inside the circle!
-            this.text.position.x = this.x - 130;
-            this.text.position.y = this.y;
+            this.group.add(this.text);
 
-            this.text.scale.set(0, 0, 0);
-
-            scene.add(this.text);
-
+            // TODO: Position in center of circle
+            this.text.position.x = this.circle.position.x - 130;
+            this.text.position.y = this.circle.position.y;
             
         });
 
-        
-
-        
-
-        this.circle.position.x = this.x;
-        this.circle.position.y = this.y;
-
-        scene.add(this.circle);
+        this.group.add(this.circle);
+        scene.add(this.group);
         
         this.circle.position.z = 1;
 
-        this.circle.scale.set(0, 0, 0);
+        this.group.scale.set(0, 0, 0);
 
         var scale = { x: 0, y: 0, z: 0 }
-        var text_scale = { x: 0, y: 0, z: 0 }
 
         let isAnimating = true;
-        let textIsAnimating = true;
 
         const scale_animation = new TWEEN.Tween(scale)
             .to({ x: 1, y: 1, z: 1 }, 1000)
             .easing(TWEEN.Easing.Elastic.Out)
             .onUpdate(() => {
-                this.circle.scale.set(scale.x, scale.y, scale.z)
+                this.group.scale.set(scale.x, scale.y, scale.z)
             })
             .delay(Math.random() * 1000)
-            .start()
-            .onComplete(() => {
-                isAnimating = false;
-            })
-
-        const text_scale_animation = new TWEEN.Tween(text_scale)
-            .to({ x: 1, y: 1, z: 1 }, 1000)
-            .easing(TWEEN.Easing.Elastic.Out)
-            .onUpdate(() => {
-                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
-            })
-            .delay((Math.random() * 1000) + 1000)
             .start()
             .onComplete(() => {
                 isAnimating = false;
@@ -539,9 +530,6 @@ class Circle {
 
         function animate(time) {
             if (isAnimating) {
-                TWEEN.update(time)
-            
-            } else if (textIsAnimating) {
                 TWEEN.update(time)
             }
 
@@ -552,49 +540,31 @@ class Circle {
     }
 
     dispose() {
-        this.circle.scale.set(1, 1, 1);
-        this.text.scale.set(1, 1, 1)
+        this.group.scale.set(1, 1, 1);
 
         var scale = { x: 1, y: 1, z: 1 }
-        var text_scale = { x: 0, y: 0, z: 0 }
 
         let isAnimating = true;
-        let textIsAnimating = true;
 
         const dispose_animation = new TWEEN.Tween(scale)
             .to({ x: 0, y: 0, z: 0 }, 1000)
             .easing(TWEEN.Easing.Elastic.In)
             .onUpdate(() => {
-                this.circle.scale.set(scale.x, scale.y, scale.z)
+                this.group.scale.set(scale.x, scale.y, scale.z)
             })
             .start()
             .onComplete(() => {
                 isAnimating = false;
                 this.circle.geometry.dispose();
                 this.circle.material.dispose();
-                scene.remove(this.circle);
+
+                scene.remove(this.group);
             })
 
-        const dispose_text_animation = new TWEEN.Tween(text_scale)
-            .to({ x: 0, y: 0, z: 0 }, 1000)
-            .easing(TWEEN.Easing.Elastic.In)
-            .onUpdate(() => {
-                this.text.scale.set(text_scale.x, text_scale.y, text_scale.z)
-            })
-            .start()
-            .onComplete(() => {
-                isAnimating = false;
-                this.text.geometry.dispose();
-                this.text.material.dispose();
-                scene.remove(this.text);
-            })
 
 
         function animate(time) {
             if (isAnimating) {
-                TWEEN.update(time)
-            
-            } else if (textIsAnimating) {
                 TWEEN.update(time)
             }
 
@@ -603,6 +573,10 @@ class Circle {
         requestAnimationFrame(animate)
     }
 }
+
+// ----------
+// Utility Functions
+// ----------
 
 function render_circles(json) {
     for (circle in json["circles"]) {
@@ -619,6 +593,18 @@ function render_circles(json) {
         circles[circle].draw();
     }
 }
+
+function set_user_box_colors(primary, secondary) {
+    let profile_circle = document.getElementById("main-user-box-profile-circle")
+    let profile_background = document.getElementById("main-user-box")
+
+    profile_circle.style.backgroundColor = primary + "40";
+    // profile_background.style.backgroundColor = secondary + "20"; // Don't change the background color. Change this eventually?
+}
+
+// ----------
+// Interaction Event Functions
+// ----------
 
 // Thanks to WestLangley's answer here https://stackoverflow.com/questions/20314486/how-to-perform-zoom-with-a-orthographic-projection
 function zoom(e) {
@@ -772,13 +758,59 @@ function left_click(event) {
     }
 }
 
-function set_user_box_colors(primary, secondary) {
-    let profile_circle = document.getElementById("main-user-box-profile-circle")
-    let profile_background = document.getElementById("main-user-box")
+// ----------
+// Touch Event Functions
+// ----------
 
-    profile_circle.style.backgroundColor = primary + "40";
-    // profile_background.style.backgroundColor = secondary + "20"; // Don't change the background color. Change this eventually?
+const touches = [];
+
+function ongoingTouchIndexById(idToFind) {
+    for (let i = 0; i < touches.length; i++) {
+        const id = touches[i].identifier;
+
+        if (id === idToFind) {
+            return i;
+        }
+    }
+    return -1; // not found
 }
+
+function touch_start(event) {    
+    log_info("Touch start")
+    touches.push(event.changedTouches[0])
+}
+
+function touch_end(event) {
+    if (event.changedTouches.length == 1) {
+        log_info("Tap end")
+
+        let index = ongoingTouchIndexById(event.changedTouches[0].identifier);
+        touches.splice(index, 1)
+
+        left_click(event);
+
+    } else if (event.changedTouches.length == 2) {
+        log_info("pinch end")
+    }
+    
+}
+
+function touch_move(event) {
+    const touches_changed = event.changedTouches;
+
+    if (event.changedTouches.length == 1) {
+        log_info("Touch drag " + touches_changed[0].identifier)
+    }
+
+}
+
+function touch_cancel(event) {
+    log_info("Touch canceled")
+}
+
+// ----------
+// WebSocket
+// ----------
 
 var me = new User();
 var circle_to_switch_to = "";

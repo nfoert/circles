@@ -39,6 +39,8 @@ function error(event) {
 
 window.addEventListener("error", (event) => error(event));
 
+request_system_notification_permission();
+
 // ----------
 // three.js
 // ----------
@@ -68,10 +70,20 @@ camera.position.z = 1000;
 // Thanks to mrdoob's answer here https://stackoverflow.com/questions/11285065/limiting-framerate-in-three-js-to-increase-performance-requestanimationframe
 // Thanks to Cory Gross's answer here https://stackoverflow.com/questions/11170952/threejs-orthographic-camera-adjusting-size-of-scene-to-window
 function animate() {
-    setTimeout(() => {
-        requestAnimationFrame(animate);
+    if (!(document.hidden)) {
+        setTimeout(() => {
+            requestAnimationFrame(animate);
+    
+        }, 1000 / 60); // Limit to 60 fps
 
-    }, 1000 / 60); // Limit to 60 fps
+    } else if (document.hidden) {
+        log_info("Fps reduced")
+        setTimeout(() => {
+            requestAnimationFrame(animate);
+    
+        }, 1000 / 1); // Limit to 1 fps
+    }
+    
     renderer.render(scene, camera);
 }
 animate();

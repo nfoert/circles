@@ -79,6 +79,10 @@ function show_notification(title, text, style, save) {
     } else {
         notifications_yet = false;
     }
+
+    if (document.visibilityState == "hidden") {
+        send_system_notification(title, text);
+    }
 }
 
 function add_notification(title, text, style) {
@@ -167,5 +171,24 @@ function update_mute_notifications() {
         notifications_muted = false;
         notifications_box_mute.innerHTML = '<i class="ph-bold ph-bell-slash"></i> Mute Notifications';
         notification_open();
+    }
+}
+
+function request_system_notification_permission() {
+    if (!("Notification" in window)) {
+        log_warn("This browser does not support notifications");
+    } else {
+        Notification.requestPermission();
+    }
+}
+
+function send_system_notification(title, text) {
+    const permission = request_system_notification_permission();
+    if (Notification.permission == "granted") {
+        const img = "/static/main/images/icon.png";
+        const notification = new Notification(title, { body: text, icon: img });
+        return true;
+    } else {
+        log_warn("Notification permission is denied or not supported");
     }
 }

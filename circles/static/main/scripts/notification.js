@@ -44,7 +44,6 @@ function show_notification(title, text, style, save) {
     set_notification_color(211, 211, 211);
 
     notification_shown = true;
-    notifications_yet = true;
 
     if (style == "normal" || !style) {
         notification_title.innerHTML = title;
@@ -66,11 +65,15 @@ function show_notification(title, text, style, save) {
 
     if (save == true) {
         add_notification(title, text, style);
+        notifications_yet = true;
+
+    } else {
+        notifications_yet = false;
     }
 }
 
 function add_notification(title, text, style) {
-    if (notifications_yet == true) {
+    if (notifications_yet == false) {
         notifications_box_notifications.replaceChildren(); // Clear children to remove the "No Notifications" label
     }
 
@@ -142,6 +145,8 @@ function clear_notifications() {
     no_notifications_label.classList.add("text-small");
 
     notifications_box_notifications.appendChild(no_notifications_label);
+
+    notifications_yet = false;
 }
 
 function update_mute_notifications() {

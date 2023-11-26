@@ -22,6 +22,8 @@ let notification_shown = false;
 var notifications_muted = false;
 let notifications_yet = false;
 
+var hide_notification_timeout = undefined;
+
 function hide_notification() {
     if (!notifications_muted) {
         notification.classList.remove("expand-notification");
@@ -38,6 +40,13 @@ function show_notification(title, text, style, save) {
 
     let notification_title = notification.getElementsByClassName("notification-title")[0];
     let notification_text = notification.getElementsByClassName("notification-text")[0];
+    try {
+        clearTimeout(hide_notification_timeout);
+    } catch {
+        null;
+    }
+
+    
 
     notification.classList.remove("hide-notification");
 
@@ -58,7 +67,7 @@ function show_notification(title, text, style, save) {
 
     if (notifications_open == false && notifications_muted == false) {
         notification.classList.add("expand-notification");
-        setTimeout(hide_notification, 5000);
+        hide_notification_timeout = setTimeout(hide_notification, 5000);
     } else {
         null;
     }

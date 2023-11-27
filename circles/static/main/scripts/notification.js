@@ -33,13 +33,16 @@ function hide_notification() {
     }
 }
 
-function show_notification(title, text, style, save) {
+function show_notification(title, text, style, save, { render = false, visible = true }={}) {
+    // Thanks to Felix Kling's answer here https://stackoverflow.com/questions/11796093/is-there-a-way-to-provide-named-parameters-in-a-function-call-in-javascript
+
     if (save == null) {
         save = true;
     }
 
     let notification_title = notification.getElementsByClassName("notification-title")[0];
     let notification_text = notification.getElementsByClassName("notification-text")[0];
+
     try {
         clearTimeout(hide_notification_timeout);
     } catch {
@@ -48,29 +51,32 @@ function show_notification(title, text, style, save) {
 
     
 
-    notification.classList.remove("hide-notification");
+    if (visible) {
+        notification.classList.remove("hide-notification");
 
-    set_notification_color(211, 211, 211);
+        set_notification_color(211, 211, 211);
 
-    notification_shown = true;
+        notification_shown = true;
 
-    if (style == "normal" || !style) {
-        notification_title.innerHTML = title;
-        notification_text.innerHTML = text;
-        notification_title.style.textAlign = "left";
-        notification_text.style.display = "block";
-    } else if (style == "status") {
-        notification_title.innerHTML = title;
-        notification_title.style.textAlign = "center";
-        notification_text.style.display = "none";
+        if (style == "normal" || !style) {
+            notification_title.innerHTML = title;
+            notification_text.innerHTML = text;
+            notification_title.style.textAlign = "left";
+            notification_text.style.display = "block";
+        } else if (style == "status") {
+            notification_title.innerHTML = title;
+            notification_title.style.textAlign = "center";
+            notification_text.style.display = "none";
+        }
+    
+        if (notifications_open == false && notifications_muted == false) {
+            notification.classList.add("expand-notification");
+            hide_notification_timeout = setTimeout(hide_notification, 5000);
+        } else {
+            null;
+        }
     }
 
-    if (notifications_open == false && notifications_muted == false) {
-        notification.classList.add("expand-notification");
-        hide_notification_timeout = setTimeout(hide_notification, 5000);
-    } else {
-        null;
-    }
 
     if (save == true) {
         add_notification(title, text, style);
@@ -82,6 +88,20 @@ function show_notification(title, text, style, save) {
 
     if (document.visibilityState == "hidden") {
         send_system_notification(title, text);
+    }
+
+    if (save == true && render == false) {
+        const add_notification_packet = {
+            "type": "add_notification",
+            "notification": {
+                "title": title,
+                "text": text,
+                "type": style,
+                "save": true
+            }
+        }
+
+        server_socket.send(JSON.stringify(add_notification_packet));
     }
 }
 
@@ -160,6 +180,12 @@ function clear_notifications() {
     notifications_box_notifications.appendChild(no_notifications_label);
 
     notifications_yet = false;
+
+    const clear_notifications_packet = {
+        "type": "clear_notifications"
+    }
+
+    server_socket.send(JSON.stringify(clear_notifications_packet))
 }
 
 function update_mute_notifications() {
@@ -190,5 +216,11 @@ function send_system_notification(title, text) {
         return true;
     } else {
         log_warn("Notification permission is denied or not supported");
+    }
+}
+
+function render_notifications(json) {
+    for (const notification in json) {
+        show_notification(json[notification]["title"], json[notification]["text"], json[notification]["style"], true, { render : true, visible : false })
     }
 }

@@ -72,6 +72,14 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(user_counts_packet))
 
+            notifications = await self.get_notifications()
+
+            notifications_packet = {
+                "type": "notifications",
+                "notifications": notifications
+            }
+            await self.send(json.dumps(notifications_packet))
+
             self.update_loop_task = asyncio.ensure_future(self.update_loop())
 
         else:
@@ -197,6 +205,13 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             if create_dm[0] == True:
                 await self.send_notification("DM Created", f"Created a conversation with {create_dm[1]}", "normal")
+                dm_created_notification = {
+                    "title": "DM Created",
+                    "text": f"{self.username} created a DM with you",
+                    "type": "normal",
+                    "save": True
+                }
+                await self.add_notification(dm_created_notification, text_data["username"])
 
             else:
                 await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
@@ -241,6 +256,11 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(stat_response))
 
+        elif text_data["type"] == "clear_notifications":
+            result = await self.clear_notifications()
+
+        elif text_data["type"] == "add_notification":
+            result = await self.add_notification(text_data["notification"])
 
         else:
             print("Not known packet")
@@ -804,6 +824,14 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         await self.send(json.dumps(send_notification_json))
 
+        send_notification_json["save"] = True
+
+        await self.add_notification(send_notification_json)
+
+        print("DONENEN")
+
+        
+
     @database_sync_to_async
     def dm_user(self, username):
         '''
@@ -957,6 +985,107 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
 
         return me.stats
+    
+    @database_sync_to_async
+    def get_notifications(self):
+        '''
+        Gets all notifications saved in the User's profile
+
+        This is how they should be stored:
+
+        [
+            {
+                "id": 0,
+                "title": "Title!",
+                "text": "Some body text",
+                "type": "normal",
+                "save": True,
+                "color": {
+                    "r": 100,
+                    "g": 100,
+                    "b": 100,
+                }
+            },
+            {
+                "id": 1,
+                "title": "Another notification!",
+                "text": "Some body text",
+                "type": "normal",
+                "save": True,
+                "color": {
+                    "r": 150,
+                    "g": 150,
+                    "b": 150,
+                }
+            }
+            
+        ]
+        
+
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.notifications
+        except:
+            return False
+        
+    @database_sync_to_async
+    def add_notification(self, json, username=False):
+        print(json)
+        '''
+        Add a notification to the User's account
+        Takes json with attributes title, text, type, save and color
+        username is an optional paramater that can be used to add a notification to a different User
+        '''
+        
+        if username:
+            user = User.objects.filter(username=username)[0] # TODO: What if there are multiple users with that name?
+
+            notification = {
+                "id": len(user.notifications),
+                "title": json["title"],
+                "text": json["text"],
+                "type": json["type"],
+                "save": json["save"],
+                "color": { # TODO: Color support
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                }
+
+            }
+
+            user.notifications.append(notification)
+            user.save()
+            return True
+
+        else:
+            me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+            notification = {
+                "id": len(me.notifications),
+                "title": json["title"],
+                "text": json["text"],
+                "type": json["type"],
+                "save": json["save"],
+            }
+
+            me.notifications.append(notification)
+            me.save()
+            return True
+        
+    @database_sync_to_async
+    def clear_notifications(self):
+        '''
+        Clears all the notifications for the User
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        me.notifications.clear()
+        me.save()
+
+        return True
+
 
 
 

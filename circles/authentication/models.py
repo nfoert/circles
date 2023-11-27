@@ -15,6 +15,7 @@ class User(AbstractBaseUser):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     online = models.BooleanField(default=0)
+    notifications = models.JSONField(default=list, blank=True)
     settings = models.JSONField(default=dict, blank=True)
     stats = models.JSONField(default=dict, blank=True)
     location_server = models.ForeignKey("main.Server", on_delete=models.SET_NULL, blank=True, null=True)

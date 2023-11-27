@@ -1012,8 +1012,11 @@ server_socket.onmessage = function (e) {
     } else if (json["type"] == "all_stats") {
         me.stats = json["stats"];
 
+    } else if (json["type"] == "notifications") {
+        render_notifications(json["notifications"])
+
     } else {
-        console.log("[WARN] Recieved a packet from the server that is not known:", json["type"])
+        log_warn("[WARN] Recieved a packet from the server that is not known: " + json["type"])
     }
 };
 

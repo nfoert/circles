@@ -22,6 +22,8 @@ let notification_shown = false;
 var notifications_muted = false;
 let notifications_yet = false;
 
+var hide_notification_timeout = undefined;
+
 function hide_notification() {
     if (!notifications_muted) {
         notification.classList.remove("expand-notification");
@@ -31,7 +33,9 @@ function hide_notification() {
     }
 }
 
-function show_notification(title, text, style, save) {
+function show_notification(title, text, style, save, { render = false, visible = true }={}) {
+    // Thanks to Felix Kling's answer here https://stackoverflow.com/questions/11796093/is-there-a-way-to-provide-named-parameters-in-a-function-call-in-javascript
+
     if (save == null) {
         save = true;
     }
@@ -39,38 +43,70 @@ function show_notification(title, text, style, save) {
     let notification_title = notification.getElementsByClassName("notification-title")[0];
     let notification_text = notification.getElementsByClassName("notification-text")[0];
 
-    notification.classList.remove("hide-notification");
-
-    set_notification_color(211, 211, 211);
-
-    notification_shown = true;
-    notifications_yet = true;
-
-    if (style == "normal" || !style) {
-        notification_title.innerHTML = title;
-        notification_text.innerHTML = text;
-        notification_title.style.textAlign = "left";
-        notification_text.style.display = "block";
-    } else if (style == "status") {
-        notification_title.innerHTML = title;
-        notification_title.style.textAlign = "center";
-        notification_text.style.display = "none";
-    }
-
-    if (notifications_open == false && notifications_muted == false) {
-        notification.classList.add("expand-notification");
-        setTimeout(hide_notification, 5000);
-    } else {
+    try {
+        clearTimeout(hide_notification_timeout);
+    } catch {
         null;
     }
 
+    
+
+    if (visible) {
+        notification.classList.remove("hide-notification");
+
+        set_notification_color(211, 211, 211);
+
+        notification_shown = true;
+
+        if (style == "normal" || !style) {
+            notification_title.innerHTML = title;
+            notification_text.innerHTML = text;
+            notification_title.style.textAlign = "left";
+            notification_text.style.display = "block";
+        } else if (style == "status") {
+            notification_title.innerHTML = title;
+            notification_title.style.textAlign = "center";
+            notification_text.style.display = "none";
+        }
+    
+        if (notifications_open == false && notifications_muted == false) {
+            notification.classList.add("expand-notification");
+            hide_notification_timeout = setTimeout(hide_notification, 5000);
+        } else {
+            null;
+        }
+    }
+
+
     if (save == true) {
         add_notification(title, text, style);
+        notifications_yet = true;
+
+    } else {
+        notifications_yet = false;
+    }
+
+    if (document.visibilityState == "hidden") {
+        send_system_notification(title, text);
+    }
+
+    if (save == true && render == false) {
+        const add_notification_packet = {
+            "type": "add_notification",
+            "notification": {
+                "title": title,
+                "text": text,
+                "type": style,
+                "save": true
+            }
+        }
+
+        server_socket.send(JSON.stringify(add_notification_packet));
     }
 }
 
 function add_notification(title, text, style) {
-    if (notifications_yet == true) {
+    if (notifications_yet == false) {
         notifications_box_notifications.replaceChildren(); // Clear children to remove the "No Notifications" label
     }
 
@@ -142,6 +178,14 @@ function clear_notifications() {
     no_notifications_label.classList.add("text-small");
 
     notifications_box_notifications.appendChild(no_notifications_label);
+
+    notifications_yet = false;
+
+    const clear_notifications_packet = {
+        "type": "clear_notifications"
+    }
+
+    server_socket.send(JSON.stringify(clear_notifications_packet))
 }
 
 function update_mute_notifications() {
@@ -153,5 +197,30 @@ function update_mute_notifications() {
         notifications_muted = false;
         notifications_box_mute.innerHTML = '<i class="ph-bold ph-bell-slash"></i> Mute Notifications';
         notification_open();
+    }
+}
+
+function request_system_notification_permission() {
+    if (!("Notification" in window)) {
+        log_warn("This browser does not support notifications");
+    } else {
+        Notification.requestPermission();
+    }
+}
+
+function send_system_notification(title, text) {
+    const permission = request_system_notification_permission();
+    if (Notification.permission == "granted") {
+        const img = "/static/main/images/icon.png";
+        const notification = new Notification(title, { body: text, icon: img });
+        return true;
+    } else {
+        log_warn("Notification permission is denied or not supported");
+    }
+}
+
+function render_notifications(json) {
+    for (const notification in json) {
+        show_notification(json[notification]["title"], json[notification]["text"], json[notification]["style"], true, { render : true, visible : false })
     }
 }

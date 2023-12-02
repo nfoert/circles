@@ -7,6 +7,7 @@ from main.models import User, Circle, Conversation, Message, Server
 from django.contrib.auth.hashers import check_password
 from channels.db import database_sync_to_async
 from django.db.models import Q
+import re
 
 # Thanks to BAZA's answer here https://stackoverflow.com/questions/66936893/django-channels-sleep-between-group-sends
 class MainConsumer(AsyncWebsocketConsumer):
@@ -172,9 +173,13 @@ class MainConsumer(AsyncWebsocketConsumer):
         elif text_data["type"] == "get_userdetails":
             userdetails = await self.get_userdetails(text_data["username"])
 
-            userdetails["type"] = "userdetails"
+            if userdetails != False:
+                userdetails["type"] = "userdetails"
+                await self.send(json.dumps(userdetails))
 
-            await self.send(json.dumps(userdetails))
+            else:
+                await self.send_notification("Couldn't find that user!", f"There was a problem getting the details for that user.", "normal")
+
 
         elif text_data["type"] == "dm_user":
             # Create conversation
@@ -561,6 +566,37 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         message.save()
 
+        mention_search = re.findall("@[A-Za-z]*", message.text)
+        if mention_search:
+            for i in range(len(mention_search)):
+
+                try:
+                    user = User.objects.filter(username=mention_search[i].replace("@", ""))[0] # TODO: What if there are multiple users with that name?
+                except IndexError: # User does not exist, so don't send a notification
+                    return False
+
+                if user:
+                    notification = {
+                        "id": len(user.notifications),
+                        "title": f"Mentioned by {self.username}",
+                        "text": f"{self.username} mentioned you.",
+                        "type": "normal",
+                        "save": True,
+                    }
+
+                    if me.current_conversation_type == "normal":
+                        notification["text"] = f"{self.username} mentioned you in the conversation '{me.current_conversation.name}'\n{message.text[0:100]}..."
+
+                    elif me.current_conversation_type == "circle":
+                        notification["text"] = f"{self.username} mentioned you in the circle '{me.location_circle}'\n{message.text[0:100]}..."
+
+                    elif me.current_conversation_type == "server":
+                        notification["text"] = f"{self.username} mentioned you in the main server chat.\n{message.text[0:100]}..."
+                    
+                    
+                    user.notifications.append(notification)
+                    user.save()
+
         return True
     
     @database_sync_to_async
@@ -809,10 +845,12 @@ class MainConsumer(AsyncWebsocketConsumer):
             return userdetails
 
         elif len(user) == 0:
-            print("Couldn't find that user!") # TODO: Create send_notification packet so that the client knows
+            print("Couldn't find that user!")
+            return False
 
         else:
             print("There is more than one user with that username!")
+            return False
 
     async def send_notification(self, title, text, style="normal"):
         send_notification_json = {
@@ -827,10 +865,6 @@ class MainConsumer(AsyncWebsocketConsumer):
         send_notification_json["save"] = True
 
         await self.add_notification(send_notification_json)
-
-        print("DONENEN")
-
-        
 
     @database_sync_to_async
     def dm_user(self, username):
@@ -1032,7 +1066,6 @@ class MainConsumer(AsyncWebsocketConsumer):
         
     @database_sync_to_async
     def add_notification(self, json, username=False):
-        print(json)
         '''
         Add a notification to the User's account
         Takes json with attributes title, text, type, save and color
@@ -1048,12 +1081,6 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "text": json["text"],
                 "type": json["type"],
                 "save": json["save"],
-                "color": { # TODO: Color support
-                    "r": 255,
-                    "g": 255,
-                    "b": 255
-                }
-
             }
 
             user.notifications.append(notification)

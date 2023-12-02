@@ -28,6 +28,7 @@ function check_shift_down(event) {
     }
 }
 
+
 function check_shift_up(event) {
     if (event.key == "Shift") {
         shift = false;
@@ -75,7 +76,7 @@ function render_recent_messages(packet) {
     main_messages_box.replaceChildren() // Clear children
 
     for (message in packet["messages"]) {
-        const text = packet["messages"][message]["text"];
+        var text = packet["messages"][message]["text"];
         const user = packet["messages"][message]["user"];
         const id = packet["messages"][message]["id"];
         var date_string = "";
@@ -111,20 +112,55 @@ function render_recent_messages(packet) {
             message_div.classList.add("message")
         }
 
-        let message_div_text = document.createElement("div")
-        message_div_text.classList.add("message-content")
-        message_div_text.innerText = text;
+        const mentions = [...text.matchAll("@[A-Za-z]*")];
+        for (const mention in mentions) {
+            if (mentions[mention][0].includes(me.username)) {
+                let mention_button = document.createElement("button");
+                mention_button.classList.add("mention-you");
+                mention_button.innerText = mentions[mention][0];
+                text = text.replace(mentions[mention][0], mention_button.outerHTML);
 
-        let message_div_info = document.createElement("div")
-        message_div_info.classList.add("message-info")
+            } else {
+                let mention_button = document.createElement("button");
+                mention_button.classList.add("mention");
+                mention_button.innerText = mentions[mention][0];
+                text = text.replace(mentions[mention][0], mention_button.outerHTML);
+            }
+        }
+
+        let message_div_text = document.createElement("div");
+        message_div_text.classList.add("message-content");
+        message_div_text.innerHTML = text;
+
+        let message_div_info = document.createElement("div");
+        message_div_info.classList.add("message-info");
         message_div_info.innerText = user + " - " + date_string;
 
         message_div.appendChild(message_div_text);
         message_div.appendChild(message_div_info);
 
-        message_div.setAttribute("id", id)
-        
-        main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
+        message_div.setAttribute("id", id);
+
+        main_messages_box.insertBefore(message_div, main_messages_box.firstChild);
+
+
+        try {
+            let mentions_inmessage = message_div_text.getElementsByClassName("mention");
+            for (const mention in mentions_inmessage) {
+                mentions_inmessage[mention].addEventListener("click", mention_clicked);
+            }
+        } catch {
+            null;
+        }
+
+        try {
+            let mentionsyou_inmessage = message_div_text.getElementsByClassName("mention-you");
+            for (const mention in mentionsyou_inmessage) {
+                mentionsyou_inmessage[mention].addEventListener("click", mention_clicked);
+            }
+        } catch {
+            null;
+        }
 
     }
 
@@ -136,29 +172,63 @@ function render_new_message({text, user, date, id}={}) {
         date = new Date();
     }
 
-    let message_div = document.createElement("div")
+    let message_div = document.createElement("div");
 
     if (user == me.username) {
-        message_div.classList.add("message-you")
+        message_div.classList.add("message-you");
     
     } else {
-        message_div.classList.add("message")
+        message_div.classList.add("message");
     }
 
-    let message_div_text = document.createElement("div")
-    message_div_text.classList.add("message-content")
-    message_div_text.innerText = text;
+    const mentions = [...text.matchAll("@[A-Za-z]*")];
+    for (const mention in mentions) {
+        if (mentions[mention][0].includes(me.username)) {
+            let mention_button = document.createElement("button");
+            mention_button.classList.add("mention-you");
+            mention_button.innerText = mentions[mention][0];
+            text = text.replace(mentions[mention][0], mention_button.outerHTML);
 
-    let message_div_info = document.createElement("div")
-    message_div_info.classList.add("message-info")
+        } else {
+            let mention_button = document.createElement("button");
+            mention_button.classList.add("mention");
+            mention_button.innerText = mentions[mention][0];
+            text = text.replace(mentions[mention][0], mention_button.outerHTML);
+        }
+    }
+
+    let message_div_text = document.createElement("div");
+    message_div_text.classList.add("message-content");
+    message_div_text.innerHTML = text;
+
+    let message_div_info = document.createElement("div");
+    message_div_info.classList.add("message-info");
     message_div_info.innerText = user + " - " + "Just now";
 
     message_div.appendChild(message_div_text);
     message_div.appendChild(message_div_info);
 
-    message_div.setAttribute("id", id)
+    message_div.setAttribute("id", id);
 
-    main_messages_box.insertBefore(message_div, main_messages_box.firstChild)
+    main_messages_box.insertBefore(message_div, main_messages_box.firstChild);
+
+    try {
+        let mentions_inmessage = message_div_text.getElementsByClassName("mention");
+        for (const mention in mentions_inmessage) {
+            mentions_inmessage[mention].addEventListener("click", mention_clicked);
+        }
+    } catch {
+        null;
+    }
+
+    try {
+        let mentionsyou_inmessage = message_div_text.getElementsByClassName("mention-you");
+        for (const mention in mentionsyou_inmessage) {
+            mentionsyou_inmessage[mention].addEventListener("click", mention_clicked);
+        }
+    } catch {
+        null;
+    }
 }
 
 /**
@@ -169,7 +239,7 @@ function render_new_messages(json) {
     for (message in json["messages"]) {
         let msg = json["messages"][message];
         
-        render_new_message({ text: msg["text"], user: msg["user"], id: msg["id"]})
+        render_new_message({ text: msg["text"], user: msg["user"], id: msg["id"]});
     }
 }
 
@@ -180,4 +250,8 @@ function check_messages_input() {
     } else {
         message_button.disabled = false;
     }
+}
+
+function mention_clicked(event) {
+    request_userdetails(event.target.innerText.replace("@", ""));
 }

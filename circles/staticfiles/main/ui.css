@@ -454,6 +454,46 @@
     transform: scale(1.02);
 }
 
+.mention {
+    background-color: rgba(73, 161, 255, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 10px;
+    font-size: clamp(1.6vh, 16px, 1.6vw);
+    color: white;
+    padding: 5px;
+    font-family: ArchiformSans;
+    text-align: center;
+    transition: 0.3s ease;
+    margin: 2px;
+}
+
+.mention-you {
+    background-color: rgba(255, 222, 73, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 10px;
+    font-size: clamp(1.8vh, 18px, 1.8vw);
+    color: white;
+    padding: 5px;
+    font-family: ArchiformSans;
+    transition: 0.3s ease;
+    text-align: center;
+    font-weight: 800;
+    margin: 2px;
+}
+
+.mention:hover, .mention-you:hover {
+    scale: 1.1;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.mention:active, .mention-you:active {
+    scale: 0.95;
+    opacity: 0.8;
+    padding: 4px;
+}
+
+
 /*     Box */
 /*         Info Box */
 .infobox {

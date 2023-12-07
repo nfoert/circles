@@ -146,16 +146,14 @@ function open_edit_profile() {
     edit_profile.classList.remove("hide-edit-profile");
     edit_profile.classList.add("show-edit-profile");
 
-    background_blur.classList.remove("fade_out_bg");
-    background_blur.classList.add("fade_in_bg");
+    show_background_blur();
 }
 
 function close_edit_profile() {
     edit_profile.classList.remove("show-edit-profile");
     edit_profile.classList.add("hide-edit-profile");
 
-    background_blur.classList.remove("fade_in_bg");
-    background_blur.classList.add("fade_out_bg");
+    hide_background_blur();
 
     setTimeout(function() {
         edit_profile.style.display = "none";

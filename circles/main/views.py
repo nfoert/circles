@@ -62,3 +62,6 @@ def main(request):
     
 def privacypolicy(request):
     return render(request, "privacypolicy.html")
+
+def test(request):
+    return render(request, "test.html")

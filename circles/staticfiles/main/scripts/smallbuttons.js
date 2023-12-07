@@ -39,16 +39,14 @@ document.getElementById("small-buttons-me").addEventListener("click", () => {
 
 function update_small_buttons_column() {
     if (small_buttons_open) {
-        console.log("close")
         small_buttons_open = false;
         small_buttons_column.style.maxHeight = "0px";
         small_buttons_column.style.filter = "blur(10px)";
         small_buttons_expand.style.transform = "rotate(180deg)"
     
     } else if (!small_buttons_open) {
-        console.log("open")
         small_buttons_open = true;
-        small_buttons_column.style.maxHeight = "400px";
+        small_buttons_column.style.maxHeight = "40vh";
         small_buttons_column.style.filter = "blur(0px)";
         small_buttons_expand.style.transform = "rotate(0deg)"
     }

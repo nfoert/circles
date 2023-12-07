@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <title>Circles | Test</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    </head>
+
+    <body style="background-color: #35363E;">
+        <p class="text-medium">text-medium</p>
+        <p class="text-small">text-small</p>
+        <p class="text-small-left">text-small-left</p>
+        <p class="text-tiny">text-tiny</p>
+
+        <hr>
+
+        <p class="dialog-header">dialog-header</p>
+        <p class="dialog-subheader">dialog-subheader</p>
+
+        <hr>
+
+        <p class="textedit-subtext">textedit-subtext</p>
+        <p class="user-in-conversation">user-in-conversation</p>
+
+        <hr>
+
+        <button class="button">button</button>
+        <button class="buttonsmaller">buttonsmaller</button>
+        <button class="buttontiny">buttontiny</button>
+        <p class="buttonx">X</p>
+        <button class="buttonsmallcircle"><i class="ph-bold ph-circle"></i></button>
+        <button class="mention">@jadesoftware</button>
+        <button class="mention-you">@nfoert</button>
+
+        <hr>
+
+        <input type="text" class="textarea" placeholder="textarea">
+        <input type="color" class="textarea-color" placeholder="textarea-color">
+
+        <hr>
+
+        <div class="infobox">infobox</div>
+        <div class="criticalbox">criticalbox</div>
+        <div class="warningbox">warningbox</div>
+
+        <hr>
+
+        <div class="checkbox-layout">
+            <div class="checkbox"><input type="checkbox" class="setting" default="true" setting="stat_tracking"></div>
+            <p class="checkbox-text">Checkbox</p>
+        </div>
+        
+
+    </body>
+
+</html>

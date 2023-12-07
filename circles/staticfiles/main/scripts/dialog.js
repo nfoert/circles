@@ -38,7 +38,7 @@ function render_dialog(name) {
         log_info(`Rendered dialog '${name}'`)
 
     } catch {
-        console.log("FAIL"); // TODO: need a logging system!
+        log_warning(`Failed to find dialog '${name}'`);
     }
     
 }

@@ -24,16 +24,16 @@ function set_event_listeners() {
 }
 
 function update_position_indicator() {
-    location_box.replaceChildren() // Clear children
+    location_box.replaceChildren(); // Clear children
 
-    if (me.location_circle){
+    if (me.location_circle) {
         for (const item in me.location_circle) {
-            const element = document.createElement("p")
-            element.classList.add("location-item")
+            const element = document.createElement("p");
+            element.classList.add("location-item");
             element.innerHTML = me.location_circle[item];
     
-            const slash = document.createElement("p")
-            slash.classList.add("location-slash")
+            const slash = document.createElement("p");
+            slash.classList.add("location-slash");
             slash.innerHTML = "/";
     
             location_box.appendChild(element);
@@ -43,12 +43,12 @@ function update_position_indicator() {
         set_event_listeners();
     
     } else {
-        const element = document.createElement("p")
-        element.classList.add("location-item")
+        const element = document.createElement("p");
+        element.classList.add("location-item");
         element.innerHTML = me.location_server;
 
-        const slash = document.createElement("p")
-        slash.classList.add("location-slash")
+        const slash = document.createElement("p");
+        slash.classList.add("location-slash");
         slash.innerHTML = "/";
 
         location_box.appendChild(element);
@@ -56,8 +56,6 @@ function update_position_indicator() {
     
         set_event_listeners();
     }
-
-    
 }
 
 function location_change_circle(event) {
@@ -96,6 +94,13 @@ function location_change_circle(event) {
 }
 
 function update_user_count(json) {
-    location_box_users.innerHTML = 
-    json["online"] + '<i class="ph-fill ph-user"></i> ' + json["offline"] + '<i class="ph-bold ph-user"></i>';
+    location_box_users.classList.add("location-user-change");
+
+    setTimeout(function() {
+        location_box_users.innerHTML = json["online"] + '<i class="ph-fill ph-user"></i> ' + json["offline"] + '<i class="ph-bold ph-user"></i>';
+    }, 250)
+
+    setTimeout(function() {
+        location_box_users.classList.remove("location-user-change");
+    }, 500)
 }

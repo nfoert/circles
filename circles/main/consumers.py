@@ -7,6 +7,7 @@ from main.models import User, Circle, Conversation, Message, Server
 from django.contrib.auth.hashers import check_password
 from channels.db import database_sync_to_async
 from django.db.models import Q
+import re
 
 # Thanks to BAZA's answer here https://stackoverflow.com/questions/66936893/django-channels-sleep-between-group-sends
 class MainConsumer(AsyncWebsocketConsumer):
@@ -71,6 +72,14 @@ class MainConsumer(AsyncWebsocketConsumer):
             }
 
             await self.send(json.dumps(user_counts_packet))
+
+            notifications = await self.get_notifications()
+
+            notifications_packet = {
+                "type": "notifications",
+                "notifications": notifications
+            }
+            await self.send(json.dumps(notifications_packet))
 
             self.update_loop_task = asyncio.ensure_future(self.update_loop())
 
@@ -164,9 +173,13 @@ class MainConsumer(AsyncWebsocketConsumer):
         elif text_data["type"] == "get_userdetails":
             userdetails = await self.get_userdetails(text_data["username"])
 
-            userdetails["type"] = "userdetails"
+            if userdetails != False:
+                userdetails["type"] = "userdetails"
+                await self.send(json.dumps(userdetails))
 
-            await self.send(json.dumps(userdetails))
+            else:
+                await self.send_notification("Couldn't find that user!", f"There was a problem getting the details for that user.", "normal")
+
 
         elif text_data["type"] == "dm_user":
             # Create conversation
@@ -197,6 +210,13 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             if create_dm[0] == True:
                 await self.send_notification("DM Created", f"Created a conversation with {create_dm[1]}", "normal")
+                dm_created_notification = {
+                    "title": "DM Created",
+                    "text": f"{self.username} created a DM with you",
+                    "type": "normal",
+                    "save": True
+                }
+                await self.add_notification(dm_created_notification, text_data["username"])
 
             else:
                 await self.send_notification("Switched to DM", f"Switched to conversation with {create_dm[1]}", "normal")
@@ -241,6 +261,11 @@ class MainConsumer(AsyncWebsocketConsumer):
 
             await self.send(json.dumps(stat_response))
 
+        elif text_data["type"] == "clear_notifications":
+            result = await self.clear_notifications()
+
+        elif text_data["type"] == "add_notification":
+            result = await self.add_notification(text_data["notification"])
 
         else:
             print("Not known packet")
@@ -348,6 +373,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         messages_before = await self.get_initial_messages_json() # Now is the list of first 100 messages
         user_counts_before = await self.get_user_counts()
         conversations_before = await self.get_users_conversations()
+        # notifications_before = await self.get_notifications() # TODO: Fix later
         
         
         while True:
@@ -355,6 +381,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             messages = await self.get_initial_messages_json() # TODO: Make this not limited
             user_counts = await self.get_user_counts()
             conversations = await self.get_users_conversations()
+            # notifications = await self.get_notifications() # TODO: Fix later
 
             if users_in_circle_before != users_in_circle: # New changes
                 users_in_circle_before = users_in_circle
@@ -363,9 +390,6 @@ class MainConsumer(AsyncWebsocketConsumer):
                 json_to_send["type"] = "users_update"
 
                 await self.send(json.dumps(json_to_send))
-
-            else: # No new changes
-                pass
 
             if messages != messages_before: # New changes
                 new_messages = [item for item in messages if item not in messages_before]
@@ -389,10 +413,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
                 await self.send(json.dumps(recent_messages_packet))
 
-            else: # No new changes
-                pass
-
-
             if user_counts != user_counts_before: # New changes
                 user_counts_before = user_counts
 
@@ -403,9 +423,6 @@ class MainConsumer(AsyncWebsocketConsumer):
                 }
 
                 await self.send(json.dumps(user_counts_packet))
-
-            else: # No new changes
-                pass
 
             if conversations_before != conversations: # New changes
                 new_conversations = [item for item in conversations if item not in conversations_before]
@@ -418,6 +435,19 @@ class MainConsumer(AsyncWebsocketConsumer):
                 }
 
                 await self.send(json.dumps(new_conversations_packet))
+
+            # if notifications_before != notifications: # New changes
+            #     new_notifications = [item for item in notifications if item not in notifications_before]
+            #     print(new_notifications)
+
+            #     for notification in range(len(new_notifications)):
+            #         print(notification)
+            #         noti = new_notifications[notification]
+            #         await self.send_notification(noti["title"], noti["text"], noti["type"])
+
+            #     notifications_before = await self.get_notifications()
+
+            # TODO: This part seems to not work correctly right now, shelving it and will fix later
 
             await asyncio.sleep(0.5)
 
@@ -540,6 +570,37 @@ class MainConsumer(AsyncWebsocketConsumer):
             return False
 
         message.save()
+
+        mention_search = re.findall("@[A-Za-z]*", message.text)
+        if mention_search:
+            for i in range(len(mention_search)):
+
+                try:
+                    user = User.objects.filter(username=mention_search[i].replace("@", ""))[0] # TODO: What if there are multiple users with that name?
+                except IndexError: # User does not exist, so don't send a notification
+                    return False
+
+                if user:
+                    notification = {
+                        "id": len(user.notifications),
+                        "title": f"Mentioned by {self.username}",
+                        "text": f"{self.username} mentioned you.",
+                        "type": "normal",
+                        "save": True,
+                    }
+
+                    if me.current_conversation_type == "normal":
+                        notification["text"] = f"{self.username} mentioned you in the conversation '{me.current_conversation.name}'\n{message.text[0:100]}..."
+
+                    elif me.current_conversation_type == "circle":
+                        notification["text"] = f"{self.username} mentioned you in the circle '{me.location_circle}'\n{message.text[0:100]}..."
+
+                    elif me.current_conversation_type == "server":
+                        notification["text"] = f"{self.username} mentioned you in the main server chat.\n{message.text[0:100]}..."
+                    
+                    
+                    user.notifications.append(notification)
+                    user.save()
 
         return True
     
@@ -789,12 +850,20 @@ class MainConsumer(AsyncWebsocketConsumer):
             return userdetails
 
         elif len(user) == 0:
-            print("Couldn't find that user!") # TODO: Create send_notification packet so that the client knows
+            print("Couldn't find that user!")
+            return False
 
         else:
             print("There is more than one user with that username!")
+            return False
 
-    async def send_notification(self, title, text, style="normal"):
+    async def send_notification(self, title, text, style="normal", add=True):
+        '''
+        Required: title, text
+        Optional: style, add
+
+        Setting add to false will make the notification not be added to the User's list of notifications
+        '''
         send_notification_json = {
             "type": "notification",
             "title": title,
@@ -803,6 +872,11 @@ class MainConsumer(AsyncWebsocketConsumer):
         }
 
         await self.send(json.dumps(send_notification_json))
+
+        send_notification_json["save"] = True
+
+        if add:
+            await self.add_notification(send_notification_json)
 
     @database_sync_to_async
     def dm_user(self, username):
@@ -957,6 +1031,100 @@ class MainConsumer(AsyncWebsocketConsumer):
         me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
 
         return me.stats
+    
+    @database_sync_to_async
+    def get_notifications(self):
+        '''
+        Gets all notifications saved in the User's profile
+
+        This is how they should be stored:
+
+        [
+            {
+                "id": 0,
+                "title": "Title!",
+                "text": "Some body text",
+                "type": "normal",
+                "save": True,
+                "color": {
+                    "r": 100,
+                    "g": 100,
+                    "b": 100,
+                }
+            },
+            {
+                "id": 1,
+                "title": "Another notification!",
+                "text": "Some body text",
+                "type": "normal",
+                "save": True,
+                "color": {
+                    "r": 150,
+                    "g": 150,
+                    "b": 150,
+                }
+            }
+            
+        ]
+        
+
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+        try:
+            return me.notifications
+        except:
+            return False
+        
+    @database_sync_to_async
+    def add_notification(self, json, username=False):
+        '''
+        Add a notification to the User's account
+        Takes json with attributes title, text, type, save and color
+        username is an optional paramater that can be used to add a notification to a different User
+        '''
+        
+        if username:
+            user = User.objects.filter(username=username)[0] # TODO: What if there are multiple users with that name?
+
+            notification = {
+                "id": len(user.notifications),
+                "title": json["title"],
+                "text": json["text"],
+                "type": json["type"],
+                "save": json["save"],
+            }
+
+            user.notifications.append(notification)
+            user.save()
+            return True
+
+        else:
+            me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+
+            notification = {
+                "id": len(me.notifications),
+                "title": json["title"],
+                "text": json["text"],
+                "type": json["type"],
+                "save": json["save"],
+            }
+
+            me.notifications.append(notification)
+            me.save()
+            return True
+        
+    @database_sync_to_async
+    def clear_notifications(self):
+        '''
+        Clears all the notifications for the User
+        '''
+        me = User.objects.filter(username=self.username)[0] # TODO: What if user is not found?
+        me.notifications.clear()
+        me.save()
+
+        return True
+
 
 
 

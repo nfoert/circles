@@ -1448,7 +1448,10 @@ body {
 }
 
 #main-notifications-box-notifications {
-    overflow-y:auto;
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
 }
 
 #main-notifications-box-notifications::-webkit-scrollbar {

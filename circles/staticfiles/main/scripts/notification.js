@@ -129,7 +129,13 @@ function add_notification(title, text, style) {
         notification.appendChild(notification_text);
     }
 
-    notifications_box_notifications.appendChild(notification);
+    try {
+        notifications_box_notifications.insertBefore(notification, main_messages_box.firstChild);
+
+    } catch {
+        notifications_box_notifications.appendChild(notification); // There are no children yet
+
+    }
 }
 
 function set_notification_color(r, g, b) {

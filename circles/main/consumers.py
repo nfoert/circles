@@ -373,6 +373,7 @@ class MainConsumer(AsyncWebsocketConsumer):
         messages_before = await self.get_initial_messages_json() # Now is the list of first 100 messages
         user_counts_before = await self.get_user_counts()
         conversations_before = await self.get_users_conversations()
+        # notifications_before = await self.get_notifications() # TODO: Fix later
         
         
         while True:
@@ -380,6 +381,7 @@ class MainConsumer(AsyncWebsocketConsumer):
             messages = await self.get_initial_messages_json() # TODO: Make this not limited
             user_counts = await self.get_user_counts()
             conversations = await self.get_users_conversations()
+            # notifications = await self.get_notifications() # TODO: Fix later
 
             if users_in_circle_before != users_in_circle: # New changes
                 users_in_circle_before = users_in_circle
@@ -388,9 +390,6 @@ class MainConsumer(AsyncWebsocketConsumer):
                 json_to_send["type"] = "users_update"
 
                 await self.send(json.dumps(json_to_send))
-
-            else: # No new changes
-                pass
 
             if messages != messages_before: # New changes
                 new_messages = [item for item in messages if item not in messages_before]
@@ -414,10 +413,6 @@ class MainConsumer(AsyncWebsocketConsumer):
 
                 await self.send(json.dumps(recent_messages_packet))
 
-            else: # No new changes
-                pass
-
-
             if user_counts != user_counts_before: # New changes
                 user_counts_before = user_counts
 
@@ -428,9 +423,6 @@ class MainConsumer(AsyncWebsocketConsumer):
                 }
 
                 await self.send(json.dumps(user_counts_packet))
-
-            else: # No new changes
-                pass
 
             if conversations_before != conversations: # New changes
                 new_conversations = [item for item in conversations if item not in conversations_before]
@@ -443,6 +435,19 @@ class MainConsumer(AsyncWebsocketConsumer):
                 }
 
                 await self.send(json.dumps(new_conversations_packet))
+
+            # if notifications_before != notifications: # New changes
+            #     new_notifications = [item for item in notifications if item not in notifications_before]
+            #     print(new_notifications)
+
+            #     for notification in range(len(new_notifications)):
+            #         print(notification)
+            #         noti = new_notifications[notification]
+            #         await self.send_notification(noti["title"], noti["text"], noti["type"])
+
+            #     notifications_before = await self.get_notifications()
+
+            # TODO: This part seems to not work correctly right now, shelving it and will fix later
 
             await asyncio.sleep(0.5)
 
@@ -852,7 +857,13 @@ class MainConsumer(AsyncWebsocketConsumer):
             print("There is more than one user with that username!")
             return False
 
-    async def send_notification(self, title, text, style="normal"):
+    async def send_notification(self, title, text, style="normal", add=True):
+        '''
+        Required: title, text
+        Optional: style, add
+
+        Setting add to false will make the notification not be added to the User's list of notifications
+        '''
         send_notification_json = {
             "type": "notification",
             "title": title,
@@ -864,7 +875,8 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         send_notification_json["save"] = True
 
-        await self.add_notification(send_notification_json)
+        if add:
+            await self.add_notification(send_notification_json)
 
     @database_sync_to_async
     def dm_user(self, username):

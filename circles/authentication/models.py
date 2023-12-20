@@ -10,6 +10,7 @@ class User(AbstractBaseUser):
     email = models.CharField(max_length=256)
     display_name = models.CharField(max_length=128, blank=True)
     bio = models.CharField(max_length=10000, blank=True)
+    pronouns = models.CharField(max_length=100, blank=True)
     primary_color = ColorField(default="#FFFFFF")
     secondary_color = ColorField(default="#FFFFFF")
     x = models.IntegerField(default=0)

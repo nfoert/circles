@@ -41,6 +41,25 @@ window.addEventListener("error", (event) => error(event));
 
 request_system_notification_permission();
 
+// Thanks to PurkkaKoodari's answer here https://stackoverflow.com/questions/23181243/throttling-a-mousemove-event-to-fire-no-more-than-5-times-a-second
+var mouse_coordinates_wait = false;
+
+document.addEventListener("mousemove", (event) => {
+    if (!mouse_coordinates_wait) {
+        window.mouseX = event.clientX;
+        window.mouseY = event.clientY;
+
+        mouse_coordinates_wait = true;
+
+        setTimeout(() => {
+            mouse_coordinates_wait = false;
+
+        }, 1000 / 5); // Number of times per second
+        
+    }
+    
+});
+
 // ----------
 // three.js
 // ----------
@@ -701,7 +720,12 @@ async function right_click(event) {
         mouse_now_y = event.clientY;
         camera_start_x = camera.position.x; // Update the starting camera position
         camera_start_y = camera.position.y; // Update the starting camera position
+
+        close_userdetails();
+
         document.addEventListener("mousemove", right_click_logic);
+
+        
     }
 
 
@@ -864,6 +888,7 @@ server_socket.onmessage = function (e) {
         me.username = json["username"];
         me.display_name = json["display_name"];
         me.bio = json["bio"];
+        me.pronouns = json["pronouns"];
         me.primary_color = json["primary_color"];
         me.secondary_color = json["secondary_color"];
         me.settings = json["settings"];
@@ -1059,6 +1084,12 @@ server_socket.onopen = async function (e) {
     set_notification_title("<i class='ph-bold ph-check-circle'></i> Connected");
     set_notification_color(4, 223, 33);
     status_done();
+
+    // Temorary Holiday Notification
+    setTimeout(function() {
+        show_notification('<i class="ph-bold ph-gift"></i> Happy Holidays!', "Happy Holidays!", "status", false);
+        set_notification_color(254, 141, 141);
+    }, 3000);
 
     get_users_conversations_request();
 

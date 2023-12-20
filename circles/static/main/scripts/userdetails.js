@@ -6,43 +6,65 @@ Manages things relating to user details, including
 - Generating the user details box when a user is clicked
 */
 
-var userdetails_box = document.getElementById("user-details");
-var userdetails_close = document.getElementById("user-details-bottom-close");
+var userdetails_box = document.getElementById("menu-userdetails");
+var userdetails_close = document.getElementById("menu-userdetails-close");
 
-var userdetails_profilepicture = document.getElementById("user-details-profilepicture");
-var userdetails_top = document.getElementById("user-details-top");
+var userdetails_profilepicture = document.getElementById("menu-userdetails-profilepicture");
 
-var userdetails_message = document.getElementById("userdetails-message")
-var userdetails_follow = document.getElementById("userdetails-follow");
-var userdetails_report = document.getElementById("userdetails-report");
-var userdetails_more = document.getElementById("userdetails-more");
+var userdetails_message = document.getElementById("menu-userdetails-button-message")
+// var userdetails_follow = document.getElementById("userdetails-follow"); TODO
+// var userdetails_report = document.getElementById("userdetails-report"); TODO
+// var userdetails_more = document.getElementById("userdetails-more"); TODO
 
 userdetails_message.addEventListener("click", dm_user);
 
-var userdetails_username = document.getElementById("user-details-textdetails-username");
-var userdetails_server = document.getElementById("user-details-textdetails-server");
-var userdetails_bio = document.getElementById("userdetails-bio");
+var userdetails_displayname = document.getElementById("menu-userdetails-displayname");
+var userdetails_username = document.getElementById("menu-userdetails-username");
+var userdetails_pronouns = document.getElementById("menu-userdetails-pronouns");
+var userdetails_joined = document.getElementById("menu-userdetails-joined");
+
+var userdetails_bio = document.getElementById("menu-userdetails-bio");
 
 userdetails_close.addEventListener("click", close_userdetails);
 
 var userdetails_open = false;
+var close_userdetails_timeout = undefined;
+
 
 function open_userdetails() {
-    hide_small_buttons_expand();
-
     userdetails_open = true;
+
+    try {
+        clearTimeout(close_userdetails_timeout);
+    } catch {
+        null;
+    }
+
+    if (window.mobile_check() == false) {
+        userdetails_box.style.left = window.mouseX + "px";
+        userdetails_box.style.top = window.mouseY + "px";
+    }
+
+    userdetails_box.style.display = "block";
     
-    userdetails_box.classList.remove("hide-user-details");
-    userdetails_box.classList.add("show-user-details");
+    userdetails_box.classList.remove("menu-userdetails-hide");
+    userdetails_box.classList.add("menu-userdetails-show");
+
+    show_background_blur(false);
 }
 
 function close_userdetails() {
-    show_small_buttons_expand();
 
     userdetails_open = false;
 
-    userdetails_box.classList.remove("show-user-details");
-    userdetails_box.classList.add("hide-user-details");
+    userdetails_box.classList.add("menu-userdetails-hide");
+    userdetails_box.classList.remove("menu-userdetails-show");
+
+    close_userdetails_timeout = setTimeout(function() {
+        userdetails_box.style.display = "none";
+    }, 1000);
+
+    hide_background_blur();
 }
 
 function request_userdetails(username) {
@@ -55,15 +77,17 @@ function request_userdetails(username) {
 }
 
 function render_userdetails(json) {
-    close_userdetails();
-
     userdetails_box.setAttribute("username", json["username"]);
     
-    userdetails_username.innerText = json["display_name"];
-    userdetails_server.innerText = json["username"] + "@" + "circles.media"; // TODO: Change server name based off of actual server name
+    userdetails_displayname.innerText = json["display_name"];
+    userdetails_username.innerText = json["username"] + "@" + "circles.media"; // TODO: Change server name based off of actual server name
+    userdetails_pronouns.innerText = json["pronouns"];
     userdetails_bio.innerText = json["bio"];
-    userdetails_profilepicture.style.backgroundColor = json["primary_color"] + "20";
-    userdetails_top.style.backgroundColor = json["secondary_color"] + "20";
+    log_info(json["bio"]);
+    userdetails_joined.innerHTML = '<i class="ph-bold ph-calendar-blank"></i> Joined ' + json["date_created"];
+
+    userdetails_profilepicture.style.backgroundColor = json["primary_color"];
+    userdetails_box.style.backgroundColor = json["secondary_color"] + "40";
     open_userdetails();
 }
 

@@ -5,15 +5,33 @@ Handles everything for the dialog box system
     - Inserting contents into that box
 - Closing a box
 */
-
+0
 document.getElementById("dialog-close").addEventListener("click", hide_dialog);
-document.getElementById("main-backgroundblur").addEventListener("click", hide_dialog);
 
-function show_background_blur() {
+const close_blur = true;
+var hide_event_listener = undefined;
+
+function show_background_blur(close_blur) {
+    if (close_blur == undefined) {
+        close_blur = true;
+    }
+
+    try {
+        removeEventListener("click", hide_event_listener);
+    } catch {
+        null;
+    }
+
     let darkness = document.getElementById("main-backgroundblur");
     darkness.setAttribute("style", "display: inline !important;");
     darkness.classList.remove("fade_out_bg");
     darkness.classList.add("fade_in_bg");
+
+    if (close_blur == true) {
+        hide_event_listener = darkness.addEventListener("click", hide_dialog);
+        log_warn("Set listener")
+    }
+
 }
 
 function hide_background_blur() {
@@ -24,6 +42,13 @@ function hide_background_blur() {
     setTimeout(function () {
         darkness.setAttribute("style", "display: none !important;");
     }, 1000);
+
+    try {
+        removeEventListener("click", hide_event_listener);
+    } catch {
+        null;
+    }
+
 }
 
 function render_dialog(name) {

@@ -42,6 +42,7 @@ class MainConsumer(AsyncWebsocketConsumer):
                 "username": self.username,
                 "display_name": user_data["display_name"],
                 "bio": user_data["bio"],
+                "pronouns": user_data["pronouns"],
                 "primary_color": user_data["primary_color"],
                 "secondary_color": user_data["secondary_color"],
 
@@ -835,12 +836,16 @@ class MainConsumer(AsyncWebsocketConsumer):
         user = User.objects.filter(username=username)
 
         if len(user) == 1:
+            date_created = user[0].date_created
+
             userdetails = { # TODO: Include color and other information soon
                 "username": user[0].username,
                 "display_name": user[0].display_name,
                 "bio": user[0].bio,
+                "pronouns": user[0].pronouns,
                 "primary_color": user[0].primary_color,
                 "secondary_color": user[0].secondary_color,
+                "date_created": f"{date_created.month}/{date_created.day}/{date_created.year}", # TODO: Should be localized
             }
 
             if extra:
@@ -922,6 +927,7 @@ class MainConsumer(AsyncWebsocketConsumer):
 
         me.display_name = json["display_name"]
         me.bio = json["bio"]
+        me.pronouns = json["pronouns"]
         me.primary_color = json["primary_color"]
         me.secondary_color = json["secondary_color"]
         me.settings = json["settings"]

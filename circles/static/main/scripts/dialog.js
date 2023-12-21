@@ -29,7 +29,6 @@ function show_background_blur(close_blur) {
 
     if (close_blur == true) {
         hide_event_listener = darkness.addEventListener("click", hide_dialog);
-        log_warn("Set listener")
     }
 
 }
@@ -63,7 +62,7 @@ function render_dialog(name) {
         log_info(`Rendered dialog '${name}'`)
 
     } catch {
-        log_warning(`Failed to find dialog '${name}'`);
+        log_warn(`Failed to find dialog '${name}'`);
     }
     
 }

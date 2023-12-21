@@ -1099,4 +1099,11 @@ server_socket.onopen = async function (e) {
         document.getElementById("loading-screen").style.display = "none";
     }, 1600)
 
+    // Show information for the Open Alpha
+    setTimeout(function() {
+        render_dialog("alpha"); 
+        show_dialog();
+    }, 1000)
+    
+
 };

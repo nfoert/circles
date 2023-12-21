@@ -5,10 +5,10 @@
 <hr>
 <br>
 <p align="center">
-<a href="https://urchin-app-aiid2.ondigitalocean.app/" style="padding:10px; background-color: Tomato; border: 2px solid gray; border-radius:5px; color:white">Circles</a>
-<a href="https://discord.com/invite/QBDw4UrGXX" style="padding:10px; background-color: dimgray; border: 2px solid gray; border-radius:5px; color:white;">Discord</a> 
-<a href="https://twitch.tv/nfoert" style="padding:10px; background-color: dimgray; border: 2px solid gray; border-radius:5px; color:white;">Twitch</a> 
-<a href="https://youtube.com/@nfoert" style="padding:10px; background-color: dimgray; border: 2px solid gray; border-radius:5px; color:white;">YouTube</a>
+<a href="https://urchin-app-aiid2.ondigitalocean.app"><strong>Circles</strong></a> |
+<a href="https://discord.com/invite/QBDw4UrGXX">Discord</a> |
+<a href="https://twitch.tv/nfoert">Twitch</a> |
+<a href="https://youtube.com/@nfoert">YouTube</a>
 </p>
 <p align="center"><strong>Production server now avaliable!</strong></p>
 <hr>
@@ -22,7 +22,7 @@
 
 <br>
 
-<img src="repo/images/circles_main.png" style="width: 80vw; border-radius:10px; border:2px solid gray; box-shadow: 4px 4px #444444; margin-left: 5vw;">
+<img src="repo/images/circles_main.png">
 
 <br>
 

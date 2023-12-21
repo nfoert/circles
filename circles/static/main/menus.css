@@ -1,0 +1,383 @@
+/* Styles for context menus */
+
+@font-face {
+	font-family: "ArchiformSans";
+	src: local('Abc'),
+	url('./fonts/Arciform.otf') format("opentype");
+}
+
+@keyframes menu-userdetails-show {
+    0% {
+        opacity: 0;
+        transform: rotateX(90deg);
+        scale: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg);
+        scale: 1;
+    }
+}
+
+@keyframes menu-userdetails-hide {
+    0% {
+        opacity: 1;
+        transform: rotateX(0deg);
+        scale: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotateX(90deg);
+        scale: 0.8;
+    }
+}
+
+
+
+/* User Details */
+.menu-userdetails-show {
+    animation: menu-userdetails-show 0.5s forwards ease;
+}
+
+.menu-userdetails-hide {
+    animation: menu-userdetails-hide 0.5s forwards ease;
+}
+
+@media (min-width: 1000px) {
+    /* Larger Screens */
+
+    #menu-userdetails {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: fit-content;
+        height: fit-content;
+    
+        max-width: 20vw;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px); 
+        border-radius: 10px;
+    
+        z-index: 15;
+    
+        padding: 5px;
+        padding-top: 35px;
+    
+        /* Starting properties for animation */
+        opacity: 0;
+        transform: rotateX(90deg);
+        scale: 0.8;
+        display: none;
+    }
+    
+    #menu-userdetails-profilepicture {
+        background-color: rgb(121, 121, 121);
+        border: 1px solid rgb(158, 158, 158);
+        border-radius: 50px;
+    
+        width: 60px;
+        height: 60px;
+    
+        display: flex;
+        justify-content: center;
+    
+        position: absolute;
+        top: 15px;
+        left: 10%;
+    
+        z-index: 12;
+        
+    }
+
+    #menu-userdetails-profilepicture-text {
+        color: white;
+        text-align: center;
+        font-family: ArchiformSans;
+        font-size: 20px;
+        user-select: none;
+    }
+    
+    #menu-userdetails-text {
+        margin-left: 10px;
+        margin-right: 5px;
+        margin-top: 10px;
+    }
+    
+    #menu-userdetails-displayname {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 24px;
+        margin-top: 30px;
+    }
+    
+    #menu-userdetails-username {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 16px;
+        opacity: 0.5;
+    }
+    
+    #menu-userdetails-pronouns {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 16px;
+        opacity: 1;
+    }
+    
+    .menu-userdetails-line {
+        width: 95%;
+        height: 3px;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        border-radius: 3px;
+    
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #menu-userdetails-bio {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 16px;
+    
+        margin-left: 20px;
+    }
+    
+    #menu-userdetails-joined {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 14px;
+        opacity: 0.5;
+        padding: 0;
+        margin: 0;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .menu-userdetails-button {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: 14px;
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        border-radius: 20px;
+    
+        width: fit-content;
+        padding: 5px;
+    
+        transition: 0.3s ease;
+    
+        user-select: none;
+        
+    }
+
+    .menu-userdetails-close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    
+        color: white;
+        font-size: 20px;
+        opacity: 0.8;
+        transition: 0.3s ease;
+        padding: 2px;
+    
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    /* Smaller screens */
+
+    #menu-userdetails {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        translate: -50% 0;
+
+        width: 100%;
+        height: 70%;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px); 
+        border-radius: 10px;
+    
+        z-index: 15;
+    
+        padding: 5px;
+        padding-top: 35px;
+    
+        /* Starting properties for animation */
+        opacity: 0;
+        transform: rotateX(90deg);
+        scale: 0.8;
+        display: none;
+    }
+    
+    #menu-userdetails-profilepicture {
+        background-color: rgb(121, 121, 121);
+        border: 1px solid rgb(158, 158, 158);
+        border-radius: 50px;
+    
+        width: clamp(6vh, 60px, 6vw);
+        height: clamp(6vh, 60px, 6vw);
+    
+        display: flex;
+        justify-content: center;
+    
+        position: absolute;
+        top: 15px;
+        left: 10%;
+    
+        z-index: 12;
+        
+    }
+
+    #menu-userdetails-profilepicture-text {
+        color: white;
+        text-align: center;
+        font-family: ArchiformSans;
+        font-size: clamp(2vh, 20px, 2vw);
+        user-select: none;
+    }
+    
+    #menu-userdetails-text {
+        margin-left: 10px;
+        margin-right: 5px;
+        margin-top: 10px;
+    }
+    
+    #menu-userdetails-displayname {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(2.8vh, 28px, 2.8vw);
+        margin-top: 30px;
+    }
+    
+    #menu-userdetails-username {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(1.8vh, 18px, 1.8vw);
+        opacity: 0.5;
+    }
+    
+    #menu-userdetails-pronouns {
+        margin: 0;
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(2vh, 20px, 2vw);
+        opacity: 1;
+    }
+    
+    .menu-userdetails-line {
+        width: 95%;
+        height: 3px;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        border-radius: 3px;
+    
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #menu-userdetails-bio {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(1.8vh, 18px, 1.8vw);
+    
+        margin-left: 20px;
+    }
+    
+    #menu-userdetails-joined {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(1.8vh, 18px, 1.8vw);
+        opacity: 0.5;
+        padding: 0;
+        margin: 0;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .menu-userdetails-button {
+        color: white;
+        font-family: ArchiformSans;
+        font-size: clamp(1.6vh, 16px, 1.6vw);
+        background-color: rgba(211, 211, 211, 0.2);
+        border: 1px solid rgba(211, 211, 211, 0.4);
+        border-radius: 20px;
+    
+        width: fit-content;
+        padding: 5px;
+    
+        transition: 0.3s ease;
+    
+        user-select: none;
+    }
+
+    .menu-userdetails-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    
+        color: white;
+        font-size: clamp(2.5vh, 25px, 2.5vw);
+        opacity: 0.8;
+        transition: 0.3s ease;
+        padding: 2px;
+    
+        border-radius: 20px;
+    }
+
+}
+
+
+#menu-userdetails-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+}
+
+.menu-userdetails-button:hover {
+    scale: 1.05;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-userdetails-button:active {
+    scale: 0.95;
+    background-color: rgba(131, 131, 131, 0.2);
+}
+
+.menu-userdetails-close:hover {
+    scale: 1.1;
+    opacity: 1;
+    background-color: rgba(235, 235, 235, 0.2);
+}
+
+.menu-userdetails-close:active {
+    scale: 0.9;
+    opacity: 0.5;
+    background-color: rgba(90, 90, 90, 0.2);
+}

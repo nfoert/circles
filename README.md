@@ -3,17 +3,16 @@
     <img src="repo/images/circles.png" style="width: 400px; border-radius:20px;">
 </p>
 <hr>
-<p align="center"><b>ⵔ Official server & Open Alpha coming soon ⵔ</b></p>
-<p align="center">ⵔ <a href="https://discord.com/invite/QBDw4UrGXX">Discord</a> ⵔ <a href="https://twitch.tv/nfoert">Twitch</a> ⵔ <a href="https://youtube.com/@nfoert">YouTube</a> ⵔ</p>
-
+<br>
+<p align="center">
+<a href="https://urchin-app-aiid2.ondigitalocean.app"><strong>Circles</strong></a> |
+<a href="https://discord.com/invite/QBDw4UrGXX">Discord</a> |
+<a href="https://twitch.tv/nfoert">Twitch</a> |
+<a href="https://youtube.com/@nfoert">YouTube</a>
+</p>
+<p align="center"><strong>Production server now avaliable!</strong></p>
 <hr>
 
-<br>
-
-<p align="center"><b>Circles is currently under development. It'll be avaliable to access soon.</b></p>
-<br>
-
-<hr>
 
 <br>
 <p align="center">Circles is an open source, decentralized social network where people can move within a physical space and interact with each other.</p>
@@ -23,8 +22,7 @@
 
 <br>
 
-<img src="repo/images/circles_signup.png" style="width: 500px; border-radius:10px;">
-<img src="repo/images/circles_main.png" style="width: 500px; border-radius:10px;">
+<img src="repo/images/circles_main.png">
 
 <br>
 
@@ -34,8 +32,6 @@ I created Circles for a few reasons:
 
 - I care a lot about open source and I feel that we need more options for FOSS social media
 - Right now, people on social media just feel like users who post stuff. I want Circles to feel like an actual space where people can move and interact, and allow people to have their own ways of expressing themselves.
-
-I have lots of ideas on how to make Circles great and It's going to be a lot of work, but I'm very excited.
 
 # What needs done
 

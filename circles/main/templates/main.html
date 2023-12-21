@@ -5,6 +5,9 @@
         <title>Circles</title>
         <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'main/menus.css' %}"> 
+        <link rel="stylesheet" href="{% static 'main/pure-snow/style.css' %}"> <!-- Thanks to https://github.com/hyperstown/pure-snow.js -->
+
         <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
         <meta name="darkreader-lock">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +19,12 @@
     <body>
         <div id="main-canvas"></div>
 
+        <div id="snow" data-count="20"></div> <!-- Thanks to https://github.com/hyperstown/pure-snow.js -->
+
         {% include "dialogs/dialog_createconversation.html" %}
         {% include "dialogs/dialog_createcircle.html" %}
+        {% include "dialogs/dialog_alpha.html" %}
+        {% include "dialogs/menu_userdetails.html" %}
 
         <div id="main-user-box">
             <!-- <img src="{% static 'main/images/circles.png' %}"> -->
@@ -89,33 +96,6 @@
             <p class="main-addmenu-item" id="add-conversation"><i class="ph-bold ph-chat-teardrop-text"></i> Conversation</p>
         </div>
 
-        <div id="user-details" class="user-details">
-            <div class="user-details-top" id="user-details-top">
-                <p class="user-details-profilepicture" id="user-details-profilepicture">?</p>
-                <div class="user-details-textdetails">
-                    <p class="user-details-username" id="user-details-textdetails-username">Loading...</p>
-                    <p class="user-details-server" id="user-details-textdetails-server">circles.media</p> <!-- TODO: Will need set once multiple servers is supported -->
-                </div>
-            </div>
-
-            <div class="user-details-bottom">
-                <div class="user-details-bottom-bio">
-                    <p class="bio-text" id="userdetails-bio">Bio</p>
-                </div>
-
-                <div class="user-details-bottom-buttons">
-                    <div class="user-details-button" id="userdetails-message"><i class="ph-bold ph-chat-teardrop-text"></i></div>
-                    <div class="user-details-button" id="userdetails-follow"><i class="ph-bold ph-user-plus"></i></div>
-                    <div class="user-details-button" id="userdetails-report"><i class="ph-bold ph-flag"></i></div>
-                    <div class="user-details-button-wide" id="userdetails-more"><i class="ph-bold ph-dots-three"></i> More</div>
-                </div>
-
-            </div>
-
-            <div id="user-details-bottom-close"></div>
-
-        </div>
-
         <div id="edit-profile">
             <div id="edit-profile-header">
                 <div id="edit-profile-header-text">
@@ -127,29 +107,9 @@
                 
             </div>
             <div id="edit-profile-columns">
-                <div class="user-details" id="edit-profile-preview">
-                    <div class="user-details-top" id="editprofile-top">
-                        <p class="user-details-profilepicture" id="editprofile-profilepicture">{{ username|slice:1|title }}</p>
-                        <div class="user-details-textdetails">
-                            <p class="user-details-username" id="editprofile-username">{{ username }}</p>
-                            <p class="user-details-server" id="editprofile-server">{{ server_name }}</p> <!-- TODO: Will need set once multiple servers is supported -->
-                        </div>
-                    </div>
-        
-                    <div class="user-details-bottom">
-                        <div class="user-details-bottom-bio">
-                            <p class="bio-text" id="editprofile-bio">Bio</p>
-                        </div>
+                <div id="edit-profile-preview">
+                    {% include "dialogs/menu_userdetails.html" %}
 
-                        <div class="user-details-bottom-buttons">
-                            <div class="user-details-button"><i class="ph-bold ph-chat-teardrop-text"></i></div>
-                            <div class="user-details-button"><i class="ph-bold ph-user-plus"></i></div>
-                            <div class="user-details-button"><i class="ph-bold ph-flag"></i></div>
-                            <div class="user-details-button-wide"><i class="ph-bold ph-dots-three"></i> More</div>
-                        </div>
-        
-                    </div>
-                    
                 </div>
 
                 <div id="edit-profile-fields">
@@ -161,6 +121,9 @@
 
                     <textarea class="textarea" placeholder="Bio" id="edit-profile-bio" rows="4"></textarea>
                     <p class="textedit-subtext"><strong>Bio</strong> Information about you</p>
+
+                    <input class="textarea" placeholder="Pronouns" type="text" id="edit-profile-pronouns"></input>
+                    <p class="textedit-subtext"><strong>Pronouns</strong> The pronouns you prefer to use</p>
 
                     <input class="textarea-color" placeholder="Primary Color" type="color" id="edit-profile-primary"></input>
                     <p class="textedit-subtext"><strong>Primary Color</strong> The main color for your User. This is the color of your Circle in the world.</p>
@@ -282,6 +245,8 @@
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         <script src="{% static 'main/scripts/dialog.js' %}"></script>
+
+        <script src="{% static 'main/pure-snow/pure-snow.js' %}" defer></script> <!-- Thanks to https://github.com/hyperstown/pure-snow.js -->
         
         
         

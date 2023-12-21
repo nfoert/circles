@@ -43,6 +43,16 @@
 
 }
 
+.text-body {
+    color: white;
+    font-family: ArchiformSans;
+    opacity: 0.7;
+    font-size: clamp(2vh, 20px, 2vw);
+    text-align: left;
+    margin: clamp(2vh, 20px, 2vw);
+    line-height: 110%;
+}
+
 
 .dialog-header {
     color: white;

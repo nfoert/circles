@@ -1532,6 +1532,7 @@ body {
     
         background-color: rgba(211, 211, 211, 0.2);
         border: 1px solid rgba(211, 211, 211, 0.4);
+
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
         display: flex;
@@ -1975,7 +1976,8 @@ body {
     /* Larger Screens */
 
     .user-details {
-        width: 300px;
+        width: 100%;
+        max-width: 500px;
         height: 200px;
     
         background-color: rgba(211, 211, 211, 0.2);

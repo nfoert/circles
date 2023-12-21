@@ -16,14 +16,22 @@ var edit_profile_signout = document.getElementById("edit-profile-signout");
 var edit_profile_changepassword = document.getElementById("edit-profile-changepassword");
 var edit_profile_deleteaccount = document.getElementById("edit-profile-deleteaccount");
 
-var edit_profile_top = document.getElementById("editprofile-top");
-var edit_profile_profilepicture = document.getElementById("editprofile-profilepicture");
-var edit_profile_username = document.getElementById("editprofile-username");
-var edit_profile_server = document.getElementById("editprofile-server");
-var edit_profile_bio_text = document.getElementById("editprofile-bio");
+var edit_profile_preview = document.querySelector("#edit-profile-preview");
+var edit_profile_preview_div = edit_profile_preview.querySelector("#menu-userdetails");
+edit_profile_preview_div.classList.add("menu-userdetails-show");
+edit_profile_preview_div.style.animationDelay = "1s";
+edit_profile_preview_div.style.display = "block";
+edit_profile_preview_div.style.position = "relative";
+
+var edit_profile_profilepicture = edit_profile_preview.querySelector("#menu-userdetails-profilepicture");
+var edit_profile_username = edit_profile_preview.querySelector("#menu-userdetails-displayname");
+var edit_profile_server = edit_profile_preview.querySelector("#menu-userdetails-username");
+var edit_profile_pronouns_text = edit_profile_preview.querySelector("#menu-userdetails-pronouns");
+var edit_profile_bio_text = edit_profile_preview.querySelector("#menu-userdetails-bio");
 
 var edit_profile_displayname = document.getElementById("edit-profile-displayname");
 var edit_profile_bio = document.getElementById("edit-profile-bio");
+var edit_profile_pronouns = document.getElementById("edit-profile-pronouns");
 var edit_profile_primary = document.getElementById("edit-profile-primary");
 var edit_profile_secondary = document.getElementById("edit-profile-secondary");
 
@@ -32,6 +40,7 @@ edit_profile_close.addEventListener("click", close_edit_profile);
 
 edit_profile_displayname.addEventListener("input", render_profile_details_from_fields);
 edit_profile_bio.addEventListener("input", render_profile_details_from_fields);
+edit_profile_pronouns.addEventListener("input", render_profile_details_from_fields);
 edit_profile_primary.addEventListener("input", render_profile_details_from_fields);
 edit_profile_secondary.addEventListener("input", render_profile_details_from_fields);
 
@@ -59,12 +68,14 @@ function render_profile_details(json) {
     edit_profile_username.innerText = json["display_name"];
     edit_profile_server.innerText = json["username"] + "@" + "circles.media"; // TODO: Change server name based off of actual server name
 
-    edit_profile_profilepicture.style.backgroundColor = json["primary_color"] + "40";
-    edit_profile_top.style.backgroundColor = json["secondary_color"] + "40";
+    edit_profile_profilepicture.style.backgroundColor = json["primary_color"];
+    edit_profile_preview_div.style.backgroundColor = json["secondary_color"] + "40";
     edit_profile_bio_text.innerText = json["bio"];
+    edit_profile_pronouns_text.innerText = json["pronouns"];
 
     edit_profile_displayname.value = json["display_name"];
     edit_profile_bio.value = json["bio"];
+    edit_profile_pronouns.value = json["pronouns"];
     edit_profile_primary.value = json["primary_color"];
     edit_profile_secondary.value = json["secondary_color"];
 
@@ -88,9 +99,10 @@ function render_profile_details(json) {
 function render_profile_details_from_fields() {
     edit_profile_username.innerText = edit_profile_displayname.value;
     edit_profile_bio_text.innerText = edit_profile_bio.value;
+    edit_profile_pronouns_text.innerText = edit_profile_pronouns.value;
 
-    edit_profile_profilepicture.style.backgroundColor = edit_profile_primary.value + "40";
-    edit_profile_top.style.backgroundColor = edit_profile_secondary.value + "40";
+    edit_profile_profilepicture.style.backgroundColor = edit_profile_primary.value;
+    edit_profile_preview_div.style.backgroundColor = edit_profile_secondary.value + "40";
 }
 
 function save_profile_details() {
@@ -108,6 +120,7 @@ function save_profile_details() {
         "type": "save_profile_details",
         "display_name": edit_profile_displayname.value,
         "bio": edit_profile_bio.value,
+        "pronouns": edit_profile_pronouns.value,
         "primary_color": edit_profile_primary.value,
         "secondary_color": edit_profile_secondary.value,
         "settings": settings_json
@@ -146,7 +159,7 @@ function open_edit_profile() {
     edit_profile.classList.remove("hide-edit-profile");
     edit_profile.classList.add("show-edit-profile");
 
-    show_background_blur();
+    show_background_blur(false);
 }
 
 function close_edit_profile() {

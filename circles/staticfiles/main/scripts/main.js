@@ -41,6 +41,17 @@ window.addEventListener("error", (event) => error(event));
 
 request_system_notification_permission();
 
+// ----------
+// Tippy setup
+// ---------- 
+
+tippy("[data-tippy-content]", {
+    delay: [200, 0],
+    duration: [500, 300],
+    arrow: false,
+    inertia: true
+});
+
 // Thanks to PurkkaKoodari's answer here https://stackoverflow.com/questions/23181243/throttling-a-mousemove-event-to-fire-no-more-than-5-times-a-second
 var mouse_coordinates_wait = false;
 

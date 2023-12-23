@@ -34,7 +34,7 @@
                 </div>
 
                 <div id="main-user-box-profile-text">
-                    <p id="main-user-box-profile-text-username">{{ username }}</p>
+                    <p id="main-user-box-profile-text-username" data-tippy-content="Copy Username">{{ username }}</p>
                     <p id="main-user-box-profile-text-ip">{{ server_name }}</p>
                 </div>
             </div>
@@ -59,15 +59,15 @@
 
             <div id="main-messages-box-input">
                 <textarea id="main-messages-box-input-textarea" class="textarea" type="text" placeholder=""></textarea>
-                <button id="main-messages-box-input-send" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send <i class="ph-bold ph-paper-plane-tilt"></i></p></button>
-                <button id="main-messages-box-input-conversations" class="buttonsmaller"><p id="main-messages-box-input-conversations-text"><i class="ph-bold ph-list"></i></p></button>
+                <button id="main-messages-box-input-send" data-tippy-content="Send Message" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send <i class="ph-bold ph-paper-plane-tilt"></i></p></button>
+                <button id="main-messages-box-input-conversations" data-tippy-content="Toggle Conversations List" class="buttonsmaller"><p id="main-messages-box-input-conversations-text"><i class="ph-bold ph-list"></i></p></button>
             </div>
         </div>
 
         <div id="main-status-box">
-            <i id="main-status-box-status"><i class="ph-bold ph-check-circle"></i></i>
+            <i id="main-status-box-status" data-tippy-content="Status"><i class="ph-bold ph-check-circle"></i></i>
             <p id="main-status-box-time"></p>
-            <i id="main-status-box-notifications"><i class="ph-bold ph-bell"></i></i>
+            <i id="main-status-box-notifications" data-tippy-content="Notifications"><i class="ph-bold ph-bell"></i></i>
         </div>
 
         <div id="main-notifications-box">
@@ -165,13 +165,13 @@
 
         <div id="small-buttons">
             <div id="small-buttons-column">
-                <button class="buttonsmallcircle" id="small-buttons-github"><i class="ph-bold ph-github-logo"></i></button>
-                <button class="buttonsmallcircle" id="small-buttons-issues"><i class="ph-bold ph-bug-beetle"></i></button>
-                <button class="buttonsmallcircle" id="small-buttons-discord"><i class="ph-bold ph-discord-logo"></i></button>
+                <button class="buttonsmallcircle" data-tippy-content="GitHub" id="small-buttons-github"><i class="ph-bold ph-github-logo"></i></button>
+                <button class="buttonsmallcircle" data-tippy-content="Report a bug" id="small-buttons-issues"><i class="ph-bold ph-bug-beetle"></i></button>
+                <button class="buttonsmallcircle" data-tippy-content="Discord" id="small-buttons-discord"><i class="ph-bold ph-discord-logo"></i></button>
                 <div class="small-buttons-spacer"></div>
-                <button class="buttonsmallcircle" id="small-buttons-zoomin"><i class="ph-bold ph-magnifying-glass-plus"></i></button> <!-- It's zoomin -->
-                <button class="buttonsmallcircle" id="small-buttons-zoomout"><i class="ph-bold ph-magnifying-glass-minus"></i></button>
-                <button class="buttonsmallcircle" id="small-buttons-me"><i class="ph-bold ph-navigation-arrow"></i></button>
+                <button class="buttonsmallcircle" data-tippy-content="Zoom In" id="small-buttons-zoomin"><i class="ph-bold ph-magnifying-glass-plus"></i></button> <!-- It's zoomin -->
+                <button class="buttonsmallcircle" data-tippy-content="Zoom Out" id="small-buttons-zoomout"><i class="ph-bold ph-magnifying-glass-minus"></i></button>
+                <button class="buttonsmallcircle" data-tippy-content="Camera to you" id="small-buttons-me"><i class="ph-bold ph-navigation-arrow"></i></button>
                 <div class="small-buttons-spacer"></div>
             </div>
 
@@ -206,7 +206,7 @@
                     <p class="dialog-header" id="dialog-header">Dialog Box</p>
                     <p class="dialog-subheader" id="dialog-subheader">Subheader</p>
                 </div>
-                <p class="buttonx" id="dialog-close">X</p>
+                <p class="buttonx" data-tippy-content="Close dialog" id="dialog-close">X</p>
             </div>
         
         </div>
@@ -227,6 +227,9 @@
         <script src="https://unpkg.com/three@0.157.0/build/three.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="{% static 'main/scripts/purify.min.js' %}"></script>
+
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
 
         <script src="{% static 'main/scripts/TextGeometry.js' %}"></script>
         <script src="{% static 'main/scripts/FontLoader.js' %}"></script>

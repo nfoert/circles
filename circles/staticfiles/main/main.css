@@ -10,6 +10,14 @@ body {
 	url('./fonts/Arciform.otf') format("opentype");
 }
 
+.tippy-content {
+    font-family: ArchiformSans;
+}
+
+.tippy-box {
+    border: 1px solid rgba(211, 211, 211, 0.4);
+}
+
 @keyframes copied {
     0% {
         transform: translateX(-200px);

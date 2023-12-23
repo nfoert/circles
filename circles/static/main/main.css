@@ -592,7 +592,7 @@ body {
         transition: 0.1s ease;
         
     }
-    
+
 }
 
 @media (max-width: 1000px) {
@@ -751,6 +751,10 @@ body {
         
     }
     
+}
+
+.message-content > * {
+    margin: 0;
 }
 
 

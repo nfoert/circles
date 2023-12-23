@@ -8,17 +8,19 @@ Handles everything to do with Messages
 
 // Thanks to https://www.section.io/engineering-education/keyboard-events-in-javascript/
 
-var message_box = document.getElementById("main-messages-box-input-textarea")
-var message_button = document.getElementById("main-messages-box-input-send")
-var main_messages_box = document.getElementById("main-messages-box-messages")
+var message_box = document.getElementById("main-messages-box-input-textarea");
+var message_button = document.getElementById("main-messages-box-input-send");
+var main_messages_box = document.getElementById("main-messages-box-messages");
 
 message_button.disabled = true;
 
-message_button.addEventListener("click", send_message)
-document.addEventListener("keydown", (event) => check_shift_down(event))
-document.addEventListener("keyup", (event) => check_shift_up(event))
-document.addEventListener("keydown", (event) => send_message_keybind(event))
-message_box.addEventListener("input", check_messages_input)
+message_button.addEventListener("click", send_message);
+document.addEventListener("keydown", (event) => check_shift_down(event));
+document.addEventListener("keyup", (event) => check_shift_up(event));
+
+document.addEventListener("keydown", (event) => send_message_keybind(event));
+message_box.addEventListener("keydown", (event) => prevent_enter_key(event));
+message_box.addEventListener("input", check_messages_input);
 
 var shift = false;
 
@@ -27,7 +29,6 @@ function check_shift_down(event) {
         shift = true;
     }
 }
-
 
 function check_shift_up(event) {
     if (event.key == "Shift") {
@@ -45,7 +46,7 @@ function send_message() {
                 "message": message_box.value,
             }
 
-            server_socket.send(JSON.stringify(send_message_json))
+            server_socket.send(JSON.stringify(send_message_json));
 
             message_box.value = "";
 
@@ -57,13 +58,15 @@ function send_message() {
 }
 
 function send_message_keybind(event) {
-    if (shift == false && event.key == "Enter") {
+    if (event.key == "Enter" && shift == false) {
         send_message();
-    
-    } else if (shift == true && event.key == "Enter") {
-        // Insert whitespace
     }
+}
 
+function prevent_enter_key(event) {
+    if (event.key == "Enter" && shift == false) {
+        event.preventDefault();
+    }
 }
 
 function render_recent_messages(packet) {
@@ -83,7 +86,7 @@ function render_recent_messages(packet) {
 
         var date_time_created_epoch = parseInt(packet["messages"][message]["date_time_created"]);
         var date_time_created = new Date(0);
-        date_time_created.setUTCSeconds(date_time_created_epoch)
+        date_time_created.setUTCSeconds(date_time_created_epoch);
 
         const options = { hour: "2-digit", minute: "2-digit", "timeZone": "EST" };
 
@@ -130,7 +133,7 @@ function render_recent_messages(packet) {
 
         let message_div_text = document.createElement("div");
         message_div_text.classList.add("message-content");
-        message_div_text.innerHTML = text;
+        message_div_text.innerHTML = marked.parse(DOMPurify.sanitize(text));
 
         let message_div_info = document.createElement("div");
         message_div_info.classList.add("message-info");
@@ -199,7 +202,7 @@ function render_new_message({text, user, date, id}={}) {
 
     let message_div_text = document.createElement("div");
     message_div_text.classList.add("message-content");
-    message_div_text.innerHTML = text;
+    message_div_text.innerHTML = marked.parse(DOMPurify.sanitize(text));
 
     let message_div_info = document.createElement("div");
     message_div_info.classList.add("message-info");
@@ -243,7 +246,7 @@ function render_new_messages(json) {
     }
 }
 
-function check_messages_input() {
+function check_messages_input(event) {
     if (message_box.value == "") {
         message_button.disabled = true;
     

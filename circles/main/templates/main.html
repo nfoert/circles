@@ -58,7 +58,7 @@
             <div id="main-messages-box-conversations"></div>
 
             <div id="main-messages-box-input">
-                <input id="main-messages-box-input-textarea" class="textarea" type="text" placeholder=""></input>
+                <textarea id="main-messages-box-input-textarea" class="textarea" type="text" placeholder=""></textarea>
                 <button id="main-messages-box-input-send" class="buttonsmaller"><p id="main-messages-box-input-send-text">Send <i class="ph-bold ph-paper-plane-tilt"></i></p></button>
                 <button id="main-messages-box-input-conversations" class="buttonsmaller"><p id="main-messages-box-input-conversations-text"><i class="ph-bold ph-list"></i></p></button>
             </div>
@@ -225,6 +225,8 @@
         <script src="{% static 'main/scripts/logging.js' %}"></script>
 
         <script src="https://unpkg.com/three@0.157.0/build/three.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="{% static 'main/scripts/purify.min.js' %}"></script>
 
         <script src="{% static 'main/scripts/TextGeometry.js' %}"></script>
         <script src="{% static 'main/scripts/FontLoader.js' %}"></script>

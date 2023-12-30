@@ -288,12 +288,19 @@ function message_clicked(event) {
 function show_messages_menu() {
     message_menu_open = true;
 
-    let selected_message_element = document.querySelector(`.message-you[id="${selected_message}"], .message[id="${selected_message}"]`);
+    var selected_message_element = document.querySelector(`.message-you[id="${selected_message}"], .message[id="${selected_message}"]`);
 
     try {
         clearTimeout(close_message_menu_timeout);
     } catch {
         null;
+    }
+
+
+    if (selected_message_element.classList.contains("message")) {
+        message_menu_box.querySelector("#menu-message-edit").style.display = "none";
+        message_menu_box.querySelector("#menu-message-delete").style.display = "none";
+        message_menu_box.getElementsByClassName("line")[0].style.display = "none";
     }
 
     if (window.mobile_check() == false) {
@@ -314,6 +321,8 @@ function show_messages_menu() {
         }
     }
 
+    
+
     message_menu_box.classList.remove("menu-hide");
     message_menu_box.classList.add("menu-show");
 
@@ -326,6 +335,7 @@ function hide_messages_menu() {
 
     selected_message = undefined;
 
+    
 
     message_menu_box.classList.add("menu-hide");
     message_menu_box.classList.remove("menu-show");
@@ -334,6 +344,10 @@ function hide_messages_menu() {
         message_menu_box.style.display = "none";
 
         document.querySelector(`.message-you[id="${selected_message_old}"], .message[id="${selected_message_old}"]`).style.zIndex = "unset";
+        
+        message_menu_box.querySelector("#menu-message-edit").style.display = "block";
+        message_menu_box.querySelector("#menu-message-delete").style.display = "block";
+        message_menu_box.getElementsByClassName("line")[0].style.display = "block";
 
     }, 1000);
 

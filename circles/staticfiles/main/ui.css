@@ -276,6 +276,39 @@
     transform: scale(0.9);
 }
 
+.rectangle-button {
+    background-color: none;
+    border-radius: 10px;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: clamp(1.8vh, 18px, 1.8vw);
+    
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    margin: 5px;
+    text-align: left;
+
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+.rectangle-button:hover {
+    background-color: rgba(211, 211, 211, 0.2);
+}
+
+.rectangle-button:active {
+    background-color: rgba(211, 211, 211, 0.2);
+    transform: scale(0.9);
+}
+
+.rectangle-button:disabled {
+    transform: scale(0.8);
+}
+
 
 @keyframes shake {
     0% {
@@ -637,4 +670,15 @@
     margin-bottom: auto;
     margin-top: auto;
     margin-left: 10px;
+}
+
+/*     Lines */
+.line {
+    width: 90%;
+    height: 3px;
+    border-radius: 3px;
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+
+    margin-left: 5%;
 }

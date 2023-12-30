@@ -12,6 +12,14 @@ var message_box = document.getElementById("main-messages-box-input-textarea");
 var message_button = document.getElementById("main-messages-box-input-send");
 var main_messages_box = document.getElementById("main-messages-box-messages");
 
+var message_menu_box = document.getElementById("menu-message");
+document.getElementById("menu-message-reactions").addEventListener("click", message_react);
+document.getElementById("menu-message-reply").addEventListener("click", message_reply);
+document.getElementById("menu-message-edit").addEventListener("click", message_edit);
+document.getElementById("menu-message-delete").addEventListener("click", message_delete);
+document.getElementById("menu-message-copy").addEventListener("click", message_copy);
+document.getElementById("menu-message-close").addEventListener("click", hide_messages_menu);
+
 message_button.disabled = true;
 
 message_button.addEventListener("click", send_message);
@@ -23,6 +31,9 @@ message_box.addEventListener("keydown", (event) => prevent_enter_key(event));
 message_box.addEventListener("input", check_messages_input);
 
 var shift = false;
+var message_menu_open = false;
+var close_message_menu_timeout = undefined;
+var selected_message = undefined;
 
 function check_shift_down(event) {
     if (event.key == "Shift") {
@@ -144,6 +155,8 @@ function render_recent_messages(packet) {
 
         message_div.setAttribute("id", id);
 
+        message_div.addEventListener("click", message_clicked); // Set event listener for the menu
+
         main_messages_box.insertBefore(message_div, main_messages_box.firstChild);
 
 
@@ -213,6 +226,8 @@ function render_new_message({text, user, date, id}={}) {
 
     message_div.setAttribute("id", id);
 
+    message_div.addEventListener("click", message_clicked); // Set event listener for the menu
+
     main_messages_box.insertBefore(message_div, main_messages_box.firstChild);
 
     try {
@@ -257,4 +272,90 @@ function check_messages_input(event) {
 
 function mention_clicked(event) {
     request_userdetails(event.target.innerText.replace("@", ""));
+}
+
+function message_clicked(event) {
+    let element = event.target.closest(".message, .message-you");
+
+    selected_message = element.getAttribute("id");
+
+    element.style.zIndex = "1000";
+    show_background_blur(false);
+
+    show_messages_menu();
+}
+
+function show_messages_menu() {
+    message_menu_open = true;
+
+    let selected_message_element = document.querySelector(`.message-you[id="${selected_message}"], .message[id="${selected_message}"]`);
+
+    try {
+        clearTimeout(close_message_menu_timeout);
+    } catch {
+        null;
+    }
+
+    if (window.mobile_check() == false) {
+        const message_position = document.querySelector(`.message-you[id="${selected_message}"], .message[id="${selected_message}"]`).getBoundingClientRect();
+        
+        message_menu_box.style.display = "block";
+
+        message_menu_box.style.left = message_position.left + "px";
+        message_menu_box.style.top = message_position.top + message_position.height + 10 + "px";
+
+        if (window.innerHeight <= message_position.top + message_position.height + message_menu_box.getBoundingClientRect().height) {
+            message_menu_box.style.left = message_position.left + "px";
+            message_menu_box.style.top = message_position.top - message_menu_box.getBoundingClientRect().height - 10 + "px";
+        
+        } else {
+            message_menu_box.style.left = message_position.left + "px";
+            message_menu_box.style.top = message_position.top + message_position.height + 10 + "px";
+        }
+    }
+
+    message_menu_box.classList.remove("menu-hide");
+    message_menu_box.classList.add("menu-show");
+
+    show_background_blur(false);
+}
+
+function hide_messages_menu() {
+    message_menu_open = false;
+    const selected_message_old = selected_message;
+
+    selected_message = undefined;
+
+
+    message_menu_box.classList.add("menu-hide");
+    message_menu_box.classList.remove("menu-show");
+
+    close_message_menu_timeout = setTimeout(function() {
+        message_menu_box.style.display = "none";
+
+        document.querySelector(`.message-you[id="${selected_message_old}"], .message[id="${selected_message_old}"]`).style.zIndex = "unset";
+
+    }, 1000);
+
+    hide_background_blur();
+}
+
+function message_react() {
+    log_info(selected_message);
+}
+
+function message_reply() {
+    log_info(selected_message);
+}
+
+function message_edit() {
+    log_info(selected_message);
+}
+
+function message_delete() {
+    log_info(selected_message);
+}
+
+function message_copy() {
+    log_info(selected_message);
 }

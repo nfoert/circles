@@ -6,48 +6,35 @@
 	url('./fonts/Arciform.otf') format("opentype");
 }
 
-@keyframes menu-userdetails-show {
+@keyframes menu-show {
     0% {
         opacity: 0;
-        transform: rotateX(90deg);
-        scale: 0.8;
-    }
-
-    50% {
-        opacity: 1;
     }
 
     100% {
         opacity: 1;
-        transform: rotateX(0deg);
-        scale: 1;
     }
 }
 
-@keyframes menu-userdetails-hide {
+@keyframes menu-hide {
     0% {
         opacity: 1;
-        transform: rotateX(0deg);
-        scale: 1;
     }
 
     100% {
         opacity: 0;
-        transform: rotateX(90deg);
-        scale: 0.8;
     }
 }
 
+.menu-show {
+    animation: menu-show 0.5s forwards ease;
+}
 
+.menu-hide {
+    animation: menu-hide 0.5s forwards ease;
+}
 
 /* User Details */
-.menu-userdetails-show {
-    animation: menu-userdetails-show 0.5s forwards ease;
-}
-
-.menu-userdetails-hide {
-    animation: menu-userdetails-hide 0.5s forwards ease;
-}
 
 @media (min-width: 1000px) {
     /* Larger Screens */
@@ -74,7 +61,6 @@
     
         /* Starting properties for animation */
         opacity: 0;
-        transform: rotateX(90deg);
         scale: 0.8;
         display: none;
     }
@@ -380,4 +366,30 @@
     scale: 0.9;
     opacity: 0.5;
     background-color: rgba(90, 90, 90, 0.2);
+}
+
+/* Messages */
+#menu-message {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: fit-content;
+    height: fit-content;
+
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px); 
+    border-radius: 10px;
+
+    margin-right: 10px;
+
+    z-index: 15;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Starting properties for animation */
+    opacity: 0;
+    display: none;
 }

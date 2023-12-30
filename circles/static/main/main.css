@@ -931,27 +931,35 @@ body {
     0% {
         -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
-        background-color: rgba(36, 36, 36, 0);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
     }
 
     100% {
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        background-color: rgba(36, 36, 36, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        opacity: 1;
     }
 }
 
 @keyframes fade_out_bg {
     0% {
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        background-color: rgba(36, 36, 36, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        opacity: 1;
+    }
+
+    0% {
+        opacity: 1;
     }
 
     100% {
         -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
-        background-color: rgba(36, 36, 36, 0);
+        opacity: 0;
     }
 }
 
@@ -973,6 +981,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+
+    background-color: rgba(36, 36, 36, 0.4);
 
     display: none;
 

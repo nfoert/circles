@@ -47,18 +47,17 @@ function open_userdetails() {
 
     userdetails_box.style.display = "block";
     
-    userdetails_box.classList.remove("menu-userdetails-hide");
-    userdetails_box.classList.add("menu-userdetails-show");
+    userdetails_box.classList.remove("menu-hide");
+    userdetails_box.classList.add("menu-show");
 
     show_background_blur(false);
 }
 
 function close_userdetails() {
-
     userdetails_open = false;
 
-    userdetails_box.classList.add("menu-userdetails-hide");
-    userdetails_box.classList.remove("menu-userdetails-show");
+    userdetails_box.classList.add("menu-hide");
+    userdetails_box.classList.remove("menu-show");
 
     close_userdetails_timeout = setTimeout(function() {
         userdetails_box.style.display = "none";

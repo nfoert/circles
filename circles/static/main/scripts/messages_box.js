@@ -11,6 +11,9 @@ let button = document.getElementById("main-messages-box-input-conversations");
 let button_text = document.getElementById("main-messages-box-input-conversations-text");
 
 button.addEventListener("click", update_messages_conversations);
+document.getElementById("main-messages-box-input-emoji").addEventListener("click", function() {
+    open_emojipicker("message");
+})
 
 let conversations_messages_state = 0; // 0 = messages, 1 = conversations
 

@@ -526,6 +526,24 @@ body {
         padding: 0;    
     }
 
+    #main-messages-box-input-emoji {
+        font-size: 10px;
+        vertical-align: middle;
+        padding: 0;
+        width: 50px;
+        height: 30px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    #main-messages-box-input-emoji-text {
+        font-size: 15px;
+        margin: 0.5px;
+        padding: 0;   
+    }
+
     #main-messages-box-input-conversations {
         font-size: 10px;
         vertical-align: middle;
@@ -679,6 +697,23 @@ body {
         font-size: clamp(1.3vh, 13px, 1.3vw);
         margin: 0.5px;
         padding: 0;    
+    }
+
+    #main-messages-box-input-emoji {
+        vertical-align: middle;
+        padding: 0;
+        width: clamp(5vh, 50px, 5vw);
+        height: clamp(2vh, 20px, 2vw);
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 0;
+        margin-right: 5px;
+    }
+
+    #main-messages-box-input-emoji-text {
+        font-size: clamp(1.4vh, 14px, 1.4vw);
+        margin: 0.5px;
+        padding: 0; 
     }
 
     #main-messages-box-input-conversations {

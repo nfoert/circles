@@ -1097,10 +1097,10 @@ server_socket.onopen = async function (e) {
     status_done();
 
     // Temorary Holiday Notification
-    setTimeout(function() {
-        show_notification('<i class="ph-bold ph-gift"></i> Happy Holidays!', "Happy Holidays!", "status", false);
-        set_notification_color(254, 141, 141);
-    }, 3000);
+    // setTimeout(function() {
+    //     show_notification('<i class="ph-bold ph-gift"></i> Happy Holidays!', "Happy Holidays!", "status", false);
+    //     set_notification_color(254, 141, 141);
+    // }, 3000);
 
     get_users_conversations_request();
 

@@ -4,6 +4,15 @@
 	url('./fonts/Arciform.otf') format("opentype");
 }
 
+/* Emoji Picker */
+emoji-picker {
+    width: 100%;
+    height: 100%;
+    --background: unset;
+    --border-color: unset;
+    --num-columns: 6;
+}
+
 
 /* Classes */
 /*     Text */
@@ -352,8 +361,6 @@
     width: fit-content;
 }
 
-
-
 .buttonx:hover {
     transform: scale(1.1);
     opacity: 1;
@@ -681,4 +688,31 @@
     border: 1px solid rgba(211, 211, 211, 0.4);
 
     margin-left: 5%;
+}
+
+/*     Reaction */
+.reaction {
+    padding: clamp(0.5vh, 5px, 0.5vw);
+    margin: clamp(0.3vh, 3px, 0.3vw);
+    background-color: rgba(211, 211, 211, 0.4);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: clamp(1.6vh, 16px, 1.6vw);
+
+    width: fit-content;
+
+    color: white;
+    font-family: ArchiformSans;
+    font-size: clamp(1.6vh, 16px, 1.6vw);
+    white-space: nowrap;
+
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+.reaction:hover {
+    scale: 1.1
+}
+
+.reaction:active {
+    scale: 0.9
 }

@@ -354,6 +354,13 @@ function hide_messages_menu() {
     hide_background_blur();
 }
 
+function add_reaction_to_message(message_id) {
+    if (message_id == undefined) {
+        log_warn("Message ID required when adding a reaction to a message")
+        return false;
+    }
+}
+
 function message_react() {
     log_info(selected_message);
 }

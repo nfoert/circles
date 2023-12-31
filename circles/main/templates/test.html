@@ -6,7 +6,9 @@
         <title>Circles | Test</title>
         <link rel="stylesheet" type="text/css" href="{% static 'main/ui.css' %}">
         <link rel="icon" type="image/x-icon" href="{% static 'main/images/favicon.ico' %}">
+
         <script src="https://unpkg.com/@phosphor-icons/web"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
     </head>
 
     <body style="background-color: #35363E;">
@@ -34,6 +36,7 @@
         <button class="buttonsmallcircle"><i class="ph-bold ph-circle"></i></button>
         <button class="mention">@jadesoftware</button>
         <button class="mention-you">@nfoert</button>
+        <div class="rectangle-button">rectangle-button</div>
 
         <hr>
 
@@ -52,7 +55,21 @@
             <div class="checkbox"><input type="checkbox" class="setting" default="true" setting="stat_tracking"></div>
             <p class="checkbox-text">Checkbox</p>
         </div>
+
+        <hr>
+
+        <div class="line"></div>
         
+        <hr>
+
+        <div class="reaction">1 😭</div>
+        <div class="reaction">5 ❤️</div>
+        <div class="reaction">3 🤣</div>
+
+        <hr>
+
+        <emoji-picker></emoji-picker>
+
 
     </body>
 

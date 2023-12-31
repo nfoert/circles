@@ -26,6 +26,7 @@
         {% include "dialogs/dialog_alpha.html" %}
         {% include "dialogs/menu_userdetails.html" %}
         {% include "dialogs/menu_message.html" %}
+        {% include "dialogs/menu_emoji.html" %}
 
         <div id="main-user-box">
             <!-- <img src="{% static 'main/images/circles.png' %}"> -->
@@ -232,6 +233,8 @@
         <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src="https://unpkg.com/tippy.js@6"></script>
 
+        <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+
         <script src="{% static 'main/scripts/TextGeometry.js' %}"></script>
         <script src="{% static 'main/scripts/FontLoader.js' %}"></script>
         
@@ -251,6 +254,7 @@
         <script src="{% static 'main/scripts/main.js' %}"></script> <!-- Should be last to ensure all other scripts are loaded first, in case this script tries to access a function that's not loaded yet -->
         <script src="{% static 'main/scripts/messages.js' %}"></script>
         <script src="{% static 'main/scripts/dialog.js' %}"></script>
+        <script src="{% static 'main/scripts/emoji.js' %}"></script>
 
         <script src="{% static 'main/pure-snow/pure-snow.js' %}" defer></script> <!-- Thanks to https://github.com/hyperstown/pure-snow.js -->
         
